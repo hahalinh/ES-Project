@@ -1,38 +1,126 @@
-.App {
-  text-align: center;
+.outer-container {
+  border: 1px solid black;
+  margin: 30px 50px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.menu-container {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  height: 150px;
+  margin: 30px 50px;
+  justify-content: space-around;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.stintl-container {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  height: 650px;
+  margin: 30px 50px;
+  justify-content: space-evenly;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.time-button {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-self: center;
+  border: 1px solid black;
 }
 
-.App-link {
-  color: #61dafb;
+.time-start {
+  margin: 15px 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.time-end {
+  margin: 15px 20px;
+}
+
+.box-items {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  height: auto;
+  margin: 15px;
+  border: 1px solid black;
+  justify-content: space-evenly;
+  padding: 0px 10px;
+}
+
+.nest {
+  border: 1px solid blue;
+  padding: 10px;
+  height: 130px;
+}
+
+.nest-bt {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: auto;
+  width: auto;
+}
+
+.recipient {
+  border: 1px solid blue;
+  padding: 10px;
+  height: 130px;
+}
+
+.recipient-bt {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: auto;
+  width: auto;
+}
+
+.provider {
+  border: 1px solid blue;
+  padding: 10px;
+  height: 130px;
+}
+
+.provider-bt {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: auto;
+  width: auto;
+}
+
+.prey-item {
+  border: 1px solid blue;
+  padding: 10px;
+  height: auto;
+  margin: 15px;
+  width: 150px;
+}
+
+.prey-item-bt {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.prey-size {
+  border: 1px solid blue;
+  padding: 10px;
+  height: auto;
+  margin: 15px;
+  width: 150px;
+}
+
+.prey-size-bt {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.number-items {
+  border: 1px solid blue;
+  padding: 10px;
+  height: auto;
+  margin: 15px;
+  width: 150px;
 }
