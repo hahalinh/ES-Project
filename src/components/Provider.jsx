@@ -1,12 +1,13 @@
 import React from 'react'
+import Button from './Button';
 
-function Provider() {
+function Provider({ setProvider }) {
     return (
         <div className="provider">
             <p>Provider</p>
             <div className="provider-bt">
-                <button>P1</button>
-                <button>P2</button>
+                <Button handleData={setProvider} value="P1" />
+                <Button handleData={setProvider} value="P2" />
             </div>
         </div>
     )

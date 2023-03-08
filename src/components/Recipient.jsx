@@ -1,14 +1,15 @@
 import React from 'react'
+import Button from './Button'
 
-function Recipient() {
+function Recipient({setRecipient}) {
     return (
         <div className="recipient">
             <p>Recipient</p>
             <div className="recipient-bt">
-                <button>A</button>
-                <button>B</button>
-                <button>C</button>
-                <button>A1</button>
+                <Button handleData={setRecipient} value="A"/>
+                <Button handleData={setRecipient} value="B"/>
+                <Button handleData={setRecipient} value="C"/>
+                <Button handleData={setRecipient} value="A1"/>
             </div>
         </div>
     )
