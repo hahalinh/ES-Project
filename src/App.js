@@ -41,10 +41,20 @@ function App() {
     setFeeding({...feeding, preySize: preySize});
   }
 
+  const setTimeArrive = () => {
+    const d = new Date();
+    setFeeding({...feeding, timeArrive: d.toTimeString().slice(0, 8), timeDepart: null})
+  }
+
+  const setTimeDepart = () => {
+    const d = new Date();
+    setFeeding({...feeding, timeDepart: d.toTimeString().slice(0, 8)})
+  }
+
   return (
     <div className="outer-container">
       <div className="menu-container">
-        <Timer />
+        <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} />
 
         <div>
           <p>Open Feedings:</p>
@@ -62,6 +72,9 @@ function App() {
         <NumberItems />
       </div>
 
+
+      <div>{feeding.timeArrive}</div>
+      <div>{feeding.timeDepart}</div>
       <div>{feeding.nest}</div>
       <div>{feeding.provider}</div>
       <div>{feeding.recipent}</div>
