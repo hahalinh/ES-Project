@@ -6,6 +6,7 @@ import PreySize from './components/PreySize';
 import Provider from './components/Provider';
 import Recipient from './components/Recipient';
 import Timer from './components/Timer';
+import axios from 'axios';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
@@ -59,9 +60,9 @@ function App() {
     const exist = feedings.findIndex(item => item.feedingID === feeding.feedingID);
 
     if (exist >= 0) {
-      let newFeeding = [...feedings];
-      newFeeding[exist] = feeding;
-      setFeedings(newFeeding);
+      let newFeedings = [...feedings];
+      newFeedings[exist] = feeding;
+      setFeedings(newFeedings);
     }
     else if (exist < 0) {
       setFeedings([...feedings, feeding]);
@@ -70,9 +71,22 @@ function App() {
   }
 
   const handleOpenFeeding = (e) => {
+    //Update current opened feeding
+    const curr = feedings.findIndex(item => item.feedingID === feeding.feedingID);
+    let uFeedings = [...feedings];
+    uFeedings[curr] = feeding;
+    setFeedings(uFeedings);
+
+    //Move to another feeding data
     const feedingId = e.currentTarget.value;
-    const curr = feedings.find(item => item.feedingID === feedingId);
-    setFeeding(curr);
+    const openF = feedings.find(item => item.feedingID === feedingId);
+    setFeeding(openF);
+  }
+
+  const handleSaveData = async () => {
+    await axios.post("http://localhost:5000", feedings)
+    .then((res) => console.log(res))
+    .catch(err => console.log(err));
   }
 
   return (
@@ -105,6 +119,8 @@ function App() {
         <PreySize setPreySize={setPreySize} />
         <NumberItems />
       </div>
+
+      <button onClick={() => handleSaveData()}>Save feeding datas</button>
 
 
       <div>time arrive: {feeding.timeArrive}</div>
