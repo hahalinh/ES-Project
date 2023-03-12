@@ -13,7 +13,7 @@ const fileJSON = 'data.json';
 
 app.post('/', async (req, res) => {
     const data = req.body;
-    await processData.addJSON(fileJSON, data);
+    await processData.saveJSON(fileJSON, data);
     const allData = await processData.readJSON(fileJSON);
     await processData.saveCSV(fileCSV, allData);
 

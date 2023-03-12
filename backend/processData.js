@@ -30,7 +30,6 @@ const saveCSV = async (file, data) => {
   }
 }
 
-//Syntax error here
 const readJSON = async (file) => {
   try {
       const data = await fs.promises.readFile(file, 'utf8');
@@ -50,12 +49,4 @@ const saveJSON = async (file, data) => {
   }
 }
 
-const addJSON = async (file, data) => {
-  const newData = {...data};
-  const all = await readJSON(file);
-  all.push(newData);
-  await saveJSON(file, all);
-  return newData;
-}
-
-module.exports = { saveCSV, readCSV, addJSON, saveJSON, readJSON }; 
+module.exports = { saveCSV, readCSV, saveJSON, readJSON }; 
