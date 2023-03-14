@@ -9,6 +9,7 @@ import Timer from './components/Timer';
 import axios from 'axios';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
+import DisplayDemo from './components/DisplayDemo';
 
 function App() {
   const initialFeeding = {
@@ -85,52 +86,56 @@ function App() {
 
   const handleSaveData = async () => {
     await axios.post("http://localhost:5000", feedings)
-    .then((res) => console.log(res.data))
-    .catch(err => console.log(err));
+      .then((res) => console.log(res.data))
+      .catch(err => console.log(err));
   }
 
   return (
-    <div className="outer-container">
-      <div className="menu-container">
-        <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} />
+    <>
+      <div className="outer-container">
+        <div className="menu-container">
+          <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} />
 
-        <div>
-          <p>Open Feedings:</p>
-          {
-            feedings.map((item, index) => {
-              return (
-                <input key={index} value={item.feedingID} type="button"
-                  onClick={(e) => handleOpenFeeding(e)}
-                />
-              )
-            })
-          }
-          <button onClick={handleNewFeeding}>New</button>
+          <div>
+            <p>Open Feedings:</p>
+            {
+              feedings.map((item, index) => {
+                return (
+                  <input key={index} value={item.feedingID} type="button"
+                    onClick={(e) => handleOpenFeeding(e)}
+                  />
+                )
+              })
+            }
+            <button onClick={handleNewFeeding}>New</button>
+          </div>
         </div>
+
+        <div className="stintl-container">
+          <div className="box-items">
+            <Nest setNest={setNest} />
+            <Recipient setRecipient={setRecipient} />
+            <Provider setProvider={setProvider} />
+          </div>
+          <PreyItem setPreyItem={setPreyItem} />
+          <PreySize setPreySize={setPreySize} />
+          <NumberItems />
+        </div>
+
+        <button onClick={() => handleSaveData()}>Save feeding datas</button>
+
+
+        <div>time arrive: {feeding.timeArrive}</div>
+        <div>time depart: {feeding.timeDepart}</div>
+        <div>nest: {feeding.nest}</div>
+        <div>provider: {feeding.provider}</div>
+        <div>recipient: {feeding.recipent}</div>
+        <div>prey item: {feeding.preyItem}</div>
+        <div>prey size: {feeding.preySize}</div>
       </div>
 
-      <div className="stintl-container">
-        <div className="box-items">
-          <Nest setNest={setNest} />
-          <Recipient setRecipient={setRecipient} />
-          <Provider setProvider={setProvider} />
-        </div>
-        <PreyItem setPreyItem={setPreyItem} />
-        <PreySize setPreySize={setPreySize} />
-        <NumberItems />
-      </div>
-
-      <button onClick={() => handleSaveData()}>Save feeding datas</button>
-
-
-      <div>time arrive: {feeding.timeArrive}</div>
-      <div>time depart: {feeding.timeDepart}</div>
-      <div>nest: {feeding.nest}</div>
-      <div>provider: {feeding.provider}</div>
-      <div>recipient: {feeding.recipent}</div>
-      <div>prey item: {feeding.preyItem}</div>
-      <div>prey size: {feeding.preySize}</div>
-    </div>
+      <DisplayDemo />
+    </>
   );
 }
 
