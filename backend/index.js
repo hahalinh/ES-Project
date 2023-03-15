@@ -19,7 +19,7 @@ mongoose.connect(server,
 mongoose.connection.on('error', err => console.log('Error connecting to DB', err))
 mongoose.connection.once('open', () => console.log('Connected successfully!'))
 
-const FeedingModel = mongoose.model('feeding', new mongoose.Schema({
+const feedingSchema = new mongoose.Schema({
     feedingID: String,
     nest: String,
     timeArrive: String,
@@ -29,9 +29,9 @@ const FeedingModel = mongoose.model('feeding', new mongoose.Schema({
     preyItem: String,
     preySize: String,
     numberItems: Number
-}))
+})
 
-const StintlModel = mongoose.model('stintl', new mongoose.Schema({
+const stintlSchema = new mongoose.Schema({
     StintlID: String,
     Stintl_Type: String,
     Island: String,
@@ -43,8 +43,10 @@ const StintlModel = mongoose.model('stintl', new mongoose.Schema({
     Observer_Location: String,
     Date_Time_Start: String,
     Date_Time_End: String,
-    feedingData: [FeedingModel]
-}))
+    feedingData: {type: feedingSchema, default: () => ({})}
+})
+
+const StintlModel = new mongoose.model('stintl', stintlSchema);
 
 app.post('/', async (req, res) => {
     //save to this computer
@@ -54,14 +56,16 @@ app.post('/', async (req, res) => {
     await processData.saveCSV(fileCSV, allData);
 
     //save to database
-    const feeding = new FeedingModel({ feedingData: data });
-    await feeding.save();
+    const stintl = new StintlModel({
+        feedingData: data
+    });
+    await stintl.save();
 
     res.send(feeding);
 })
 
 app.get('/', async (req, res) => {
-    const allData = await FeedingModel.find();
+    const allData = await StintlModel.find();
     res.json(allData);
 })
 
