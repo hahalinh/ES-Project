@@ -4,17 +4,15 @@ const app = electron.app;
 
 const BrowserWindow = electron.BrowserWindow;
 
-require('@electron/remote/main').initialize();
-
 function createWindow() {
   // Create the browser window.
   const window = new BrowserWindow({
     width: 800,
     height: 600,
-    webPreferences: { nodeIntegration: true, contextIsolation: false, enableRemoteModule: true },
+    webPreferences: { nodeIntegration: true, contextIsolation: false },
   });
   // and load the index.html of the app.
-  // console.log(__dirname);
+  console.log(__dirname);
   window.webContents.openDevTools();
   window.loadFile(path.join(__dirname, "../build/index.html"));
 }
