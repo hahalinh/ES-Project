@@ -8,6 +8,7 @@ import Timer from './Timer';
 import axios from 'axios';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
+import React from 'react';
 
 function FeedingData() {
 
@@ -85,14 +86,14 @@ function FeedingData() {
         const day = d.getDate();
         const month = d.getMonth();
         const year = d.getFullYear();
-        return `${month}/${day}/${year} ${d.toDateString().slice(0, 8)}`;
+        return `${month}/${day}/${year} ${d.toTimeString().slice(0, 8)}`;
     }
 
     /**
      * this sets the time arrive data to the current time and time depart data to empty
      */
     const setTimeArrive = () => {
-        setFeeding({ ...feeding, timeDepart: getDate(), timeDepart: "" })
+        setFeeding({ ...feeding, timeArrive: getDate(), timeDepart: "" })
     }
 
     /**
