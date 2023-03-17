@@ -77,19 +77,29 @@ function FeedingData() {
     }
 
     /**
+     * Helper method for set time arrive and depart
+     * @returns a string representation of current time
+     */
+    const getDate = () => {
+        const d = new Date();
+        const day = d.getDate();
+        const month = d.getMonth();
+        const year = d.getFullYear();
+        return `${month}/${day}/${year} ${d.toDateString().slice(0, 8)}`;
+    }
+
+    /**
      * this sets the time arrive data to the current time and time depart data to empty
      */
     const setTimeArrive = () => {
-        const d = new Date();
-        setFeeding({ ...feeding, timeArrive: d.toTimeString().slice(0, 8), timeDepart: "" })
+        setFeeding({ ...feeding, timeDepart: getDate(), timeDepart: "" })
     }
 
     /**
      * this sets the time depart data to the current time
      */
     const setTimeDepart = () => {
-        const d = new Date();
-        setFeeding({ ...feeding, timeDepart: d.toTimeString().slice(0, 8) })
+        setFeeding({ ...feeding, timeDepart: getDate()})
     }
 
     /**

@@ -1,5 +1,10 @@
 import React from 'react'
 
+/**
+ * Returns a button which handle input
+ * @param {*} param0 
+ * @returns 
+ */
 function Button({ handleData, value, type, className }) {
 
     return (
