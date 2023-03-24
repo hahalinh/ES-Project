@@ -1,9 +1,9 @@
-import Nest from './Nest';
-import NumberItems from './NumberItems';
-import PreyItem from './PreyItem';
-import PreySize from './PreySize';
-import Provider from './Provider';
-import Recipient from './Recipient';
+import Nest from './feeding/Nest';
+import NumberItems from './feeding/NumberItems';
+import PreyItem from './feeding/PreyItem';
+import PreySize from './feeding/PreySize';
+import Provider from './feeding/Provider';
+import Recipient from './feeding/Recipient';
 import Timer from './Timer';
 import axios from 'axios';
 import { useState } from 'react';
@@ -75,6 +75,14 @@ function FeedingData() {
      */
     const setPreySize = (preySize) => {
         setFeeding({ ...feeding, preySize: preySize });
+    }
+
+    /**
+     * this handles input for number of items
+     * @param {*} n 
+     */
+    const setNumberItems = (n) => {
+        setFeeding({...feeding, numberItems: n});
     }
 
     /**
@@ -175,7 +183,7 @@ function FeedingData() {
                     </div>
                     <PreyItem setPreyItem={setPreyItem} />
                     <PreySize setPreySize={setPreySize} />
-                    <NumberItems />
+                    <NumberItems setNumberItems={setNumberItems} />
                 </div>
 
                 <button onClick={() => handleSaveData()}>Save feeding datas</button>

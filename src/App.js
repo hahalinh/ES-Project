@@ -1,14 +1,14 @@
 import './App.css';
 import FeedingData from './components/FeedingData';
-import DisplayDemo from './components/DisplayDemo';
 import React from 'react';
+import StintlData from './components/StintlData';
 
 function App() {
   
   return (
     <>
-      <FeedingData />
-      <DisplayDemo />
+      <StintlData />
+      {/* <FeedingData /> */}
     </>
   )
 }
