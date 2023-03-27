@@ -1,10 +1,10 @@
 import React from 'react'
 import Button from '../Button'
 
-function PreySize({setPreySize}) {
+function PreySize({setPreySize, data}) {
     return (
         <div className="prey-size">
-            <p>Prey Size</p>
+            <p>Prey Size: {data}</p>
             <div className="prey-size-bt">
                 <Button handleData={setPreySize} value="1.00" />
                 <Button handleData={setPreySize} value="1.25" />
