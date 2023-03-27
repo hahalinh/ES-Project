@@ -1,10 +1,10 @@
 import React from 'react'
 import Button from '../Button'
 
-function Recipient({setRecipient}) {
+function Recipient({setRecipient, data}) {
     return (
         <div className="recipient">
-            <p>Recipient</p>
+            <p>Recipient: {data}</p>
             <div className="recipient-bt">
                 <Button handleData={setRecipient} value="A"/>
                 <Button handleData={setRecipient} value="B"/>
