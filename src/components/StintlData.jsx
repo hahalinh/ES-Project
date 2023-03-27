@@ -10,6 +10,7 @@ import { saveAs } from 'file-saver';
 import FeedingData from './FeedingData';
 
 function StintlData() {
+    //feeding data
     const initialFeeding = {
         feedingID: uuid().slice(0, 8),
         nest: "",
@@ -22,6 +23,7 @@ function StintlData() {
         numberItems: 1
     }
 
+    //stintl data
     const [stintl, setStintl] = useState({
         StintlID: uuid().slice(0, 8),
         Stintl_Type: "Chick Provisioning",
@@ -37,16 +39,30 @@ function StintlData() {
         feedingData: []
     });
 
+    //display stintl/feeding data
     const [isOpenF, setIsOpenF] = useState(false);
 
+    /**
+     * Sets the island data in stintl
+     * @param {*} val 
+     */
     const setIsland = (val) => {
         setStintl({ ...stintl, Island: val });
     }
 
+    /**
+     * Sets the species data in stintl
+     * @param {*} val 
+     */
     const setSpecies = (val) => {
         setStintl({ ...stintl, Species: val });
     }
 
+    /**
+     * Sets the first or last name data in stitnl
+     * @param {*} val 
+     * @param {*} type 
+     */
     const setName = (val, type) => {
         if (type === "first") {
             setStintl({ ...stintl, FirstName: val })
@@ -56,6 +72,10 @@ function StintlData() {
         }
     }
 
+    /**
+     * Sets the observer location data in stintl
+     * @param {*} val 
+     */
     const setObserverLocation = (val) => {
         setStintl({ ...stintl, Observer_Location: val })
     }
@@ -73,23 +93,28 @@ function StintlData() {
     }
 
     /**
-     * this sets the time arrive data to the current time and time depart data to empty
+     * Sets the time arrive data to the current time and time depart data to empty
      */
     const setTimeArrive = () => {
         setStintl({ ...stintl, Date_Time_Start: getDate(), Date_Time_End: "" })
     }
 
     /**
-     * this sets the time depart data to the current time
+     * Sets the time depart data to the current time
      */
     const setTimeDepart = () => {
         setStintl({ ...stintl, Date_Time_End: getDate() })
     }
 
+    /**
+     * Sets the feeding data in stintl
+     * @param {*} value 
+     */
     const setFeedings = (value) => {
-        setStintl({...stintl, feedingData: value});
+        setStintl({ ...stintl, feedingData: value });
     }
 
+    //Converts and saves stintl data to computer (in progress)
     const handleSaveClick = () => {
         const fields = ['StintID', 'Stint_Type', 'Island', 'Species', 'Prey_Size_Method', 'Prey_Size_Reference', 'FirstName', 'LastName',
             'Observer_Location', 'Date_Time_Start', 'Date_Time_End', 'FeedingID', 'Nest', 'Time_Arrive', 'Time_Depart', 'Provider',
@@ -142,7 +167,7 @@ function StintlData() {
                     (
                         <>
                             <div style={{ marginTop: '50px' }}>
-                                <FeedingData initialFeeding={initialFeeding} setFeedings={setFeedings} feedings={stintl.feedingData}/>
+                                <FeedingData initialFeeding={initialFeeding} setFeedings={setFeedings} feedings={stintl.feedingData} />
                             </div>
                         </>
                     )
