@@ -56,12 +56,12 @@ app.post('/', async (req, res) => {
     await processData.saveCSV(fileCSV, allData);
 
     //save to database
-    const stintl = new StintlModel({
-        feedingData: data
-    });
-    await stintl.save();
+    // const stintl = new StintlModel({
+    //     feedingData: data
+    // });
+    // await stintl.save();
 
-    res.send(feeding);
+    res.send({msg: "OK"});
 })
 
 app.get('/', async (req, res) => {

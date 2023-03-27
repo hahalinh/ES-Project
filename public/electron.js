@@ -14,7 +14,7 @@ function createWindow() {
   win.webContents.openDevTools();
 
   win.loadFile(
-    `${path.join(__dirname, '../build/index.html')}`
+    `${path.join(__dirname, '../public/index.html')}`
   );
 }
 
