@@ -28,14 +28,6 @@
   border: 1px solid black;
 }
 
-.time-start {
-  margin: 15px 20px;
-}
-
-.time-end {
-  margin: 15px 20px;
-}
-
 .box-items {
   display: flex;
   flex-direction: column;
