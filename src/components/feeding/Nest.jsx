@@ -1,11 +1,11 @@
 import React from 'react'
 import Button from '../Button';
 
-function Nest({setNest}) {
+function Nest({setNest, data}) {
 
     return (
         <div className="nest">
-            <p>Nest</p>
+            <p>Nest: {data}</p>
             <div className="nest-bt">
                 <Button handleData={setNest} value="P1"/>
                 <Button handleData={setNest} value="P2"/>
