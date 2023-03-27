@@ -6,9 +6,23 @@ import Species from './stintl/Species'
 import Name from './stintl/Name'
 import ObserverLocation from './stintl/ObserverLocation'
 import Timer from './Timer';
+import { saveAs } from 'file-saver';
+import FeedingData from './FeedingData';
 
 function StintlData() {
-    const initialStintl = {
+    const initialFeeding = {
+        feedingID: uuid().slice(0, 8),
+        nest: "",
+        timeArrive: "",
+        timeDepart: "",
+        provider: "",
+        recipent: "",
+        preyItem: "",
+        preySize: "",
+        numberItems: 1
+    }
+
+    const [stintl, setStintl] = useState({
         StintlID: uuid().slice(0, 8),
         Stintl_Type: "Chick Provisioning",
         Island: "",
@@ -19,9 +33,11 @@ function StintlData() {
         LastName: "",
         Observer_Location: "",
         Date_Time_Start: "",
-        Date_Time_End: ""
-    };
-    const [stintl, setStintl] = useState(initialStintl);
+        Date_Time_End: "",
+        feedingData: []
+    });
+
+    const [isOpenF, setIsOpenF] = useState(false);
 
     const setIsland = (val) => {
         setStintl({ ...stintl, Island: val });
@@ -70,20 +86,67 @@ function StintlData() {
         setStintl({ ...stintl, Date_Time_End: getDate() })
     }
 
+    const setFeedings = (value) => {
+        setStintl({...stintl, feedingData: value});
+    }
+
+    const handleSaveClick = () => {
+        const fields = ['StintID', 'Stint_Type', 'Island', 'Species', 'Prey_Size_Method', 'Prey_Size_Reference', 'FirstName', 'LastName',
+            'Observer_Location', 'Date_Time_Start', 'Date_Time_End', 'FeedingID', 'Nest', 'Time_Arrive', 'Time_Depart', 'Provider',
+            'Recipient', 'Prey_Item', 'Prey_Size', 'Number_of_Items'];
+
+        let csv = '';
+
+        const data = stintl;
+
+        csv += Object.keys(data).join(',') + '\n';
+
+        data.feedingData.forEach(function (row) {
+            let values = fields.map(function (field) {
+                return row[field];
+            });
+            csv += values.join(',') + '\n';
+        });
+
+        const file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        // saveAs(file, 'data.csv');
+    }
+
     return (
         <div>
-            <div>
-                <p>Stintl type: {stintl.Stintl_Type}</p>
-                <p>Prey size method: {stintl.Prey_Size_Method}</p>
-                <p>Prey size reference: {stintl.Prey_Size_Reference}</p>
-            </div>
-            <div>
-                <Island setIsland={setIsland} data={stintl.Island}/>
-            </div>
-            <Species setSpecies={setSpecies} data={stintl.Species}/>
-            <Name setName={setName} data={{first: stintl.FirstName, last: stintl.LastName}}/>
-            <ObserverLocation setObs={setObserverLocation} data={stintl.Observer_Location}/>
-            <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{arrive: stintl.Date_Time_Start, depart: stintl.Date_Time_End}}/>
+            <button onClick={() => setIsOpenF(!isOpenF)}>
+                {
+                    !isOpenF ? 'Open Feeding' : 'Back to Stintl'
+                }
+            </button>
+            {
+                !isOpenF ? (
+                    <>
+                        <button onClick={handleSaveClick}>Save file</button>
+                        <div>
+                            <p>Stintl type: {stintl.Stintl_Type}</p>
+                            <p>Prey size method: {stintl.Prey_Size_Method}</p>
+                            <p>Prey size reference: {stintl.Prey_Size_Reference}</p>
+                        </div>
+                        <div>
+                            <Island setIsland={setIsland} data={stintl.Island} />
+                        </div>
+                        <Species setSpecies={setSpecies} data={stintl.Species} />
+                        <Name setName={setName} data={{ first: stintl.FirstName, last: stintl.LastName }} />
+                        <ObserverLocation setObs={setObserverLocation} data={stintl.Observer_Location} />
+                        <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stintl.Date_Time_Start, depart: stintl.Date_Time_End }} />
+                    </>
+                )
+                    :
+
+                    (
+                        <>
+                            <div style={{ marginTop: '50px' }}>
+                                <FeedingData initialFeeding={initialFeeding} setFeedings={setFeedings} feedings={stintl.feedingData}/>
+                            </div>
+                        </>
+                    )
+            }
         </div>
     )
 }
