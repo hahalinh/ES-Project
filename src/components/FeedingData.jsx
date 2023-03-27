@@ -5,37 +5,16 @@ import PreySize from './feeding/PreySize';
 import Provider from './feeding/Provider';
 import Recipient from './feeding/Recipient';
 import Timer from './Timer';
-import axios from 'axios';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import React from 'react';
 
-function FeedingData() {
-
-    /**
-     * this is an empty feeding data
-     */
-    const initialFeeding = {
-        feedingID: uuid().slice(0, 8),
-        nest: 0,
-        timeArrive: "",
-        timeDepart: "",
-        provider: "",
-        recipent: "",
-        preyItem: "",
-        preySize: 0,
-        numberItems: 0
-    }
+function FeedingData({initialFeeding, feedings, setFeedings}) {
     
     /**
      * this stores and handles input feeding data
      */
     const [feeding, setFeeding] = useState(initialFeeding)
-
-    /**
-     * this stores and handles many feeding datas
-     */
-    const [feedings, setFeedings] = useState([]);
 
     /**
      * this handles button input for nest data
@@ -125,7 +104,7 @@ function FeedingData() {
         else if (exist < 0) {
             setFeedings([...feedings, feeding]);
         }
-        setFeeding(initialFeeding);
+        setFeeding({...initialFeeding, feedingID: uuid().slice(0, 8)})
     }
 
     /**
@@ -145,20 +124,12 @@ function FeedingData() {
         setFeeding(openF);
     }
 
-    /**
-     * this save data to backend
-     */
-    const handleSaveData = async () => {
-        await axios.post("http://localhost:5000", feedings)
-            .then((res) => console.log(res.data))
-            .catch(err => console.log(err));
-    }
-
     return (
         <>
             <div className="outer-container">
+                <div>{feeding.feedingID}</div>
                 <div className="menu-container">
-                    <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} />
+                    <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{arrive: feeding.timeArrive, depart: feeding.timeDepart}}/>
 
                     <div>
                         <p>Open Feedings:</p>
@@ -177,25 +148,14 @@ function FeedingData() {
 
                 <div className="stintl-container">
                     <div className="box-items">
-                        <Nest setNest={setNest} />
-                        <Recipient setRecipient={setRecipient} />
-                        <Provider setProvider={setProvider} />
+                        <Nest setNest={setNest} data={feeding.nest}/>
+                        <Recipient setRecipient={setRecipient} data={feeding.recipent}/>
+                        <Provider setProvider={setProvider} data={feeding.provider} />
                     </div>
-                    <PreyItem setPreyItem={setPreyItem} />
-                    <PreySize setPreySize={setPreySize} />
-                    <NumberItems setNumberItems={setNumberItems} />
+                    <PreyItem setPreyItem={setPreyItem} data={feeding.preyItem} />
+                    <PreySize setPreySize={setPreySize} data={feeding.preySize} />
+                    <NumberItems setNumberItems={setNumberItems} data={feeding.numberItems} />
                 </div>
-
-                <button onClick={() => handleSaveData()}>Save feeding datas</button>
-
-
-                <div>time arrive: {feeding.timeArrive}</div>
-                <div>time depart: {feeding.timeDepart}</div>
-                <div>nest: {feeding.nest}</div>
-                <div>provider: {feeding.provider}</div>
-                <div>recipient: {feeding.recipent}</div>
-                <div>prey item: {feeding.preyItem}</div>
-                <div>prey size: {feeding.preySize}</div>
             </div>
         </>
     );
