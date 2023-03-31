@@ -6,9 +6,7 @@ function Name({ setName, data }) {
     firstName: "",
     lastName: "",
   })
-
-  console.log(data);
-
+  
   const handleChange = (e, type) => {
     const val = e.currentTarget.value
     type === "first" ? setInput({...input, firstName: val}) : setInput({...input, lastName: val});

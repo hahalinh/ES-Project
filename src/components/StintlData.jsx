@@ -114,27 +114,80 @@ function StintlData() {
         setStintl({ ...stintl, feedingData: value });
     }
 
-    //Converts and saves stintl data to computer (in progress)
-    const handleSaveClick = () => {
-        const fields = ['StintID', 'Stint_Type', 'Island', 'Species', 'Prey_Size_Method', 'Prey_Size_Reference', 'FirstName', 'LastName',
-            'Observer_Location', 'Date_Time_Start', 'Date_Time_End', 'FeedingID', 'Nest', 'Time_Arrive', 'Time_Depart', 'Provider',
-            'Recipient', 'Prey_Item', 'Prey_Size', 'Number_of_Items'];
+    /**
+     * Convert json data to a string representation of csv
+     * @param {*} json 
+     * @returns 
+     */
+    const jsonToCSV = (json) => {
+        const header = [
+            'StintlID', 'Stintl_Type', 'Island', 'Species', 'Prey_Size_Method', 'Prey_Size_Reference',
+            'FirstName', 'LastName', 'Observer_Location', 'Date_Time_Start', 'Date_Time_End',
+            'feedingID', 'nest', 'timeArrive', 'timeDepart', 'provider', 'recipient', 'preyItem', 'preySize', 'numberItems'
+        ];
+        const csvRows = [header.join(',')];
 
-        let csv = '';
-
-        const data = stintl;
-
-        csv += Object.keys(data).join(',') + '\n';
-
-        data.feedingData.forEach(function (row) {
-            let values = fields.map(function (field) {
-                return row[field];
-            });
-            csv += values.join(',') + '\n';
+        json.feedingData.forEach(feeding => {
+            const row = [
+                json.StintlID, json.Stintl_Type, json.Island, json.Species, json.Prey_Size_Method, json.Prey_Size_Reference,
+                json.FirstName, json.LastName, json.Observer_Location, json.Date_Time_Start, json.Date_Time_End,
+                feeding.feedingID, feeding.nest, feeding.timeArrive, feeding.timeDepart, feeding.provider, feeding.recipent,
+                feeding.preyItem, feeding.preySize, feeding.numberItems
+            ];
+            csvRows.push(row.join(','));
         });
 
+        return csvRows.join('\n');
+    }
+
+    function csvToJson(csv) {
+        const lines = csv.split('\n');
+        const header = lines[0].split(',');
+        const dataLines = lines.slice(1);
+
+        const feedingData = dataLines.map(line => {
+            const values = line.split(',');
+            const feeding = {};
+
+            for (let i = 0; i < header.length; i++) {
+                if (i < 11) {
+                    // Skip first 11 columns as they're not part of the feeding data
+                    continue;
+                }
+                feeding[header[i]] = values[i];
+            }
+
+            return feeding;
+        });
+
+        const jsonObject = {
+            StintlID: header[0],
+            Stintl_Type: header[1],
+            Island: header[2],
+            Species: header[3],
+            Prey_Size_Method: header[4],
+            Prey_Size_Reference: header[5],
+            FirstName: header[6],
+            LastName: header[7],
+            Observer_Location: header[8],
+            Date_Time_Start: header[9],
+            Date_Time_End: header[10],
+            feedingData: feedingData
+        };
+
+        return jsonObject;
+    }
+
+    //Converts and saves stintl data to computer (in progress)
+    const handleSaveClick = () => {
+        let csv = '';
+        const data = stintl;
+
+        csv += jsonToCSV(data);
+
         const file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-        // saveAs(file, 'data.csv');
+        
+        saveAs(file, 'data.csv');
     }
 
     return (
