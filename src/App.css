@@ -7,7 +7,7 @@
   border: 1px solid black;
   display: flex;
   flex-direction: row;
-  height: 150px;
+  height: auto;
   margin: 30px 50px;
   justify-content: space-around;
 }
@@ -16,7 +16,7 @@
   border: 1px solid black;
   display: flex;
   flex-direction: row;
-  height: 650px;
+  height: auto;
   margin: 30px 50px;
   justify-content: space-evenly;
 }
@@ -31,7 +31,7 @@
 .box-items {
   display: flex;
   flex-direction: column;
-  width: 150px;
+  width: auto;
   height: auto;
   margin: 15px;
   border: 1px solid black;
@@ -42,7 +42,7 @@
 .nest {
   border: 1px solid blue;
   padding: 10px;
-  height: 130px;
+  height: auto;
 }
 
 .nest-bt {
@@ -56,12 +56,12 @@
 .recipient {
   border: 1px solid blue;
   padding: 10px;
-  height: 130px;
+  height: auto;
 }
 
 .recipient-bt {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-evenly;
   height: auto;
   width: auto;
@@ -70,7 +70,7 @@
 .provider {
   border: 1px solid blue;
   padding: 10px;
-  height: 130px;
+  height: auto;
 }
 
 .provider-bt {

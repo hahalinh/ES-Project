@@ -1,15 +1,25 @@
 import React from 'react'
 import Button from '../Button'
+import { useState } from 'react'
 
 function PreyItem({setPreyItem, data}) {
+    const [preyI, setPreyI] = useState(["H", "U", "R", "S", "UF", "A", "HD", "T", "H or R", "E"]);
+
+    const addPreyIOption = (data) => {
+        setPreyI([...preyI, data]);
+    }
+
     return (
         <div className="prey-item">
             <p>Prey Item: {data}</p>
             <div className="prey-item-bt">
-                <Button handleData={setPreyItem} value="H"/>
-                <Button handleData={setPreyItem} value="HR"/>
-                <Button handleData={setPreyItem} value="R"/>
-                <Button handleData={setPreyItem} value="T"/>
+                {
+                    preyI.map((item, index) => {
+                        return (
+                            <Button key={index} value={item} handleData={setPreyItem} />
+                        )
+                    })
+                }
             </div>
         </div>
     )
