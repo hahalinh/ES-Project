@@ -5,16 +5,16 @@ import PreySize from './feeding/PreySize';
 import Provider from './feeding/Provider';
 import Recipient from './feeding/Recipient';
 import Timer from './Timer';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 import React from 'react';
 
 function FeedingData({initialFeeding, feedings, setFeedings}) {
-    
     /**
      * this stores and handles input feeding data
      */
     const [feeding, setFeeding] = useState(initialFeeding)
+    const [index, setIndex] = useState(0);
 
     /**
      * this handles button input for nest data
@@ -66,7 +66,7 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
 
     /**
      * Helper method for set time arrive and depart
-     * @returns a string representation of current time
+     * @returns a string representation of indexent time
      */
     const getDate = () => {
         const d = new Date();
@@ -77,63 +77,78 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
     }
 
     /**
-     * this sets the time arrive data to the current time and time depart data to empty
+     * this sets the time arrive data to the indexent time and time depart data to empty
      */
     const setTimeArrive = () => {
         setFeeding({ ...feeding, timeArrive: getDate(), timeDepart: "" })
     }
 
     /**
-     * this sets the time depart data to the current time
+     * this sets the time depart data to the indexent time
      */
     const setTimeDepart = () => {
         setFeeding({ ...feeding, timeDepart: getDate()})
     }
 
     /**
+     * finds index of this feeding tab
+     * @returns index 
+     */
+    const findindexIndex = () => feedings.findIndex(item => item.feedingID === feeding.feedingID);
+
+    /**
+     * updates and saves the indexent opened feeding tab
+     */
+     const handleSaveFeeding = () => {
+        //Update indexent opened feeding
+        const currIndex = findindexIndex();
+
+        if (currIndex < 0) {
+            setFeedings([...feedings, feeding]);
+            setIndex(feedings.length);
+        }
+        else {
+            let uFeedings = [...feedings];
+            uFeedings[currIndex] = feeding;
+            setFeedings(uFeedings);
+            setIndex(currIndex);
+        }
+    }
+
+    /**
      * this handles and adds a new feeding data
      */
     const handleNewFeeding = () => {
-        const exist = feedings.findIndex(item => item.feedingID === feeding.feedingID);
+        handleSaveFeeding();
 
-        if (exist >= 0) {
-            let newFeedings = [...feedings];
-            newFeedings[exist] = feeding;
-            setFeedings(newFeedings);
-        }
-        else if (exist < 0) {
-            setFeedings([...feedings, feeding]);
-        }
+        //reset new feeding tab and index
+        setIndex(feedings.length);
         setFeeding({...initialFeeding, feedingID: uuid().slice(0, 8)})
     }
 
     /**
-     * this handles the switching of current feeding data to existing feeding data and updating that current feeding data if any changes
+     * this handles the switching of indexent feeding data to existing feeding data and updating that indexent feeding data if any changes
      * @param {*} e the feeding data ID to switch to
      */
     const handleOpenFeeding = (index) => {
-        //Update current opened feeding
-        const curr = feedings.findIndex(item => item.feedingID === feeding.feedingID);
-        let uFeedings = [...feedings];
-        uFeedings[curr] = feeding;
-        setFeedings(uFeedings);
-
         //Move to another feeding data
+        setIndex(index);
         const openF = feedings[index];
         setFeeding(openF);
     }
+
+    //Set feeding tab whenever this whole function runs
+    useEffect(() => {
+        if (feedings.length > 0) {
+            setFeeding(feedings[0]);
+        }
+    }, [])
 
     return (
         <>
             <div className="outer-container">
                 <div>
-                    {
-                        feedings.indexOf(feeding) === -1 ? (
-                            <div>Feeding {feedings.length + 1}</div>
-                        ) : (
-                            <div>Feeding {feedings.indexOf(feeding) + 1}</div>
-                        )
-                    }
+                    Feeding {index + 1}
                 </div>
                 <div className="menu-container">
                     <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{arrive: feeding.timeArrive, depart: feeding.timeDepart}}/>
@@ -149,7 +164,10 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
                                 )
                             })
                         }
-                        <button onClick={() => handleNewFeeding()}>New</button>
+                        <div>
+                            <button onClick={() => handleNewFeeding()}>New</button>
+                                <button onClick={() => handleSaveFeeding()}>Save</button>
+                        </div>
                     </div>
                 </div>
 
