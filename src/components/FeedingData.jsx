@@ -111,7 +111,7 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
      * this handles the switching of current feeding data to existing feeding data and updating that current feeding data if any changes
      * @param {*} e the feeding data ID to switch to
      */
-    const handleOpenFeeding = (e) => {
+    const handleOpenFeeding = (index) => {
         //Update current opened feeding
         const curr = feedings.findIndex(item => item.feedingID === feeding.feedingID);
         let uFeedings = [...feedings];
@@ -119,15 +119,22 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
         setFeedings(uFeedings);
 
         //Move to another feeding data
-        const feedingId = e.currentTarget.value;
-        const openF = feedings.find(item => item.feedingID === feedingId);
+        const openF = feedings[index];
         setFeeding(openF);
     }
 
     return (
         <>
             <div className="outer-container">
-                <div>{feeding.feedingID}</div>
+                <div>
+                    {
+                        feedings.indexOf(feeding) === -1 ? (
+                            <div>Feeding {feedings.length + 1}</div>
+                        ) : (
+                            <div>Feeding {feedings.indexOf(feeding) + 1}</div>
+                        )
+                    }
+                </div>
                 <div className="menu-container">
                     <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{arrive: feeding.timeArrive, depart: feeding.timeDepart}}/>
 
@@ -136,13 +143,13 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
                         {
                             feedings.map((item, index) => {
                                 return (
-                                    <input key={index} value={item.feedingID} type="button"
-                                        onClick={(e) => handleOpenFeeding(e)}
+                                    <input key={index} value={`Feeding ${index + 1}`} type="button"
+                                        onClick={() => handleOpenFeeding(index)}
                                     />
                                 )
                             })
                         }
-                        <button onClick={handleNewFeeding}>New</button>
+                        <button onClick={() => handleNewFeeding()}>New</button>
                     </div>
                 </div>
 
