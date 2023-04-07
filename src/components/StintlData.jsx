@@ -36,7 +36,7 @@ function StintlData() {
         Observer_Location: "",
         Date_Time_Start: "",
         Date_Time_End: "",
-        feedingData: []
+        feedingData: [initialFeeding]
     });
 
     //display stintl/feeding data
