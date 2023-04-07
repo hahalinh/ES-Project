@@ -5,13 +5,11 @@ import PreySize from './feeding/PreySize';
 import Provider from './feeding/Provider';
 import Recipient from './feeding/Recipient';
 import Timer from './Timer';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 import React from 'react';
 
-//NOTE: A problem with displaying the feeding number and rendering the right feeding tab when switch from stintl to feeding
-
-function FeedingData({initialFeeding, feedings, setFeedings}) {
+function FeedingData({ initialFeeding, feedings, setFeedings }) {
     /**
      * this stores and handles input feeding data
      */
@@ -63,7 +61,7 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
      * @param {*} n 
      */
     const setNumberItems = (n) => {
-        setFeeding({...feeding, numberItems: n});
+        setFeeding({ ...feeding, numberItems: n });
     }
 
     /**
@@ -89,42 +87,26 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
      * this sets the time depart data to the indexent time
      */
     const setTimeDepart = () => {
-        setFeeding({ ...feeding, timeDepart: getDate()})
+        setFeeding({ ...feeding, timeDepart: getDate() })
     }
 
     /**
-     * finds index of this feeding tab
-     * @returns index 
+     * saves feeding tab at index
+     * @param {} index 
      */
-    const findCurrIndex = () => feedings.findIndex(item => item.feedingID === feeding.feedingID);
-
-    /**
-     * updates and saves the indexent opened feeding tab
-     */
-     const handleSaveFeeding = () => {
-        //Update indexent opened feeding
-        const currIndex = findCurrIndex();
-
-        if (currIndex < 0) {
-            setFeedings([...feedings, feeding]);
-            setIndex(feedings.length);
-        }
-        else {
-            let uFeedings = [...feedings];
-            uFeedings[currIndex] = feeding;
-            setFeedings(uFeedings);
-            setIndex(currIndex);
-        }
+    const handleSaveFeeding = (index) => {
+        let uFeedings = [...feedings];
+        uFeedings[index] = feeding;
+        setFeedings(uFeedings);
     }
 
     /**
-     * this handles and adds a new feeding data
+     * this adds a new empty feeding data
      */
     const handleNewFeeding = () => {
-        handleSaveFeeding();
-
-        //reset new feeding tab
-        setFeeding({...initialFeeding, feedingID: uuid().slice(0, 8)});
+        setFeeding({ ...initialFeeding, feedingID: uuid().slice(0, 8) });
+        setFeedings([...feedings, initialFeeding]);
+        setIndex(feedings.length)
     }
 
     /**
@@ -132,13 +114,17 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
      * @param {*} e the feeding data ID to switch to
      */
     const handleOpenFeeding = (index) => {
-        handleSaveFeeding();
-
         //Move to another feeding data
         setIndex(index);
         const openF = feedings[index];
         setFeeding(openF);
     }
+
+    useEffect(() => {
+        if (feedings.length > 0 && index === 0) {
+            handleOpenFeeding(feedings.length - 1);
+        }
+    }, [feedings.length])
 
     return (
         <>
@@ -147,7 +133,7 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
                     Feeding {index + 1}
                 </div>
                 <div className="menu-container">
-                    <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{arrive: feeding.timeArrive, depart: feeding.timeDepart}}/>
+                    <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: feeding.timeArrive, depart: feeding.timeDepart }} />
 
                     <div>
                         <p>Open Feedings:</p>
@@ -162,15 +148,15 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
                         }
                         <div>
                             <button onClick={() => handleNewFeeding()}>New</button>
-                                <button onClick={() => handleSaveFeeding()}>Save</button>
+                            <button onClick={() => handleSaveFeeding(index)}>Save</button>
                         </div>
                     </div>
                 </div>
 
                 <div className="stintl-container">
                     <div className="box-items">
-                        <Nest setNest={setNest} data={feeding.nest}/>
-                        <Recipient setRecipient={setRecipient} data={feeding.recipent}/>
+                        <Nest setNest={setNest} data={feeding.nest} />
+                        <Recipient setRecipient={setRecipient} data={feeding.recipent} />
                         <Provider setProvider={setProvider} data={feeding.provider} />
                     </div>
                     <PreyItem setPreyItem={setPreyItem} data={feeding.preyItem} />
