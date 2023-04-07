@@ -5,9 +5,11 @@ import PreySize from './feeding/PreySize';
 import Provider from './feeding/Provider';
 import Recipient from './feeding/Recipient';
 import Timer from './Timer';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import React from 'react';
+
+//NOTE: A problem with displaying the feeding number and rendering the right feeding tab when switch from stintl to feeding
 
 function FeedingData({initialFeeding, feedings, setFeedings}) {
     /**
@@ -94,14 +96,14 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
      * finds index of this feeding tab
      * @returns index 
      */
-    const findindexIndex = () => feedings.findIndex(item => item.feedingID === feeding.feedingID);
+    const findCurrIndex = () => feedings.findIndex(item => item.feedingID === feeding.feedingID);
 
     /**
      * updates and saves the indexent opened feeding tab
      */
      const handleSaveFeeding = () => {
         //Update indexent opened feeding
-        const currIndex = findindexIndex();
+        const currIndex = findCurrIndex();
 
         if (currIndex < 0) {
             setFeedings([...feedings, feeding]);
@@ -121,9 +123,8 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
     const handleNewFeeding = () => {
         handleSaveFeeding();
 
-        //reset new feeding tab and index
-        setIndex(feedings.length);
-        setFeeding({...initialFeeding, feedingID: uuid().slice(0, 8)})
+        //reset new feeding tab
+        setFeeding({...initialFeeding, feedingID: uuid().slice(0, 8)});
     }
 
     /**
@@ -131,18 +132,13 @@ function FeedingData({initialFeeding, feedings, setFeedings}) {
      * @param {*} e the feeding data ID to switch to
      */
     const handleOpenFeeding = (index) => {
+        handleSaveFeeding();
+
         //Move to another feeding data
         setIndex(index);
         const openF = feedings[index];
         setFeeding(openF);
     }
-
-    //Set feeding tab whenever this whole function runs
-    useEffect(() => {
-        if (feedings.length > 0) {
-            setFeeding(feedings[0]);
-        }
-    }, [])
 
     return (
         <>
