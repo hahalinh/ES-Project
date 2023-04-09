@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { v4 as uuid } from 'uuid';
 import Island from './stintl/Island'
 import Species from './stintl/Species'
@@ -41,6 +41,7 @@ function StintlData() {
 
     //display stintl/feeding data
     const [isOpenF, setIsOpenF] = useState(false);
+    const fileInput = useRef(null);
 
     /**
      * Sets the island data in stintl
@@ -149,29 +150,28 @@ function StintlData() {
             const values = line.split(',');
             const feeding = {};
 
-            for (let i = 0; i < header.length; i++) {
-                if (i < 11) {
-                    // Skip first 11 columns as they're not part of the feeding data
-                    continue;
-                }
+            // Skip first 11 columns as they're not part of the feeding data
+            for (let i = 11; i < header.length; i++) {
                 feeding[header[i]] = values[i];
             }
 
             return feeding;
         });
 
+        const stintlData = dataLines[0].split(',');
+
         const jsonObject = {
-            StintlID: header[0],
-            Stintl_Type: header[1],
-            Island: header[2],
-            Species: header[3],
-            Prey_Size_Method: header[4],
-            Prey_Size_Reference: header[5],
-            FirstName: header[6],
-            LastName: header[7],
-            Observer_Location: header[8],
-            Date_Time_Start: header[9],
-            Date_Time_End: header[10],
+            StintlID: stintlData[0],
+            Stintl_Type: stintlData[1],
+            Island: stintlData[2],
+            Species: stintlData[3],
+            Prey_Size_Method: stintlData[4],
+            Prey_Size_Reference: stintlData[5],
+            FirstName: stintlData[6],
+            LastName: stintlData[7],
+            Observer_Location: stintlData[8],
+            Date_Time_Start: stintlData[9],
+            Date_Time_End: stintlData[10],
             feedingData: feedingData
         };
 
@@ -186,8 +186,27 @@ function StintlData() {
         csv += jsonToCSV(data);
 
         const file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-        
+
         saveAs(file, 'data.csv');
+    }
+
+    const handleOpenClick = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const csv = e.target.result;
+            const stintl = csvToJson(csv);
+            setStintl(stintl);
+        };
+
+        reader.onerror = () => {
+            alert('Error reading the CSV file.');
+        };
+
+        reader.readAsText(file);
     }
 
     return (
@@ -201,6 +220,12 @@ function StintlData() {
                 !isOpenF ? (
                     <>
                         <button onClick={handleSaveClick}>Save file</button>
+                        <input
+                            type="file"
+                            ref={fileInput}
+                            accept=".csv"
+                            onChange={(e) => handleOpenClick(e)}
+                        />
                         <div>
                             <p>Stintl type: {stintl.Stintl_Type}</p>
                             <p>Prey size method: {stintl.Prey_Size_Method}</p>
