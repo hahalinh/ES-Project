@@ -13,6 +13,7 @@ function StintlData() {
     //feeding data
     const initialFeeding = {
         feedingID: uuid().slice(0, 8),
+        plot: "",
         nest: "",
         timeArrive: "",
         timeDepart: "",
@@ -211,39 +212,64 @@ function StintlData() {
 
     return (
         <div>
-            <button onClick={() => setIsOpenF(!isOpenF)}>
-                {
-                    !isOpenF ? 'Open Feeding' : 'Back to Stintl'
-                }
-            </button>
+
             {
-                !isOpenF ? (
-                    <>
-                        <button onClick={handleSaveClick}>Save file</button>
-                        <input
-                            type="file"
-                            ref={fileInput}
-                            accept=".csv"
-                            onChange={(e) => handleOpenClick(e)}
-                        />
-                        <div>
-                            <p>Stintl type: {stintl.Stintl_Type}</p>
-                            <p>Prey size method: {stintl.Prey_Size_Method}</p>
-                            <p>Prey size reference: {stintl.Prey_Size_Reference}</p>
-                        </div>
-                        <div>
-                            <Island setIsland={setIsland} data={stintl.Island} />
-                        </div>
-                        <Species setSpecies={setSpecies} data={stintl.Species} />
-                        <Name setName={setName} data={{ first: stintl.FirstName, last: stintl.LastName }} />
-                        <ObserverLocation setObs={setObserverLocation} data={stintl.Observer_Location} />
-                        <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stintl.Date_Time_Start, depart: stintl.Date_Time_End }} />
-                    </>
-                )
+                !isOpenF ?
+                    (
+                        <>
+                            <div class="start-stint">
+
+
+                                <h1>Start a Stint</h1>
+
+                                <div class="login-column">
+
+                                    <div class="left-column">
+                                        <p>Stintl type: {stintl.Stintl_Type}</p>
+                                        <p>Prey size method: {stintl.Prey_Size_Method}</p>
+                                        <p>Prey size reference: {stintl.Prey_Size_Reference}</p>
+                                        <Island setIsland={setIsland} data={stintl.Island} />
+                                        <Species setSpecies={setSpecies} data={stintl.Species} />
+                                    </div>
+
+                                    <div class="right-column">
+                                        <Name setName={setName} data={{ first: stintl.FirstName, last: stintl.LastName }} />
+                                        <ObserverLocation setObs={setObserverLocation} data={stintl.Observer_Location} />
+                                        <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stintl.Date_Time_Start, depart: stintl.Date_Time_End }} />
+
+                                    </div>
+
+                                </div>
+
+                                <div class="login-btn">
+                                    <button onClick={() => setIsOpenF(!isOpenF)}>
+                                        {
+                                            !isOpenF ? 'Open Feeding' : 'Back to Stintl'
+                                        }
+                                    </button>
+
+                                    <button onClick={handleSaveClick}>Save file</button>
+
+                                    <input
+                                        type="file"
+                                        ref={fileInput}
+                                        accept=".csv"
+                                        onChange={(e) => handleOpenClick(e)}
+                                    />
+                                </div>
+                            </div>
+                        </>
+                    )
                     :
 
                     (
+
                         <>
+                            <button onClick={() => setIsOpenF(!isOpenF)}>
+                                {
+                                    !isOpenF ? 'Open Feeding' : 'Back to Stintl'
+                                }
+                            </button>
                             <div style={{ marginTop: '50px' }}>
                                 <FeedingData initialFeeding={initialFeeding} setFeedings={setFeedings} feedings={stintl.feedingData} />
                             </div>

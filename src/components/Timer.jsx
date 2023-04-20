@@ -6,6 +6,7 @@ function Timer({setArrive, setDepart, data}) {
         <div className="time-button">
             <p>Time arrive: {data.arrive}</p>
             <Button handleData={setArrive} value="Time arrive - Start" className="time-start"/>
+            
             <p>Time depart: {data.depart}</p>
             <Button handleData={setDepart} value="Time depart - End" className="time-end"/>
         </div>
