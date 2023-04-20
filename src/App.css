@@ -1,6 +1,14 @@
+
 .outer-container {
   border: 1px solid black;
   margin: 30px 50px;
+}
+
+.start-stint {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .menu-container {
@@ -21,12 +29,12 @@
   justify-content: space-evenly;
 }
 
-.time-button {
+/* .time-button {
   display: flex;
   flex-direction: column;
   align-self: center;
   border: 1px solid black;
-}
+} */
 
 .box-items {
   display: flex;
@@ -49,8 +57,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: auto;
-  width: auto;
 }
 
 .recipient {
@@ -63,8 +69,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: auto;
-  width: auto;
 }
 
 .provider {
@@ -115,4 +119,47 @@
   height: auto;
   margin: 15px;
   width: 150px;
+}
+
+.left-column,
+.right-column {
+  padding: 20px;
+}
+
+.login-column {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 800px;
+  /* Add a max-width to limit the width of the container */
+
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.right-column {
+  text-align: right;
+}
+
+
+.time-button {
+  display: flex;
+  flex-direction: column;
+}
+
+.feed_header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+
+
+button, input[type="button"]  {
+  padding: 10px 20px ; /* Set the padding to the desired size */
+  font-size: 16px  ; /* Set the font size to the desired size */
 }

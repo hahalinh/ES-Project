@@ -1,3 +1,4 @@
+import Plot from './feeding/Plot';
 import Nest from './feeding/Nest';
 import NumberItems from './feeding/NumberItems';
 import PreyItem from './feeding/PreyItem';
@@ -15,6 +16,14 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
      */
     const [feeding, setFeeding] = useState(initialFeeding)
     const [index, setIndex] = useState(0);
+
+    /**
+     * this handles button input for nest data
+     * @param {*} nest
+     */
+    const setPlot = (plot) => {
+        setFeeding({ ...feeding, plot: plot });
+    }
 
     /**
      * this handles button input for nest data
@@ -129,11 +138,15 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     return (
         <>
             <div className="outer-container">
-                <div>
+                <div class="feed_header">
                     Feeding {index + 1}
                 </div>
                 <div className="menu-container">
                     <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: feeding.timeArrive, depart: feeding.timeDepart }} />
+
+                    <div>
+                        <Plot setPlot={setPlot} data={feeding.plot} />
+                    </div>
 
                     <div>
                         <p>Open Feedings:</p>
@@ -155,13 +168,13 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
 
                 <div className="stintl-container">
                     <div className="box-items">
+                        <NumberItems setNumberItems={setNumberItems} data={feeding.numberItems} />
                         <Nest setNest={setNest} data={feeding.nest} />
-                        <Recipient setRecipient={setRecipient} data={feeding.recipent} />
-                        <Provider setProvider={setProvider} data={feeding.provider} />
                     </div>
-                    <PreyItem setPreyItem={setPreyItem} data={feeding.preyItem} />
+                    <Recipient setRecipient={setRecipient} data={feeding.recipent} />
+                    <Provider setProvider={setProvider} data={feeding.provider} />
                     <PreySize setPreySize={setPreySize} data={feeding.preySize} />
-                    <NumberItems setNumberItems={setNumberItems} data={feeding.numberItems} />
+                    <PreyItem setPreyItem={setPreyItem} data={feeding.preyItem} />
                 </div>
             </div>
         </>
