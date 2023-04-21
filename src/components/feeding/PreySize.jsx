@@ -20,6 +20,7 @@ function PreySize({setPreySize, data}) {
                         )
                     })
                 }
+                <Button handleData={setPreySize} value=""/>
             </div>
         </div>
     )
