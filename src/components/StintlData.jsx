@@ -179,7 +179,6 @@ function StintlData() {
         return jsonObject;
     }
 
-    //Converts and saves stintl data to computer (in progress)
     const handleSaveClick = () => {
         let csv = '';
         const data = stintl;
