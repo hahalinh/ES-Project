@@ -14,8 +14,10 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     /**
      * this stores and handles input feeding data
      */
-    const [feeding, setFeeding] = useState(initialFeeding)
+    const [feeding, setFeeding] = useState(initialFeeding);
     const [index, setIndex] = useState(0);
+    const [closedIndex, setClosedIndex] = useState([]);
+    const [displayClosed, setDisplayClosed] = useState(true);
 
     /**
      * this handles button input for nest data
@@ -129,6 +131,14 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
         setFeeding(openF);
     }
 
+    const handleCloseFeeding = (index) => {
+        setClosedIndex([...closedIndex, index]);
+    }
+
+    const displayClosedFeeding = (bool) => {
+        setDisplayClosed(bool);
+    } 
+
     useEffect(() => {
         if (feedings.length > 0 && index === 0) {
             handleOpenFeeding(feedings.length - 1);
@@ -138,9 +148,15 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     return (
         <>
             <div className="outer-container">
-                <div class="feed_header">
-                    Feeding {index + 1}
+                <div className="display-button">
+                    <button onClick={() => displayClosedFeeding(false)}>Hide closed feeding</button>
+                    <button onClick={() => displayClosedFeeding(true)}>Show closed feeding</button>
                 </div>
+
+                <div className="feed_header">
+                    Feeding {index + 1}{feeding.nest !== "" && `: ${feeding.nest}`}
+                </div>
+
                 <div className="menu-container">
                     <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: feeding.timeArrive, depart: feeding.timeDepart }} />
 
@@ -152,8 +168,14 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                         <p>Open Feedings:</p>
                         {
                             feedings.map((item, index) => {
+                                if (closedIndex.includes(index) && !displayClosed) {
+                                    return;
+                                }
+
+                                const value = `Feeding ${index + 1}` + (item.nest !== "" ? `: ${item.nest}` : "");
+
                                 return (
-                                    <input key={index} value={`Feeding ${index + 1}`} type="button"
+                                    <input key={index} value={value} type="button"
                                         onClick={() => handleOpenFeeding(index)}
                                     />
                                 )
@@ -162,6 +184,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                         <div>
                             <button onClick={() => handleNewFeeding()}>New</button>
                             <button onClick={() => handleSaveFeeding(index)}>Save</button>
+                            <button onClick={() => handleCloseFeeding(index)}>Close</button>
                         </div>
                     </div>
                 </div>
