@@ -20,51 +20,51 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     const [displayClosed, setDisplayClosed] = useState(true);
 
     /**
-     * this handles button input for nest data
-     * @param {*} nest
+     * this handles button input for plot data
+     * @param {*} Plot
      */
-    const setPlot = (plot) => {
-        setFeeding({ ...feeding, plot: plot });
+    const setPlot = (Plot) => {
+        setFeeding({ ...feeding, Plot_Status: Plot });
     }
 
     /**
      * this handles button input for nest data
-     * @param {*} nest
+     * @param {*} Nest
      */
-    const setNest = (nest) => {
-        setFeeding({ ...feeding, nest: nest });
+    const setNest = (Nest) => {
+        setFeeding({ ...feeding, Nest: Nest });
     }
 
     /**
      * this handles button input for recipent data
-     * @param {*} recipent 
+     * @param {*} Recipent 
      */
-    const setRecipient = (recipent) => {
-        setFeeding({ ...feeding, recipent: recipent });
+    const setRecipient = (Recipient) => {
+        setFeeding({ ...feeding, Recipient: Recipient });
     }
 
     /**
      * this handles button input for provider data
-     * @param {*} provider 
+     * @param {*} Provider 
      */
-    const setProvider = (provider) => {
-        setFeeding({ ...feeding, provider: provider });
+    const setProvider = (Provider) => {
+        setFeeding({ ...feeding, Provider: Provider });
     }
 
     /**
      * this handles button input for prey item data
-     * @param {*} preyItem 
+     * @param {*} Prey_Item 
      */
-    const setPreyItem = (preyItem) => {
-        setFeeding({ ...feeding, preyItem: preyItem });
+    const setPreyItem = (Prey_Item) => {
+        setFeeding({ ...feeding, Prey_Item: Prey_Item });
     }
 
     /**
      * this handles button input for prey size data
-     * @param {*} preySize 
+     * @param {*} Prey_Size 
      */
-    const setPreySize = (preySize) => {
-        setFeeding({ ...feeding, preySize: preySize });
+    const setPreySize = (Prey_Size) => {
+        setFeeding({ ...feeding, Prey_Size: Prey_Size });
     }
 
     /**
@@ -72,7 +72,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
      * @param {*} n 
      */
     const setNumberItems = (n) => {
-        setFeeding({ ...feeding, numberItems: n });
+        setFeeding({ ...feeding, Number_of_Items: n });
     }
 
     /**
@@ -91,14 +91,14 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
      * this sets the time arrive data to the indexent time and time depart data to empty
      */
     const setTimeArrive = () => {
-        setFeeding({ ...feeding, timeArrive: getDate(), timeDepart: "" })
+        setFeeding({ ...feeding, Time_Arrive: getDate(), Time_Depart: "" })
     }
 
     /**
      * this sets the time depart data to the indexent time
      */
     const setTimeDepart = () => {
-        setFeeding({ ...feeding, timeDepart: getDate() })
+        setFeeding({ ...feeding, Time_Depart: getDate() })
     }
 
     /**
@@ -115,7 +115,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
      * this adds a new empty feeding data
      */
     const handleNewFeeding = () => {
-        setFeeding({ ...initialFeeding, feedingID: uuid().slice(0, 8) });
+        setFeeding({ ...initialFeeding, FeedingID: uuid().slice(0, 8) });
         setFeedings([...feedings, initialFeeding]);
         setIndex(feedings.length)
     }
@@ -168,14 +168,14 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                 </div>
 
                 <div className="feed_header">
-                    Feeding {index + 1}{feeding.nest !== "" && `: ${feeding.nest}`}
+                    Feeding {index + 1}{feeding.Nest !== "" && `: ${feeding.Nest}`}
                 </div>
 
                 <div className="menu-container">
-                    <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: feeding.timeArrive, depart: feeding.timeDepart }} />
+                    <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: feeding.Time_Arrive, depart: feeding.Time_Depart }} />
 
                     <div>
-                        <Plot setPlot={setPlot} data={feeding.plot} />
+                        <Plot setPlot={setPlot} data={feeding.Plot_Status} />
                     </div>
 
                     <div>
@@ -186,7 +186,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                                     return;
                                 }
 
-                                const value = `Feeding ${index + 1}` + (item.nest !== "" ? `: ${item.nest}` : "");
+                                const value = `Feeding ${index + 1}` + (item.Nest !== "" ? `: ${item.Nest}` : "");
 
                                 return (
                                     <input key={index} value={value} type="button"
@@ -205,13 +205,13 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
 
                 <div className="stintl-container">
                     <div className="box-items">
-                        <NumberItems setNumberItems={setNumberItems} data={feeding.numberItems} />
-                        <Nest setNest={setNest} data={feeding.nest} />
+                        <NumberItems setNumberItems={setNumberItems} data={feeding.Number_of_Items} />
+                        <Nest setNest={setNest} data={feeding.Nest} />
                     </div>
-                    <Recipient setRecipient={setRecipient} data={feeding.recipent} />
-                    <Provider setProvider={setProvider} data={feeding.provider} />
-                    <PreySize setPreySize={setPreySize} data={feeding.preySize} />
-                    <PreyItem setPreyItem={setPreyItem} data={feeding.preyItem} />
+                    <Recipient setRecipient={setRecipient} data={feeding.Recipient} />
+                    <Provider setProvider={setProvider} data={feeding.Provider} />
+                    <PreySize setPreySize={setPreySize} data={feeding.Prey_Size} />
+                    <PreyItem setPreyItem={setPreyItem} data={feeding.Prey_Item} />
                 </div>
             </div>
         </>

@@ -12,16 +12,16 @@ import FeedingData from './FeedingData';
 function StintlData() {
     //feeding data
     const initialFeeding = {
-        feedingID: uuid().slice(0, 8),
-        plot: "",
-        nest: "",
-        timeArrive: "",
-        timeDepart: "",
-        provider: "",
-        recipent: "",
-        preyItem: "",
-        preySize: "",
-        numberItems: 1
+        FeedingID: uuid().slice(0, 8),
+        Nest: "",
+        Time_Arrive: "",
+        Time_Depart: "",
+        Provider: "",
+        Recipient: "",
+        Prey_Item: "",
+        Prey_Size: "",
+        Number_of_Items: 1,
+        Plot_Status: ""
     }
 
     //stintl data
@@ -125,7 +125,8 @@ function StintlData() {
         const header = [
             'StintlID', 'Stintl_Type', 'Island', 'Species', 'Prey_Size_Method', 'Prey_Size_Reference',
             'FirstName', 'LastName', 'Observer_Location', 'Date_Time_Start', 'Date_Time_End',
-            'feedingID', 'nest', 'timeArrive', 'timeDepart', 'provider', 'recipient', 'preyItem', 'preySize', 'numberItems'
+            'FeedingID', 'Nest', 'Time_Arrive', 'Time_Depart', 'Provider', 'Recipient', 'Prey_Item', 'Prey_Size', 
+            'Number_of_Items', 'Plot_Status'
         ];
         const csvRows = [header.join(',')];
 
@@ -133,8 +134,8 @@ function StintlData() {
             const row = [
                 json.StintlID, json.Stintl_Type, json.Island, json.Species, json.Prey_Size_Method, json.Prey_Size_Reference,
                 json.FirstName, json.LastName, json.Observer_Location, json.Date_Time_Start, json.Date_Time_End,
-                feeding.feedingID, feeding.nest, feeding.timeArrive, feeding.timeDepart, feeding.provider, feeding.recipent,
-                feeding.preyItem, feeding.preySize, feeding.numberItems
+                feeding.FeedingID, feeding.Nest, feeding.Time_Arrive, feeding.Time_Depart, feeding.Provider, feeding.Recipent,
+                feeding.Prey_Item, feeding.Prey_Size, feeding.Number_of_Items, feeding.Plot
             ];
             csvRows.push(row.join(','));
         });
