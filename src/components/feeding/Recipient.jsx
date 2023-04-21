@@ -20,6 +20,7 @@ function Recipient({ setRecipient, data }) {
                         )
                     })
                 }
+                <Button handleData={setRecipient} value=""/>
             </div>
         </div>
     )

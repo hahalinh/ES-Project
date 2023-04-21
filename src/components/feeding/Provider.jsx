@@ -20,6 +20,7 @@ function Provider({ setProvider, data }) {
                         )
                     })
                 }
+                <Button handleData={setProvider} value=""/>
             </div>
         </div>
     )

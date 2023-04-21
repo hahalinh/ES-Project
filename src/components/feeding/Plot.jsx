@@ -12,6 +12,7 @@ function Plot({ setPlot, data }) {
                     plots.map((item, index) =>
                         <Button handleData={setPlot} value={item} key={index} />)
                 }
+                <Button handleData={setPlot} value=""/>
             </div>
         </div>
     )

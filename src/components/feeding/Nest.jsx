@@ -12,6 +12,7 @@ function Nest({ setNest, data }) {
                     nests.map((item, index) =>
                         <Button handleData={setNest} value={item} key={index} />)
                 }
+                <Button handleData={setNest} value=""/>
             </div>
         </div>
     )

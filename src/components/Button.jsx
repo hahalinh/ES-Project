@@ -6,6 +6,13 @@ import React from 'react'
  * @returns 
  */
 function Button({ handleData, value, type, className }) {
+    if (value === "") {
+        return (
+            <input onClick={() => handleData("")}
+            value="Clear" type={type ? type : "button"} className={className}
+        />
+        )
+    }
 
     return (
         <input onClick={(e) => handleData(e.currentTarget.value)}
