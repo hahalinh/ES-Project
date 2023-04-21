@@ -132,12 +132,20 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     }
 
     const handleCloseFeeding = (index) => {
+        if (closedIndex.includes(index)) {
+            let newArr = [...closedIndex];
+            newArr = newArr.filter(item => item !== index);
+
+            setClosedIndex(newArr);
+            return;
+        }
+
         setClosedIndex([...closedIndex, index]);
     }
 
     const displayClosedFeeding = (bool) => {
         setDisplayClosed(bool);
-    } 
+    }
 
     useEffect(() => {
         if (feedings.length > 0 && index === 0) {
@@ -148,9 +156,15 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     return (
         <>
             <div className="outer-container">
-                <div className="display-button">
-                    <button onClick={() => displayClosedFeeding(false)}>Hide closed feeding</button>
-                    <button onClick={() => displayClosedFeeding(true)}>Show closed feeding</button>
+                <div className="display-buttons">
+                    <div>
+                        <button onClick={() => displayClosedFeeding(false)}>Hide closed feeding</button>
+                        <button onClick={() => displayClosedFeeding(true)}>Show closed feeding</button>
+                    </div>
+                    <div className='displayM'>
+                        <p>Hide closed: {displayClosed ? "false" : "true"}</p>
+                        <p>Is closed: {closedIndex.includes(index) ? "true" : "false"}</p>
+                    </div>
                 </div>
 
                 <div className="feed_header">
