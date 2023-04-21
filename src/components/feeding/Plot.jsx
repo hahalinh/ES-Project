@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Button from '../Button';
 
 function Plot({ setPlot, data }) {
-    const [plots, setPlots] = useState(["Outside Plot", "Inside  Plot"])
+    const [plots, setPlots] = useState(["Outside Plot", "Inside Plot"])
 
     return (
         <div className="plot">
