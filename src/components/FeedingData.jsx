@@ -7,10 +7,10 @@ import Provider from './feeding/Provider';
 import Recipient from './feeding/Recipient';
 import Timer from './Timer';
 import { useState, useEffect } from 'react';
-import { v4 as uuid } from 'uuid';
 import React from 'react';
 
 function FeedingData({ initialFeeding, feedings, setFeedings }) {
+
     /**
      * this stores and handles input feeding data
      */
@@ -18,6 +18,9 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     const [index, setIndex] = useState(0);
     const [closedIndex, setClosedIndex] = useState([]);
     const [displayClosed, setDisplayClosed] = useState(true);
+
+    //a temporary feeding for later checking with feeding to compare differences
+    const [feedingTemp, setFeedingTemp] = useState(feeding);
 
     /**
      * this handles button input for plot data
@@ -105,19 +108,23 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
      * saves feeding tab at index
      * @param {} index 
      */
-    const handleSaveFeeding = (index) => {
-        let uFeedings = [...feedings];
-        uFeedings[index] = feeding;
-        setFeedings(uFeedings);
+    function handleSaveFeeding(index) {
+        let newFeedings = [...feedings];
+        newFeedings[index] = feeding;
+        setFeedings(newFeedings);
+        //stamp the temporary feeding
+        setFeedingTemp(feeding);
     }
 
     /**
      * this adds a new empty feeding data
      */
     const handleNewFeeding = () => {
-        setFeeding({ ...initialFeeding, FeedingID: uuid().slice(0, 8) });
+        setFeeding({ ...initialFeeding, FeedingID: feedings.length + 2 });
         setFeedings([...feedings, initialFeeding]);
-        setIndex(feedings.length)
+        setIndex(feedings.length);
+        //stamp the temporary feeding
+        setFeedingTemp(feeding);
     }
 
     /**
@@ -129,6 +136,8 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
         setIndex(index);
         const openF = feedings[index];
         setFeeding(openF);
+        //stamp the temporary feeding
+        setFeedingTemp(feeding);
     }
 
     const handleCloseFeeding = (index) => {
@@ -147,11 +156,20 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
         setDisplayClosed(bool);
     }
 
+    //feature: when open feeding tab, switch to the latest feeding tab
     useEffect(() => {
         if (feedings.length > 0 && index === 0) {
             handleOpenFeeding(feedings.length - 1);
         }
     }, [feedings.length])
+
+    //feature: auto save
+    useEffect(() => {
+        //if there is a change, save that change
+        if (feedingTemp !== feeding) {
+            handleSaveFeeding(index);
+        }
+    }, [feeding])
 
     return (
         <>
@@ -197,7 +215,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                         }
                         <div>
                             <button onClick={() => handleNewFeeding()}>New</button>
-                            <button onClick={() => handleSaveFeeding(index)}>Save</button>
+                            {/* <button onClick={() => handleSaveFeeding(index)}>Save</button> */}
                             <button onClick={() => handleCloseFeeding(index)}>Close</button>
                         </div>
                     </div>

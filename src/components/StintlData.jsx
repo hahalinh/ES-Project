@@ -12,7 +12,7 @@ import FeedingData from './FeedingData';
 function StintlData() {
     //feeding data
     const initialFeeding = {
-        FeedingID: uuid().slice(0, 8),
+        FeedingID: 1,
         Nest: "",
         Time_Arrive: "",
         Time_Depart: "",
