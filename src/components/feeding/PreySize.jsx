@@ -3,7 +3,7 @@ import Button from '../Button'
 import { useState } from 'react'
 
 function PreySize({setPreySize, data}) {
-    const [preyS, setPreyS] = useState([1, 1.25, 1.5, -1, 0.25, 2, 0.5, 1.75]) //-1 is U (unknown)
+    const [preyS, setPreyS] = useState(["1", "1.25", "1.5", "Unknown", "0.25", "2", "0.5", "1.75"])
 
     const addPreySOption = (data) => {
         setPreyS([...preyS, data])
