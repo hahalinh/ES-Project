@@ -16,7 +16,11 @@ function PreyItem({setPreyItem, data}) {
                 {
                     preyI.map((item, index) => {
                         return (
-                            <Button key={index} value={item} handleData={setPreyItem} />
+                            <Button key={index} 
+                            value={item} 
+                            handleData={setPreyItem}
+                            selected={item === data}
+                            />
                         )
                     })
                 }

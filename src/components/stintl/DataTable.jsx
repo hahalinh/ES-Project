@@ -5,7 +5,6 @@ function DataTable(props) {
     const [showData, setShowData] = useState(false);
     const stintl = props.stintl;
 
-    console.log(stintl);
     const handleShowData = () => {
       setShowData(!showData);
     };

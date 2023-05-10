@@ -194,8 +194,11 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
 
                     <div>
                         <Plot setPlot={setPlot} data={feeding.Plot_Status} />
+                        <NumberItems setNumberItems={setNumberItems} data={feeding.Number_of_Items} />
                     </div>
 
+                    <div>
+                    </div>
                     <div>
                         <p>Open Feedings:</p>
                         {
@@ -222,10 +225,8 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                 </div>
 
                 <div className="stintl-container">
-                    <div className="box-items">
-                        <NumberItems setNumberItems={setNumberItems} data={feeding.Number_of_Items} />
-                        <Nest setNest={setNest} data={feeding.Nest} />
-                    </div>
+                        
+                    <Nest setNest={setNest} data={feeding.Nest} />
                     <Recipient setRecipient={setRecipient} data={feeding.Recipient} />
                     <Provider setProvider={setProvider} data={feeding.Provider} />
                     <PreySize setPreySize={setPreySize} data={feeding.Prey_Size} />
