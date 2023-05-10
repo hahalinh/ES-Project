@@ -178,3 +178,8 @@ button, input[type="button"]  {
 .display-buttons .displayM {
   width: 150px;
 }
+
+.selected-btn {
+  background-color: green;
+  color: white;
+}

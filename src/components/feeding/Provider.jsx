@@ -1,29 +1,32 @@
-import React from 'react'
+import React from 'react';
 import Button from '../Button';
 import { useState } from 'react';
 
 function Provider({ setProvider, data }) {
-    const [provid, setprovid] = useState(["A", "A1", "B", "UC", "U", "K", "O", "S", "M", "Y"])
+  const [providers, setProviders] = useState([
+    "A", "A1", "B", "UC", "U", "K", "O", "S", "M", "Y"
+  ]);
 
-    const addProvidOption = (data) => {
-        setprovid([...provid, data])
-    }
+  const addProviderOption = (data) => {
+    setProviders([...providers, data]);
+  };
 
-    return (
-        <div className="provider">
-            <p>Provider: {data}</p>
-            <div className="provider-bt">
-                {
-                    provid.map((item, index) => {
-                        return (
-                            <Button value={item} key={index} handleData={setProvider} />
-                        )
-                    })
-                }
-                <Button handleData={setProvider} value=""/>
-            </div>
-        </div>
-    )
+  return (
+    <div className="provider">
+      <p>Provider: {data}</p>
+      <div className="provider-bt">
+        {providers.map((item, index) => (
+          <Button
+            key={index}
+            value={item}
+            handleData={setProvider}
+            selected={item === data}
+          />
+        ))}
+        <Button handleData={setProvider} value="" />
+      </div>
+    </div>
+  );
 }
 
-export default Provider
+export default Provider;
