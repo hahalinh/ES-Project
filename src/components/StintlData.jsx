@@ -11,8 +11,6 @@ import Timer from './Timer';
 import { saveAs } from 'file-saver';
 import FeedingData from './FeedingData';
 
-
-
 function StintlData() {
     //feeding data
     const initialFeeding = {
@@ -44,10 +42,16 @@ function StintlData() {
         feedingData: [initialFeeding]
     });
 
+    const [setting, setSetting] = useState({
+        tabletName: ""
+    })
+
     //display stintl/feeding data
     const [isOpenF, setIsOpenF] = useState(false);
     const fileInput = useRef(null);
 
+    //setting file
+    const settingFile = "setting.json";
 
     /**
      * Sets the island data in stintl
@@ -130,7 +134,7 @@ function StintlData() {
         const header = [
             'StintlID', 'Stintl_Type', 'Island', 'Species', 'Prey_Size_Method', 'Prey_Size_Reference',
             'FirstName', 'LastName', 'Observer_Location', 'Date_Time_Start', 'Date_Time_End',
-            'FeedingID', 'Nest', 'Time_Arrive', 'Time_Depart', 'Provider', 'Recipient', 'Prey_Item', 'Prey_Size', 
+            'FeedingID', 'Nest', 'Time_Arrive', 'Time_Depart', 'Provider', 'Recipient', 'Prey_Item', 'Prey_Size',
             'Number_of_Items', 'Plot_Status'
         ];
         const csvRows = [header.join(',')];
@@ -213,8 +217,8 @@ function StintlData() {
         };
 
         reader.readAsText(file);
-    }    
-    
+    }
+
     return (
         <div>
 
@@ -254,7 +258,7 @@ function StintlData() {
                                     </button>
 
                                     <button onClick={handleSaveClick}>Save file</button>
-                                    
+
 
                                     <input
                                         type="file"
@@ -262,13 +266,13 @@ function StintlData() {
                                         accept=".csv"
                                         onChange={(e) => handleOpenClick(e)}
                                     />
-                                 
+
                                 </div>
 
                                 <div>
                                     {/* <button onClick={handleShowData}> Show data</button>
                                     <div id="data-table"></div> */}
-                                    <DataTable stintl = {stintl}/>
+                                    <DataTable stintl={stintl} />
 
                                 </div>
                             </div>
