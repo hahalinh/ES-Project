@@ -5,9 +5,13 @@ import Island from './stintl/Island'
 import Species from './stintl/Species'
 import Name from './stintl/Name'
 import ObserverLocation from './stintl/ObserverLocation'
+import DataTable from './stintl/DataTable';
+
 import Timer from './Timer';
 import { saveAs } from 'file-saver';
 import FeedingData from './FeedingData';
+
+
 
 function StintlData() {
     //feeding data
@@ -43,6 +47,7 @@ function StintlData() {
     //display stintl/feeding data
     const [isOpenF, setIsOpenF] = useState(false);
     const fileInput = useRef(null);
+
 
     /**
      * Sets the island data in stintl
@@ -208,8 +213,8 @@ function StintlData() {
         };
 
         reader.readAsText(file);
-    }
-
+    }    
+    
     return (
         <div>
 
@@ -244,11 +249,12 @@ function StintlData() {
                                 <div className="login-btn">
                                     <button onClick={() => setIsOpenF(!isOpenF)}>
                                         {
-                                            !isOpenF ? 'Open Feeding' : 'Back to Stintl'
+                                            !isOpenF ? 'Open Feeding' : 'Back to Stint'
                                         }
                                     </button>
 
                                     <button onClick={handleSaveClick}>Save file</button>
+                                    
 
                                     <input
                                         type="file"
@@ -256,6 +262,14 @@ function StintlData() {
                                         accept=".csv"
                                         onChange={(e) => handleOpenClick(e)}
                                     />
+                                 
+                                </div>
+
+                                <div>
+                                    {/* <button onClick={handleShowData}> Show data</button>
+                                    <div id="data-table"></div> */}
+                                    <DataTable stintl = {stintl}/>
+
                                 </div>
                             </div>
                         </>
