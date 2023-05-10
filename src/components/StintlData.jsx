@@ -285,10 +285,10 @@ function StintlData() {
                         <>
                             <button onClick={() => setIsOpenF(!isOpenF)}>
                                 {
-                                    !isOpenF ? 'Open Feeding' : 'Back to Stintl'
+                                    !isOpenF ? 'Open Feeding' : 'Back to Stint'
                                 }
                             </button>
-                            <div style={{ marginTop: '50px' }}>
+                            <div>
                                 <FeedingData initialFeeding={initialFeeding} setFeedings={setFeedings} feedings={stintl.feedingData} />
                             </div>
                         </>
