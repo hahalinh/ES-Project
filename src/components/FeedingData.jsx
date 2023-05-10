@@ -150,6 +150,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
         }
 
         setClosedIndex([...closedIndex, index]);
+
     }
 
     const displayClosedFeeding = (bool) => {
@@ -174,7 +175,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     return (
         <>
             <div className="outer-container">
-                <div className="display-buttons">
+                {/* <div className="display-buttons">
                     <div>
                         <button onClick={() => displayClosedFeeding(false)}>Hide closed feeding</button>
                         <button onClick={() => displayClosedFeeding(true)}>Show closed feeding</button>
@@ -183,7 +184,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                         <p>Hide closed: {displayClosed ? "false" : "true"}</p>
                         <p>Is closed: {closedIndex.includes(index) ? "true" : "false"}</p>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="feed_header">
                     Feeding {index + 1}{feeding.Nest !== "" && `: ${feeding.Nest}`}
@@ -193,13 +194,17 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                     <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: feeding.Time_Arrive, depart: feeding.Time_Depart }} />
 
                     <div>
+
                         <Plot setPlot={setPlot} data={feeding.Plot_Status} />
                         <NumberItems setNumberItems={setNumberItems} data={feeding.Number_of_Items} />
                     </div>
 
                     <div>
-                    </div>
-                    <div>
+                        <div>
+                            <button onClick={() => displayClosedFeeding(false)}>Hide closed feeding</button>
+                            <button onClick={() => displayClosedFeeding(true)}>Show closed feeding</button>
+                        </div>
+
                         <p>Open Feedings:</p>
                         {
                             feedings.map((item, index) => {
@@ -225,7 +230,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                 </div>
 
                 <div className="stintl-container">
-                        
+
                     <Nest setNest={setNest} data={feeding.Nest} />
                     <Recipient setRecipient={setRecipient} data={feeding.Recipient} />
                     <Provider setProvider={setProvider} data={feeding.Provider} />

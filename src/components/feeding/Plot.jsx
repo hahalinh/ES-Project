@@ -6,13 +6,17 @@ function Plot({ setPlot, data }) {
 
     return (
         <div className="plot">
-            <p>Nest: {data}</p>
+            <p>Plot: {data}</p>
             <div className="plot-bt">
-                {
-                    plots.map((item, index) =>
-                        <Button handleData={setPlot} value={item} key={index} />)
-                }
-                <Button handleData={setPlot} value=""/>
+                {plots.map((item, index) => (
+                    <Button
+                        handleData={setPlot}
+                        value={item}
+                        key={index}
+                        selected={item === data}
+                    />
+                ))}
+                <Button handleData={setPlot} value="" />
             </div>
         </div>
     )

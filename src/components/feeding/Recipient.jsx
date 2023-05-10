@@ -3,6 +3,7 @@ import Button from '../Button';
 
 function Recipient({ setRecipient, data }) {
   const [recip, setRecip] = useState(["A", "A1", "B", "UC", "U", "K", "O", "S", "M", "Y"]);
+  const dropdownValues = ["R1", "R2", "R3", "R4", "R5"];
 
   const addRecipOption = (data) => {
     setRecip([...recip, data]);
@@ -16,6 +17,8 @@ function Recipient({ setRecipient, data }) {
           <Button key={index} value={item} handleData={setRecipient} selected={data === item} />
         ))}
         <Button handleData={setRecipient} value="" />
+        <Button handleData={setRecipient} value="drop-down" dropdownValues={dropdownValues} />
+
       </div>
     </div>
   );

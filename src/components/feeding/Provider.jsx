@@ -3,9 +3,9 @@ import Button from '../Button';
 import { useState } from 'react';
 
 function Provider({ setProvider, data }) {
-  const [providers, setProviders] = useState([
-    "A", "A1", "B", "UC", "U", "K", "O", "S", "M", "Y"
-  ]);
+  const [providers, setProviders] = useState(["BA", "BL", "BR", "FR", "S", "U", "UA", "UB", "UC", "X"]);
+  
+  const dropdownValues = ["P1", "P2", "P3", "P4", "P5"];
 
   const addProviderOption = (data) => {
     setProviders([...providers, data]);
@@ -24,6 +24,8 @@ function Provider({ setProvider, data }) {
           />
         ))}
         <Button handleData={setProvider} value="" />
+        <Button handleData={setProvider} value="drop-down" dropdownValues={dropdownValues} />
+
       </div>
     </div>
   );

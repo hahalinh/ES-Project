@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 function PreyItem({setPreyItem, data}) {
     const [preyI, setPreyI] = useState(["H", "U", "R", "S", "UF", "A", "HD", "T", "H or R", "E"]);
+    const dropdownValues = ["PI1", "PI2", "PI3", "PI4", "PI5"];
 
     const addPreyIOption = (data) => {
         setPreyI([...preyI, data]);
@@ -25,6 +26,8 @@ function PreyItem({setPreyItem, data}) {
                     })
                 }
                 <Button handleData={setPreyItem} value=""/>
+                <Button handleData={setPreyItem} value="drop-down" dropdownValues={dropdownValues} />
+
             </div>
         </div>
     )
