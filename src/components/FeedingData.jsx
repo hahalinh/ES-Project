@@ -71,7 +71,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     * @param {*} Recipent 
     */
     const setRecipient = (Recipient) => {
-        let items = [...{...feeding}.Number_of_Items];
+        let items = [...{ ...feeding }.Number_of_Items];
         let item = items[nIndex];
         item.Recipient = Recipient;
 
@@ -83,7 +83,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
      * @param {*} Prey_Item 
      */
     const setPreyItem = (Prey_Item) => {
-        let items = [...{...feeding}.Number_of_Items];
+        let items = [...{ ...feeding }.Number_of_Items];
         let item = items[nIndex];
         item.Prey_Item = Prey_Item;
 
@@ -95,7 +95,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
      * @param {*} Prey_Size 
      */
     const setPreySize = (Prey_Size) => {
-        let items = [...{...feeding}.Number_of_Items];
+        let items = [...{ ...feeding }.Number_of_Items];
         let item = items[nIndex];
         item.Prey_Size = Prey_Size;
 
@@ -156,13 +156,27 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
 
     const handleCloseFeeding = (index) => {
         const emptyFields = [];
-
+        console.log(feedingTemp);
+        
         // Check if all fields in feedingTemp are empty
         for (const field in feedingTemp) {
-            if (feedingTemp[field] === '') {
+            const value = feedingTemp[field];
+            if (Array.isArray(value)) {
+                // If the field is a list, loop through each item
+                for (let i = 0; i < value.length; i++) {
+                    const item = value[i];
+                    // Loop through each field in the item and check if empty
+                    for (const itemField in item) {
+                        if (item[itemField] === '') {
+                            emptyFields.push(`Item ${i + 1} > ${itemField}`);
+                        }
+                    }
+                }
+            } else if (value === '') {
                 emptyFields.push(field);
             }
         }
+
 
         // If any fields are empty, alert the user
         if (emptyFields.length > 0) {
@@ -178,7 +192,6 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
             if (feedingElem) {
                 feedingElem.classList.add('closed_feeding');
             }
-
         }
     }
 
@@ -212,10 +225,10 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                 <div className="menu-container">
                     <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: feeding.Time_Arrive, depart: feeding.Time_Depart }} />
 
-                    <div>
+                    <div id = 'plot-noItem-btn'>
 
                         <Plot setPlot={setPlot} data={feeding.Plot_Status} />
-                        <NumberItems addData={addNumberItems} data={feeding.Number_of_Items} changeIndex={setNIndex} nIndex={nIndex}/>
+                        <NumberItems addData={addNumberItems} data={feeding.Number_of_Items} changeIndex={setNIndex} nIndex={nIndex} />
                     </div>
 
                     <div>

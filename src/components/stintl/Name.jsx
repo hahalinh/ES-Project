@@ -16,10 +16,10 @@ function Name({ setName, data }) {
   return (
     <div>
       <p>First name: {data.first}</p>
-      <input onChange={(e) => handleChange(e, "first")} value={input.firstName} placeholder="First name"/>
+      <input onChange={(e) => handleChange(e, "first")} value={input.firstName} placeholder="First name" className="input-field"/>
 
       <p>Last name: {data.last}</p>
-      <input onChange={(e) => handleChange(e, "last")} value={input.lastName} placeholder="Last name"/>
+      <input onChange={(e) => handleChange(e, "last")} value={input.lastName} placeholder="Last name" className="input-field"/>
     </div>
   )
 }

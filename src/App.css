@@ -29,13 +29,6 @@
   justify-content: space-evenly;
 }
 
-/* .time-button {
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-  border: 1px solid black;
-} */
-
 .box-items {
   display: flex;
   flex-direction: column;
@@ -47,78 +40,18 @@
   padding: 0px 10px;
 }
 
-.nest {
+
+.recipient, .prey-size, .prey-item, .provider, .nest  {
   border: 1px solid blue;
   padding: 10px;
   height: auto;
+  min-width: 150px;
 }
 
-.nest-bt {
+.recipient-bt, .provider-bt , .prey-item-bt, .prey-size-bt, .nest-bt{
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-}
-
-.recipient {
-  border: 1px solid blue;
-  padding: 10px;
-  height: auto;
-}
-
-.recipient-bt {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-
-.provider {
-  border: 1px solid blue;
-  padding: 10px;
-  height: auto;
-}
-
-.provider-bt {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  height: auto;
-  width: auto;
-}
-
-.prey-item {
-  border: 1px solid blue;
-  padding: 10px;
-  height: auto;
-  margin: 15px;
-  width: 150px;
-}
-
-.prey-item-bt {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-
-.prey-size {
-  border: 1px solid blue;
-  padding: 10px;
-  height: auto;
-  margin: 15px;
-  width: 150px;
-}
-
-.prey-size-bt {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-
-.number-items {
-  border: 1px solid blue;
-  padding: 10px;
-  height: auto;
-  margin: 15px;
-  width: 150px;
 }
 
 .number-items input {
@@ -179,6 +112,7 @@ button, input[type="button"]  {
   width: 150px;
 }
 
+/* If btn is clicked, the background turns Green */
 .selected-btn {
   background-color: green;
   color: white;
@@ -190,5 +124,15 @@ button, input[type="button"]  {
 }
 
 
+.input-field {
+  height: 40px;
+  min-width: 180px;
+}
 
+/* Middle column oin Feeding that has plot and number of Items buttons */
+#plot-noItem-btn{
+  margin-left: 15px;
+  margin-right: 15px;
+
+}
 

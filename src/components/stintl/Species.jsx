@@ -15,7 +15,7 @@ function Species({setSpecies, data}) {
       <p>Species: {data}</p>
       <Button handleData={setSpecies} value="ARTE"/>
       <Button handleData={setSpecies} value="COTE"/>
-      <input onChange={(e) => handleChange(e)} value={input} placeholder="Other"/>
+      <input onChange={(e) => handleChange(e)} value={input} placeholder="Other" className="input-field"/>
     </div>
   )
 }
