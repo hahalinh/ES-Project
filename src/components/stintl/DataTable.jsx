@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import '../../App.css'
 
 function DataTable(props) {
   const [showData, setShowData] = useState(false);
@@ -11,7 +12,7 @@ function DataTable(props) {
 
   return (
     <div>
-      <button onClick={handleShowData}>
+      <button id = 'show-btn' onClick={handleShowData}>
         {showData ? "Hide data" : "Show data"}
       </button>
       {showData && (
@@ -63,7 +64,6 @@ function DataTable(props) {
                 <th>Recipient</th>
                 <th>Prey Item</th>
                 <th>Prey Size</th>
-                <th>Number of Items</th>
                 <th>Plot Status</th>
               </tr>
             </thead>

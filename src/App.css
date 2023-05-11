@@ -1,4 +1,3 @@
-
 /* .outer-container {
   border: 1px solid black;
   margin: 30px 50px;
@@ -41,14 +40,22 @@
 }
 
 
-.recipient, .prey-size, .prey-item, .provider, .nest  {
+.recipient,
+.prey-size,
+.prey-item,
+.provider,
+.nest {
   border: 1px solid blue;
   padding: 10px;
   height: auto;
   min-width: 150px;
 }
 
-.recipient-bt, .provider-bt , .prey-item-bt, .prey-size-bt, .nest-bt{
+.recipient-bt,
+.provider-bt,
+.prey-item-bt,
+.prey-size-bt,
+.nest-bt {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -88,7 +95,7 @@
   flex-direction: column;
 }
 
-.feed_header{
+.feed_header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,9 +103,12 @@
 }
 
 
-button, input[type="button"]  {
-  padding: 10px 20px ; /* Set the padding to the desired size */
-  font-size: 16px  ; /* Set the font size to the desired size */
+button,
+input[type="button"] {
+  padding: 10px 20px;
+  /* Set the padding to the desired size */
+  font-size: 16px;
+  /* Set the font size to the desired size */
 }
 
 .display-buttons {
@@ -130,9 +140,23 @@ button, input[type="button"]  {
 }
 
 /* Middle column oin Feeding that has plot and number of Items buttons */
-#plot-noItem-btn{
+#plot-noItem-btn {
   margin-left: 15px;
   margin-right: 15px;
 
 }
+
+#show-btn{
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
+table {
+  border-spacing: 20px;
+}
+
+
 

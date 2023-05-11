@@ -314,9 +314,7 @@ function StintData() {
 
                                 </div>
 
-                                <div>
-                                    {/* <button onClick={handleShowData}> Show data</button>
-                                    <div id="data-table"></div> */}
+                                <div id = "show-data-btn">
                                     <DataTable stint={stint} />
 
                                 </div>
