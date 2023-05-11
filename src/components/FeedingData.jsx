@@ -120,7 +120,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
      * this adds a new empty feeding data
      */
     const handleNewFeeding = () => {
-        setFeeding({ ...initialFeeding, FeedingID: feedings.length + 2 });
+        setFeeding({ ...initialFeeding, FeedingID: feedings.length + 1 });
         setFeedings([...feedings, initialFeeding]);
         setIndex(feedings.length);
         //stamp the temporary feeding
