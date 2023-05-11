@@ -7,6 +7,7 @@ import Provider from './feeding/Provider';
 import Recipient from './feeding/Recipient';
 import Timer from './Timer';
 import Date from '../Date';
+import './ToggleBtn.css';
 import { useState, useEffect } from 'react';
 import React from 'react';
 
@@ -19,6 +20,14 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     const [index, setIndex] = useState(0);
     const [closedIndex, setClosedIndex] = useState([]);
     const [displayClosed, setDisplayClosed] = useState(true);
+
+    const [isClosedFeedingShown, setIsClosedFeedingShown] = useState(false);
+
+    const toggleClosedFeeding = () => {
+        setIsClosedFeedingShown(!isClosedFeedingShown);
+        displayClosedFeeding(!isClosedFeedingShown);
+    };
+
 
     //a temporary feeding for later checking with feeding to compare differences
     const [feedingTemp, setFeedingTemp] = useState(feeding);
@@ -157,7 +166,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     const handleCloseFeeding = (index) => {
         const emptyFields = [];
         console.log(feedingTemp);
-        
+
         // Check if all fields in feedingTemp are empty
         for (const field in feedingTemp) {
             const value = feedingTemp[field];
@@ -193,6 +202,9 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                 feedingElem.classList.add('closed_feeding');
             }
         }
+
+        // make the closed tab disappear
+        displayClosedFeeding(false);
     }
 
     const displayClosedFeeding = (bool) => {
@@ -225,19 +237,31 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                 <div className="menu-container">
                     <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: feeding.Time_Arrive, depart: feeding.Time_Depart }} />
 
-                    <div id = 'plot-noItem-btn'>
+                    <div id='plot-noItem-btn'>
 
                         <Plot setPlot={setPlot} data={feeding.Plot_Status} />
                         <NumberItems addData={addNumberItems} data={feeding.Number_of_Items} changeIndex={setNIndex} nIndex={nIndex} />
                     </div>
 
                     <div>
-                        <div>
+                        {/* <div>
                             <button onClick={() => displayClosedFeeding(false)}>Hide closed feeding</button>
                             <button onClick={() => displayClosedFeeding(true)}>Show closed feeding</button>
-                        </div>
 
-                        <p>Open Feedings:</p>
+                        </div> */}
+
+                        <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                            <p>Show Closed Feeding:</p>
+                            {/* <button onClick={toggleClosedFeeding}>
+                                {isClosedFeedingShown ? "Hide closed feeding" : "Show closed feeding"}
+                            </button> */}
+
+                            <button onClick={toggleClosedFeeding} class="toggle">
+                                <input type="checkbox" checked={isClosedFeedingShown} />
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-label">{isClosedFeedingShown ? "On" : "Off"}</span>
+                            </button>
+                        </div>
                         {
                             feedings.map((item, i) => {
                                 if (closedIndex.includes(i) && !displayClosed) {
@@ -254,6 +278,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                                 )
                             })
                         }
+
                         <div>
                             <button onClick={() => handleNewFeeding()}>New</button>
                             <button onClick={() => handleCloseFeeding(index)}>Close</button>
