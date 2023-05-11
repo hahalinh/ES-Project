@@ -6,6 +6,7 @@ import PreySize from './feeding/PreySize';
 import Provider from './feeding/Provider';
 import Recipient from './feeding/Recipient';
 import Timer from './Timer';
+import Date from '../Date';
 import { useState, useEffect } from 'react';
 import React from 'react';
 
@@ -21,6 +22,9 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
 
     //a temporary feeding for later checking with feeding to compare differences
     const [feedingTemp, setFeedingTemp] = useState(feeding);
+
+    //index of the number of items (for setting data at index)
+    const [nIndex, setNIndex] = useState(0);
 
     /**
      * this handles button input for plot data
@@ -39,14 +43,6 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     }
 
     /**
-     * this handles button input for recipent data
-     * @param {*} Recipent 
-     */
-    const setRecipient = (Recipient) => {
-        setFeeding({ ...feeding, Recipient: Recipient });
-    }
-
-    /**
      * this handles button input for provider data
      * @param {*} Provider 
      */
@@ -55,11 +51,43 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     }
 
     /**
+     * this handles input for number of items
+     * @param {*} n 
+     */
+    const setNumberItems = (item) => {
+        setFeeding({ ...feeding, Number_of_Items: item });
+    }
+
+    /**
+     * this adds an item to Number_of_Items in feeding data
+     * @param {*} item 
+     */
+    const addNumberItems = (item) => {
+        setNumberItems([...feeding.Number_of_Items, item])
+    }
+
+    /**
+    * this handles button input for recipent data
+    * @param {*} Recipent 
+    */
+    const setRecipient = (Recipient) => {
+        let items = [...{...feeding}.Number_of_Items];
+        let item = items[nIndex];
+        item.Recipient = Recipient;
+
+        setNumberItems(items);
+    }
+
+    /**
      * this handles button input for prey item data
      * @param {*} Prey_Item 
      */
     const setPreyItem = (Prey_Item) => {
-        setFeeding({ ...feeding, Prey_Item: Prey_Item });
+        let items = [...{...feeding}.Number_of_Items];
+        let item = items[nIndex];
+        item.Prey_Item = Prey_Item;
+
+        setNumberItems(items);
     }
 
     /**
@@ -67,41 +95,25 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
      * @param {*} Prey_Size 
      */
     const setPreySize = (Prey_Size) => {
-        setFeeding({ ...feeding, Prey_Size: Prey_Size });
-    }
+        let items = [...{...feeding}.Number_of_Items];
+        let item = items[nIndex];
+        item.Prey_Size = Prey_Size;
 
-    /**
-     * this handles input for number of items
-     * @param {*} n 
-     */
-    const setNumberItems = (n) => {
-        setFeeding({ ...feeding, Number_of_Items: n });
-    }
-
-    /**
-     * Helper method for set time arrive and depart
-     * @returns a string representation of indexent time
-     */
-    const getDate = () => {
-        const d = new Date();
-        const day = d.getDate();
-        const month = d.getMonth();
-        const year = d.getFullYear();
-        return `${month}/${day}/${year} ${d.toTimeString().slice(0, 8)}`;
+        setNumberItems(items);
     }
 
     /**
      * this sets the time arrive data to the indexent time and time depart data to empty
      */
     const setTimeArrive = () => {
-        setFeeding({ ...feeding, Time_Arrive: getDate(), Time_Depart: "" })
+        setFeeding({ ...feeding, Time_Arrive: Date.getTime(), Time_Depart: "" })
     }
 
     /**
      * this sets the time depart data to the indexent time
      */
     const setTimeDepart = () => {
-        setFeeding({ ...feeding, Time_Depart: getDate() })
+        setFeeding({ ...feeding, Time_Depart: Date.getTime() })
     }
 
     /**
@@ -125,6 +137,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
         setIndex(feedings.length);
         //stamp the temporary feeding
         setFeedingTemp(feeding);
+        setNIndex(0);
     }
 
     /**
@@ -138,6 +151,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
         setFeeding(openF);
         //stamp the temporary feeding
         setFeedingTemp(feeding);
+        setNIndex(0);
     }
 
     const handleCloseFeeding = (index) => {
@@ -196,7 +210,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                     <div>
 
                         <Plot setPlot={setPlot} data={feeding.Plot_Status} />
-                        <NumberItems setNumberItems={setNumberItems} data={feeding.Number_of_Items} />
+                        <NumberItems addData={addNumberItems} data={feeding.Number_of_Items} changeIndex={setNIndex} nIndex={nIndex}/>
                     </div>
 
                     <div>
@@ -207,23 +221,23 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
 
                         <p>Open Feedings:</p>
                         {
-                            feedings.map((item, index) => {
-                                if (closedIndex.includes(index) && !displayClosed) {
+                            feedings.map((item, i) => {
+                                if (closedIndex.includes(i) && !displayClosed) {
                                     return;
                                 }
 
-                                const value = `Feeding ${index + 1}` + (item.Nest !== "" ? `: ${item.Nest}` : "");
+                                const value = `Feeding ${i + 1}` + (item.Nest !== "" ? `: ${item.Nest}` : "");
 
                                 return (
-                                    <input key={index} value={value} type="button"
-                                        onClick={() => handleOpenFeeding(index)}
+                                    <input key={i} value={value} type="button"
+                                        onClick={() => handleOpenFeeding(i)}
+                                        className={index === i && "selected-btn"}
                                     />
                                 )
                             })
                         }
                         <div>
                             <button onClick={() => handleNewFeeding()}>New</button>
-                            {/* <button onClick={() => handleSaveFeeding(index)}>Save</button> */}
                             <button onClick={() => handleCloseFeeding(index)}>Close</button>
                         </div>
                     </div>
@@ -232,10 +246,10 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                 <div className="stintl-container">
 
                     <Nest setNest={setNest} data={feeding.Nest} />
-                    <Recipient setRecipient={setRecipient} data={feeding.Recipient} />
                     <Provider setProvider={setProvider} data={feeding.Provider} />
-                    <PreySize setPreySize={setPreySize} data={feeding.Prey_Size} />
-                    <PreyItem setPreyItem={setPreyItem} data={feeding.Prey_Item} />
+                    <Recipient setRecipient={setRecipient} data={feeding.Number_of_Items[nIndex].Recipient} />
+                    <PreySize setPreySize={setPreySize} data={feeding.Number_of_Items[nIndex].Prey_Size} />
+                    <PreyItem setPreyItem={setPreyItem} data={feeding.Number_of_Items[nIndex].Prey_Item} />
                 </div>
             </div>
         </>

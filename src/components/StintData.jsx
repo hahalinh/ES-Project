@@ -6,7 +6,7 @@ import Species from './stintl/Species'
 import Name from './stintl/Name'
 import ObserverLocation from './stintl/ObserverLocation'
 import DataTable from './stintl/DataTable';
-
+import Date from '../Date'
 import Timer from './Timer';
 import { saveAs } from 'file-saver';
 import FeedingData from './FeedingData';
@@ -19,11 +19,14 @@ function StintData() {
         Time_Arrive: "",
         Time_Depart: "",
         Provider: "",
-        Recipient: "",
-        Prey_Item: "",
-        Prey_Size: "",
-        Number_of_Items: 1,
-        Plot_Status: ""
+        Number_of_Items: [
+            {
+                Recipient: "",
+                Prey_Item: "",
+                Prey_Size: "",
+            }
+        ],
+        Plot_Status: "Outside Plot"
     }
 
     //stint data
@@ -85,29 +88,17 @@ function StintData() {
     }
 
     /**
- * Helper method for set time arrive and depart
- * @returns a string representation of current time
- */
-    const getDate = () => {
-        const d = new Date();
-        const day = d.getDate();
-        const month = d.getMonth();
-        const year = d.getFullYear();
-        return `${month}/${day}/${year} ${d.toTimeString().slice(0, 8)}`;
-    }
-
-    /**
      * Sets the time arrive data to the current time and time depart data to empty
      */
     const setTimeArrive = () => {
-        setStint({ ...stint, Date_Time_Start: getDate(), Date_Time_End: "" })
+        setStint({ ...stint, Date_Time_Start: Date.getDate(), Date_Time_End: "" })
     }
 
     /**
      * Sets the time depart data to the current time
      */
     const setTimeDepart = () => {
-        setStint({ ...stint, Date_Time_End: getDate() })
+        setStint({ ...stint, Date_Time_End: Date.getDate() })
     }
 
     /**
@@ -119,7 +110,7 @@ function StintData() {
     }
 
     /**
-     * Convert json data to a string representation of csv
+     * Converts json data to a string representation of csv
      * @param {*} json 
      * @returns 
      */
@@ -133,37 +124,70 @@ function StintData() {
         const csvRows = [header.join(',')];
 
         json.feedingData.forEach(feeding => {
-            const row = [
-                json.StintID, json.Stint_Type, json.Island, json.Species, json.Prey_Size_Method, json.Prey_Size_Reference,
-                json.FirstName, json.LastName, json.Observer_Location, json.Date_Time_Start, json.Date_Time_End,
-                feeding.FeedingID, feeding.Nest, feeding.Time_Arrive, feeding.Time_Depart, feeding.Provider, feeding.Recipent,
-                feeding.Prey_Item, feeding.Prey_Size, feeding.Number_of_Items, feeding.Plot
-            ];
-            csvRows.push(row.join(','));
+            feeding.Number_of_Items.forEach(item => {
+                //careful with Number_of_Items as it is not an integer anymore but JSON so feeding.Number_of_Items.length
+                const row = [
+                    json.StintID, json.Stint_Type, json.Island, json.Species, json.Prey_Size_Method, json.Prey_Size_Reference,
+                    json.FirstName, json.LastName, json.Observer_Location, json.Date_Time_Start, json.Date_Time_End,
+                    feeding.FeedingID, feeding.Nest, feeding.Time_Arrive, feeding.Time_Depart, feeding.Provider, item.Recipient,
+                    item.Prey_Item, item.Prey_Size, feeding.Number_of_Items.length, feeding.Plot_Status
+                ];
+                csvRows.push(row.join(','));
+            });
         });
 
         return csvRows.join('\n');
-    }
+    };
 
+    /**
+     * Converts csv data to stint JSON object
+     * @param {*} csv 
+     * @returns 
+     */
     function csvToJson(csv) {
         const lines = csv.split('\n');
-        const header = lines[0].split(',');
         const dataLines = lines.slice(1);
-
-        const feedingData = dataLines.map(line => {
+    
+        const feedingData = [];
+    
+        let currentFeedingID = null;
+        let currentFeeding = null;
+        let currentNumberOfItems = [];
+    
+        for (const line of dataLines) {
             const values = line.split(',');
-            const feeding = {};
-
-            // Skip first 11 columns as they're not part of the feeding data
-            for (let i = 11; i < header.length; i++) {
-                feeding[header[i]] = values[i];
+            const feedingID = values[11];
+    
+            if (feedingID !== currentFeedingID) {
+                if (currentFeedingID !== null) {
+                    currentFeeding.Number_of_Items = currentNumberOfItems;
+                    feedingData.push(currentFeeding);
+                }
+                currentFeedingID = feedingID;
+                currentFeeding = {
+                    FeedingID: feedingID,
+                    Nest: values[12],
+                    Time_Arrive: values[13],
+                    Time_Depart: values[14],
+                    Provider: values[15],
+                };
+                currentNumberOfItems = [];
             }
-
-            return feeding;
-        });
-
+    
+            currentNumberOfItems.push({
+                Recipient: values[16],
+                Prey_Item: values[17],
+                Prey_Size: values[18],
+            });
+    
+            currentFeeding.Plot_Status = values[20];
+        }
+    
+        currentFeeding.Number_of_Items = currentNumberOfItems;
+        feedingData.push(currentFeeding);
+    
         const stintData = dataLines[0].split(',');
-
+    
         const jsonObject = {
             StintID: stintData[0],
             Stint_Type: stintData[1],
@@ -176,9 +200,9 @@ function StintData() {
             Observer_Location: stintData[8],
             Date_Time_Start: stintData[9],
             Date_Time_End: stintData[10],
-            feedingData: feedingData
+            feedingData: feedingData,
         };
-
+    
         return jsonObject;
     }
 
@@ -190,7 +214,9 @@ function StintData() {
 
         const file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
 
-        saveAs(file, `${stint.Island}_${stint.LastName}_${stint.Species}.csv`);
+        const dowloadName = `${stint.Island}_${stint.Species}_${stint.Date_Time_Start}_${stint.LastName}_${stint.FirstName}.csv`.replace(/ /g,"-");
+
+        saveAs(file, dowloadName);
     }
 
     const handleOpenClick = (event) => {
@@ -272,7 +298,6 @@ function StintData() {
                         </>
                     )
                     :
-
                     (
 
                         <>
