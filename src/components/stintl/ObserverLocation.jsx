@@ -12,7 +12,7 @@ function ObserverLocation({setObs, data}) {
   return (
     <div>
       <p>Observer location: {data}</p>
-      <input onChange={(e) => handleChange(e)} value={input} placeholder="Observer location" />
+      <input onChange={(e) => handleChange(e)} value={input} placeholder="Observer location" className="input-field"/>
     </div>
   )
 }

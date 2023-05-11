@@ -3,24 +3,24 @@ import { useState } from 'react'
 
 function DataTable(props) {
   const [showData, setShowData] = useState(false);
-  const stintl = props.stintl;
+  const stint = props.stint;
 
-    const handleShowData = () => {
-      setShowData(!showData);
-    };
-  
-    return (
-      <div>
-        <button onClick={handleShowData}>
-          {showData ? "Hide data" : "Show data"}
-        </button>
-        {showData && (
+  const handleShowData = () => {
+    setShowData(!showData);
+  };
+
+  return (
+    <div>
+      <button onClick={handleShowData}>
+        {showData ? "Hide data" : "Show data"}
+      </button>
+      {showData && (
         <div>
           <h2>Stint Data</h2>
           <table>
             <thead>
               <tr>
-                <th>Stintl ID</th>
+                <th>Stint ID</th>
                 <th>Type</th>
                 <th>Island</th>
                 <th>Species</th>
@@ -35,26 +35,21 @@ function DataTable(props) {
             </thead>
             <tbody>
               <tr>
-                <td>{stintl.stinStintlID}</td>
-                <td>{stintl.Stintl_Type}</td>
-                <td>{stintl.Island}</td>
-                <td>{stintl.Species}</td>
-                <td>{stintl.Prey_Size_Method}</td>
-                <td>{stintl.Prey_Size_Reference}</td>
-                <td>{stintl.FirstName}</td>
-                <td>{stintl.LastName}</td>
-                <td>{stintl.Observer_Location}</td>
-                <td>{stintl.Date_Time_Start}</td>
-                <td>{stintl.Date_Time_End}</td>
+                <td>{stint.StintID}</td>
+                <td>{stint.Stint_Type}</td>
+                <td>{stint.Island}</td>
+                <td>{stint.Species}</td>
+                <td>{stint.Prey_Size_Method}</td>
+                <td>{stint.Prey_Size_Reference}</td>
+                <td>{stint.FirstName}</td>
+                <td>{stint.LastName}</td>
+                <td>{stint.Observer_Location}</td>
+                <td>{stint.Date_Time_Start}</td>
+                <td>{stint.Date_Time_End}</td>
               </tr>
             </tbody>
           </table>
 
-        </div>
-      )}
-
-      {showData && (
-        <div>
           <h2>Feeding Data</h2>
 
           <table>
@@ -73,27 +68,47 @@ function DataTable(props) {
               </tr>
             </thead>
             <tbody>
-              {stintl.feedingData?.map((feeding) => (
-                <>
-                  <tr key={feeding.FeedingID}>
+              {stint.feedingData.map((feeding, index) => (
+                <React.Fragment key={feeding.FeedingID}>
+                  <tr>
                     <td>{feeding.FeedingID}</td>
                     <td>{feeding.Nest}</td>
                     <td>{feeding.Time_Arrive}</td>
                     <td>{feeding.Time_Depart}</td>
                     <td>{feeding.Provider}</td>
-                    <td>{feeding.Recipient}</td>
-                    <td>{feeding.Prey_Item}</td>
-                    <td>{feeding.Prey_Size}</td>
-                    <td>{feeding.Number_of_Items}</td>
+                    <td>
+                      {feeding.Number_of_Items.map((item, index) => (
+                        <React.Fragment key={index}>
+                          {item.Recipient}
+                          <br />
+                        </React.Fragment>
+                      ))}
+                    </td>
+                    <td>
+                      {feeding.Number_of_Items.map((item, index) => (
+                        <React.Fragment key={index}>
+                          {item.Prey_Item}
+                          <br />
+                        </React.Fragment>
+                      ))}
+                    </td>
+                    <td>
+                      {feeding.Number_of_Items.map((item, index) => (
+                        <React.Fragment key={index}>
+                          {item.Prey_Size}
+                          <br />
+                        </React.Fragment>
+                      ))}
+                    </td>
                     <td>{feeding.Plot_Status}</td>
                   </tr>
-                  <tr>
-                    <td colSpan="10"><hr /></td>
-                  </tr>
-
-                </>
+                  {index < stint.feedingData.length - 1 && (
+                    <tr>
+                      <td colSpan="9"><hr /></td>
+                    </tr>
+                  )}
+                </React.Fragment>
               ))}
-
             </tbody>
           </table>
         </div>
@@ -102,4 +117,4 @@ function DataTable(props) {
   );
 }
 
-export default DataTable
+export default DataTable;

@@ -147,17 +147,17 @@ function StintData() {
     function csvToJson(csv) {
         const lines = csv.split('\n');
         const dataLines = lines.slice(1);
-    
+
         const feedingData = [];
-    
+
         let currentFeedingID = null;
         let currentFeeding = null;
         let currentNumberOfItems = [];
-    
+
         for (const line of dataLines) {
             const values = line.split(',');
             const feedingID = values[11];
-    
+
             if (feedingID !== currentFeedingID) {
                 if (currentFeedingID !== null) {
                     currentFeeding.Number_of_Items = currentNumberOfItems;
@@ -173,21 +173,21 @@ function StintData() {
                 };
                 currentNumberOfItems = [];
             }
-    
+
             currentNumberOfItems.push({
                 Recipient: values[16],
                 Prey_Item: values[17],
                 Prey_Size: values[18],
             });
-    
+
             currentFeeding.Plot_Status = values[20];
         }
-    
+
         currentFeeding.Number_of_Items = currentNumberOfItems;
         feedingData.push(currentFeeding);
-    
+
         const stintData = dataLines[0].split(',');
-    
+
         const jsonObject = {
             StintID: stintData[0],
             Stint_Type: stintData[1],
@@ -202,23 +202,49 @@ function StintData() {
             Date_Time_End: stintData[10],
             feedingData: feedingData,
         };
-    
+
         return jsonObject;
     }
 
     const handleSaveClick = () => {
         let csv = '';
         const data = stint;
-
+        const emptyFields = [];
+      
+        // Check for missing fields in feeding data
+        data.feedingData.forEach((feeding, feedingIndex) => {
+          Object.keys(feeding).forEach(key => {
+            if (Array.isArray(feeding[key])) {
+              feeding[key].forEach((item, itemIndex) => {
+                Object.keys(item).forEach(itemKey => {
+                  if (item[itemKey] === '') {
+                    emptyFields.push(`Feeding ${feedingIndex + 1}, Item ${itemIndex + 1}.${itemKey}`);
+                  }
+                });
+              });
+            } else {
+              if (feeding[key] === '') {
+                emptyFields.push(`Feeding ${feedingIndex + 1}.${key}`);
+              }
+            }
+          });
+        });
+      
+        if (emptyFields.length > 0) {
+            alert(`Missing fields:\n${emptyFields.join('\n')}`);
+          return;
+        }
+        
+        // If all information is filled
         csv += jsonToCSV(data);
-
+      
         const file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-
-        const dowloadName = `${stint.Island}_${stint.Species}_${stint.Date_Time_Start}_${stint.LastName}_${stint.FirstName}.csv`.replace(/ /g,"-");
-
+      
+        const dowloadName = `${stint.Island}_${stint.Species}_${stint.Date_Time_Start}_${stint.LastName}_${stint.FirstName}.csv`.replace(/ /g, "-");
+      
         saveAs(file, dowloadName);
-    }
-
+      }
+            
     const handleOpenClick = (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -248,7 +274,7 @@ function StintData() {
                             <div className="start-stint">
 
 
-                                <h1>Start a Stint</h1>
+                                <h1>Start A Stint</h1>
 
                                 <div className="login-column">
 

@@ -12,7 +12,7 @@ function Island({ setIsland, data }) {
   return (
     <div>
       <p>Island: {data}</p>
-      <input onChange={(e) => handleChange(e)} value={input} placeholder="Island" />
+      <input className="input-field" onChange={(e) => handleChange(e)} value={input} placeholder="Island" />
     </div>
   )
 }
