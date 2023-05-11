@@ -1,12 +1,12 @@
 import './App.css';
 import React from 'react';
-import StintlData from './components/StintlData';
+import StintData from './components/StintData';
 
 function App() {
   
   return (
     <>
-      <StintlData />
+      <StintData />
     </>
   )
 }
