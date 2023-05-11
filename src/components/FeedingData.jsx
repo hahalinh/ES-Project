@@ -141,16 +141,31 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     }
 
     const handleCloseFeeding = (index) => {
-        if (closedIndex.includes(index)) {
-            let newArr = [...closedIndex];
-            newArr = newArr.filter(item => item !== index);
+        const emptyFields = [];
 
-            setClosedIndex(newArr);
-            return;
+        // Check if all fields in feedingTemp are empty
+        for (const field in feedingTemp) {
+            if (feedingTemp[field] === '') {
+                emptyFields.push(field);
+            }
         }
 
-        setClosedIndex([...closedIndex, index]);
+        // If any fields are empty, alert the user
+        if (emptyFields.length > 0) {
+            const missingFields = emptyFields.join(', ');
+            alert(`Please fill in the following fields: ${missingFields}`);
+        } else {
+            // If all fields are filled, close the feeding
+            setClosedIndex(closedIndex.includes(index) ?
+                closedIndex.filter(item => item !== index) : [...closedIndex, index]);
 
+            // add the class `closed_feeding` to the element
+            const feedingElem = document.getElementById(`feeding_${index}`);
+            if (feedingElem) {
+                feedingElem.classList.add('closed_feeding');
+            }
+
+        }
     }
 
     const displayClosedFeeding = (bool) => {
@@ -175,16 +190,6 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
     return (
         <>
             <div className="outer-container">
-                {/* <div className="display-buttons">
-                    <div>
-                        <button onClick={() => displayClosedFeeding(false)}>Hide closed feeding</button>
-                        <button onClick={() => displayClosedFeeding(true)}>Show closed feeding</button>
-                    </div>
-                    <div className='displayM'>
-                        <p>Hide closed: {displayClosed ? "false" : "true"}</p>
-                        <p>Is closed: {closedIndex.includes(index) ? "true" : "false"}</p>
-                    </div>
-                </div> */}
 
                 <div className="feed_header">
                     Feeding {index + 1}{feeding.Nest !== "" && `: ${feeding.Nest}`}
@@ -217,6 +222,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                                 return (
                                     <input key={index} value={value} type="button"
                                         onClick={() => handleOpenFeeding(index)}
+                                        id={`feeding_${index}`}
                                     />
                                 )
                             })
