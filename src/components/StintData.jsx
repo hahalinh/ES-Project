@@ -210,6 +210,13 @@ function StintData() {
         let csv = '';
         const data = stint;
         const emptyFields = [];
+
+        //Check for missing fields in stint data
+        Object.entries(data).forEach(([key, value]) => {
+            if (value === "") {
+                emptyFields.push(`Stint: ${key}`);
+            }
+        })
       
         // Check for missing fields in feeding data
         data.feedingData.forEach((feeding, feedingIndex) => {
@@ -218,13 +225,13 @@ function StintData() {
               feeding[key].forEach((item, itemIndex) => {
                 Object.keys(item).forEach(itemKey => {
                   if (item[itemKey] === '') {
-                    emptyFields.push(`Feeding ${feedingIndex + 1}, Item ${itemIndex + 1}.${itemKey}`);
+                    emptyFields.push(`Feeding ${feedingIndex + 1}, Item ${itemIndex + 1}: ${itemKey}`);
                   }
                 });
               });
             } else {
               if (feeding[key] === '') {
-                emptyFields.push(`Feeding ${feedingIndex + 1}.${key}`);
+                emptyFields.push(`Feeding ${feedingIndex + 1}: ${key}`);
               }
             }
           });
