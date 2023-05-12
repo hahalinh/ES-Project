@@ -186,7 +186,6 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
             }
         }
 
-
         // If any fields are empty, alert the user
         if (emptyFields.length > 0) {
             const missingFields = emptyFields.join(', ');
@@ -195,12 +194,6 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
             // If all fields are filled, close the feeding
             setClosedIndex(closedIndex.includes(index) ?
                 closedIndex.filter(item => item !== index) : [...closedIndex, index]);
-
-            // add the class `closed_feeding` to the element
-            const feedingElem = document.getElementById(`feeding_${index}`);
-            if (feedingElem) {
-                feedingElem.classList.add('closed_feeding');
-            }
         }
 
         // make the closed tab disappear
@@ -256,10 +249,10 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                                 {isClosedFeedingShown ? "Hide closed feeding" : "Show closed feeding"}
                             </button> */}
 
-                            <button onClick={toggleClosedFeeding} class="toggle">
-                                <input type="checkbox" checked={isClosedFeedingShown} />
-                                <span class="toggle-slider"></span>
-                                <span class="toggle-label">{isClosedFeedingShown ? "On" : "Off"}</span>
+                            <button onClick={toggleClosedFeeding} className="toggle">
+                                <input type="checkbox" checked={isClosedFeedingShown} onChange={(e) => {console.log(e)}}/>
+                                <span className="toggle-slider"></span>
+                                <span className="toggle-label">{isClosedFeedingShown ? "On" : "Off"}</span>
                             </button>
                         </div>
                         {
