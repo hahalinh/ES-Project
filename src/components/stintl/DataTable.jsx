@@ -12,7 +12,7 @@ function DataTable(props) {
 
   return (
     <div>
-      <button id = 'show-btn' onClick={handleShowData}>
+      <button onClick={handleShowData}>
         {showData ? "Hide data" : "Show data"}
       </button>
       {showData && (

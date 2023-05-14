@@ -217,41 +217,41 @@ function StintData() {
                 emptyFields.push(`Stint: ${key}`);
             }
         })
-      
+
         // Check for missing fields in feeding data
         data.feedingData.forEach((feeding, feedingIndex) => {
-          Object.keys(feeding).forEach(key => {
-            if (Array.isArray(feeding[key])) {
-              feeding[key].forEach((item, itemIndex) => {
-                Object.keys(item).forEach(itemKey => {
-                  if (item[itemKey] === '') {
-                    emptyFields.push(`Feeding ${feedingIndex + 1}, Item ${itemIndex + 1}: ${itemKey}`);
-                  }
-                });
-              });
-            } else {
-              if (feeding[key] === '') {
-                emptyFields.push(`Feeding ${feedingIndex + 1}: ${key}`);
-              }
-            }
-          });
+            Object.keys(feeding).forEach(key => {
+                if (Array.isArray(feeding[key])) {
+                    feeding[key].forEach((item, itemIndex) => {
+                        Object.keys(item).forEach(itemKey => {
+                            if (item[itemKey] === '') {
+                                emptyFields.push(`Feeding ${feedingIndex + 1}, Item ${itemIndex + 1}: ${itemKey}`);
+                            }
+                        });
+                    });
+                } else {
+                    if (feeding[key] === '') {
+                        emptyFields.push(`Feeding ${feedingIndex + 1}: ${key}`);
+                    }
+                }
+            });
         });
-      
+
         if (emptyFields.length > 0) {
             alert(`Missing fields:\n${emptyFields.join('\n')}`);
-          return;
+            return;
         }
-        
+
         // If all information is filled
         csv += jsonToCSV(data);
-      
+
         const file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-      
+
         const dowloadName = `${stint.Island}_${stint.Species}_${stint.Date_Time_Start}_${stint.LastName}_${stint.FirstName}.csv`.replace(/ /g, "-");
-      
+
         saveAs(file, dowloadName);
-      }
-            
+    }
+
     const handleOpenClick = (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -318,13 +318,10 @@ function StintData() {
                                         accept=".csv"
                                         onChange={(e) => handleOpenClick(e)}
                                     />
-
                                 </div>
 
-                                <div id = "show-data-btn">
-                                    <DataTable stint={stint} />
+                                <DataTable stint={stint} />
 
-                                </div>
                             </div>
                         </>
                     )
@@ -332,13 +329,20 @@ function StintData() {
                     (
 
                         <>
-                            <button onClick={() => setIsOpenF(!isOpenF)}>
+                            {/* <button onClick={() => setIsOpenF(!isOpenF)}>
                                 {
                                     !isOpenF ? 'Open Feeding' : 'Back to Stint'
                                 }
-                            </button>
+                            </button> */}
                             <div>
-                                <FeedingData initialFeeding={initialFeeding} setFeedings={setFeedings} feedings={stint.feedingData} />
+                                <FeedingData
+                                    initialFeeding={initialFeeding}
+                                    setFeedings={setFeedings}
+                                    feedings={stint.feedingData}
+                                    isOpen={isOpenF}
+                                    onToggle={() => setIsOpenF(!isOpenF)}
+
+                                />
                             </div>
                         </>
                     )

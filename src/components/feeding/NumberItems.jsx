@@ -27,7 +27,7 @@ function NumberItems({ addData, data, changeIndex, nIndex }) {
         <div className="number-items">
             <p>Number of Items: {data.length}</p>
 
-            <div>
+            <div id='item-btn'>
                 {
                     data.map((item, index) => {
                         const i = index + 1;
@@ -42,11 +42,10 @@ function NumberItems({ addData, data, changeIndex, nIndex }) {
                         )
                     })
                 }
+                <button onClick={handleAddData}>Add item</button>
+
             </div>
 
-            <div>
-                <button onClick={handleAddData}>Add item</button>
-            </div>
         </div>
     )
 }
