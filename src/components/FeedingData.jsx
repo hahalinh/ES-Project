@@ -7,11 +7,11 @@ import Provider from './feeding/Provider';
 import Recipient from './feeding/Recipient';
 import Timer from './Timer';
 import Date from '../Date';
-import './ToggleBtn.css';
+import './ToggleBtn.css'
 import { useState, useEffect } from 'react';
 import React from 'react';
 
-function FeedingData({ initialFeeding, feedings, setFeedings }) {
+function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }) {
 
     /**
      * this stores and handles input feeding data
@@ -186,6 +186,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
             }
         }
 
+
         // If any fields are empty, alert the user
         if (emptyFields.length > 0) {
             const missingFields = emptyFields.join(', ');
@@ -194,6 +195,12 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
             // If all fields are filled, close the feeding
             setClosedIndex(closedIndex.includes(index) ?
                 closedIndex.filter(item => item !== index) : [...closedIndex, index]);
+
+            // add the class `closed_feeding` to the element
+            const feedingElem = document.getElementById(`feeding_${index}`);
+            if (feedingElem) {
+                feedingElem.classList.add('closed_feeding');
+            }
         }
 
         // make the closed tab disappear
@@ -223,9 +230,20 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
         <>
             <div className="outer-container">
 
-                <div className="feed_header">
+                {/* <div className="feed_header">
                     Feeding {index + 1}{feeding.Nest !== "" && `: ${feeding.Nest}`}
+                </div> */}
+
+                <div  className="feed_header">
+                    {isOpen && (
+                        <button onClick={onToggle}>
+                            Back to Stint
+                        </button>
+                    )}
+                    <h1>Feeding {index + 1}</h1>
+
                 </div>
+
 
                 <div className="menu-container">
                     <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: feeding.Time_Arrive, depart: feeding.Time_Depart }} />
@@ -237,22 +255,13 @@ function FeedingData({ initialFeeding, feedings, setFeedings }) {
                     </div>
 
                     <div>
-                        {/* <div>
-                            <button onClick={() => displayClosedFeeding(false)}>Hide closed feeding</button>
-                            <button onClick={() => displayClosedFeeding(true)}>Show closed feeding</button>
-
-                        </div> */}
-
                         <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                             <p>Show Closed Feeding:</p>
-                            {/* <button onClick={toggleClosedFeeding}>
-                                {isClosedFeedingShown ? "Hide closed feeding" : "Show closed feeding"}
-                            </button> */}
 
-                            <button onClick={toggleClosedFeeding} className="toggle">
-                                <input type="checkbox" checked={isClosedFeedingShown} onChange={(e) => {console.log(e)}}/>
-                                <span className="toggle-slider"></span>
-                                <span className="toggle-label">{isClosedFeedingShown ? "On" : "Off"}</span>
+                            <button onClick={toggleClosedFeeding} class="toggle">
+                                <input type="checkbox" checked={isClosedFeedingShown} />
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-label">{isClosedFeedingShown ? "On" : "Off"}</span>
                             </button>
                         </div>
                         {
