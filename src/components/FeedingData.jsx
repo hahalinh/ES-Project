@@ -17,10 +17,13 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
      * this stores and handles input feeding data
      */
     const [feeding, setFeeding] = useState(initialFeeding);
+
+    //for current feeding data index
     const [index, setIndex] = useState(0);
+
+    //for closing index
     const [closedIndex, setClosedIndex] = useState([]);
     const [displayClosed, setDisplayClosed] = useState(true);
-
     const [isClosedFeedingShown, setIsClosedFeedingShown] = useState(false);
 
     const toggleClosedFeeding = () => {
@@ -65,14 +68,6 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
      */
     const setNumberItems = (item) => {
         setFeeding({ ...feeding, Number_of_Items: item });
-    }
-
-    /**
-     * this adds an item to Number_of_Items in feeding data
-     * @param {*} item 
-     */
-    const addNumberItems = (item) => {
-        setNumberItems([...feeding.Number_of_Items, item])
     }
 
     /**
@@ -150,6 +145,52 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
     }
 
     /**
+     * this deletes feeding data at current index
+     */
+    const handleDeleteFeeding = () => {
+        if (feedings.length > 1) {
+            let removed = false;
+
+            const ignore = ["FeedingID"];
+            const filled = [];
+
+            Object.entries(feedings[index]).forEach(([key, value]) => {
+                if (!ignore.includes(key)) {
+                    if (Array.isArray(value)) {
+                        Object.values(value).forEach((item, i) => {
+                            Object.entries(item).forEach(([keyItem, field]) => {
+                                if (field !== "") {
+                                    removed = true;
+                                    filled.push(`Item ${i + 1}: ` + keyItem);
+                                }
+                            })
+                        })
+                    }
+                    else if (value !== "") {
+                        removed = true;
+                        filled.push(value);
+                    }
+                }
+            })
+
+            if (!removed) {
+                const newData = feedings.filter((item, i) => i !== index);
+                setFeedings(newData);
+
+                if (index === 0) {
+                    handleOpenFeeding(0);
+                }
+                else {
+                    handleOpenFeeding(index - 1);
+                }
+            }
+            else {
+                alert(`Unable to delete: you have data filled at feeding ${index + 1}. Specifically at: ${filled}`)
+            }
+        }
+    }
+
+    /**
      * this handles the switching of indexent feeding data to existing feeding data and updating that indexent feeding data if any changes
      * @param {*} e the feeding data ID to switch to
      */
@@ -165,7 +206,6 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
 
     const handleCloseFeeding = (index) => {
         const emptyFields = [];
-        console.log(feedingTemp);
 
         // Check if all fields in feedingTemp are empty
         for (const field in feedingTemp) {
@@ -185,7 +225,6 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
                 emptyFields.push(field);
             }
         }
-
 
         // If any fields are empty, alert the user
         if (emptyFields.length > 0) {
@@ -213,6 +252,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
 
     //feature: when open feeding tab, switch to the latest feeding tab
     useEffect(() => {
+        //index == 0 could be removed?
         if (feedings.length > 0 && index === 0) {
             handleOpenFeeding(feedings.length - 1);
         }
@@ -229,10 +269,6 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
     return (
         <>
             <div className="outer-container">
-
-                {/* <div className="feed_header">
-                    Feeding {index + 1}{feeding.Nest !== "" && `: ${feeding.Nest}`}
-                </div> */}
 
                 <div  className="feed_header">
                     {isOpen && (
@@ -251,23 +287,23 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
                     <div id='plot-noItem-btn'>
 
                         <Plot setPlot={setPlot} data={feeding.Plot_Status} />
-                        <NumberItems addData={addNumberItems} data={feeding.Number_of_Items} changeIndex={setNIndex} nIndex={nIndex} />
+                        <NumberItems setNumberItems={setNumberItems} data={feeding.Number_of_Items} changeIndex={setNIndex} nIndex={nIndex} />
                     </div>
 
                     <div>
                         <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                             <p>Show Closed Feeding:</p>
 
-                            <button onClick={toggleClosedFeeding} class="toggle">
+                            <button onClick={toggleClosedFeeding} className="toggle">
                                 <input type="checkbox" checked={isClosedFeedingShown} />
-                                <span class="toggle-slider"></span>
-                                <span class="toggle-label">{isClosedFeedingShown ? "On" : "Off"}</span>
+                                <span className="toggle-slider"></span>
+                                <span className="toggle-label">{isClosedFeedingShown ? "On" : "Off"}</span>
                             </button>
                         </div>
                         {
                             feedings.map((item, i) => {
                                 if (closedIndex.includes(i) && !displayClosed) {
-                                    return;
+                                    return null;
                                 }
 
                                 const value = `Feeding ${i + 1}` + (item.Nest !== "" ? `: ${item.Nest}` : "");
@@ -275,7 +311,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
                                 return (
                                     <input key={i} value={value} type="button"
                                         onClick={() => handleOpenFeeding(i)}
-                                        className={index === i && "selected-btn"}
+                                        className={index === i ? "selected-btn" : ""}
                                     />
                                 )
                             })
@@ -283,6 +319,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
 
                         <div>
                             <button onClick={() => handleNewFeeding()}>New</button>
+                            <button onClick={() => handleDeleteFeeding()}>Delete</button>
                             <button onClick={() => handleCloseFeeding(index)}>Close</button>
                         </div>
                     </div>

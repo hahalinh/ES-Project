@@ -1,6 +1,6 @@
 import React from 'react'
 
-function NumberItems({ addData, data, changeIndex, nIndex }) {
+function NumberItems({ data, changeIndex, nIndex, setNumberItems }) {
     const initial_item = {
         Recipient: "",
         Prey_Item: "",
@@ -11,7 +11,7 @@ function NumberItems({ addData, data, changeIndex, nIndex }) {
      * Add 1 more item to NumberItems
      */
     const handleAddData = () => {
-        addData(initial_item);
+        setNumberItems([...data, initial_item])
         handleChangeItem(data.length);
     }
 
@@ -21,6 +21,38 @@ function NumberItems({ addData, data, changeIndex, nIndex }) {
      */
     const handleChangeItem = (index) => {
         changeIndex(index)
+    }
+
+    /**
+     * Deletes the item at nIndex if no there is no data
+     */
+    const handleDeleteData = () => {
+        if (data.length > 1) {
+            let removed = false;
+            const filled = [];
+
+            Object.entries(data[nIndex]).forEach(([key, val]) => {
+                if (val !== "") {
+                    removed = true;
+                    filled.push(key);
+                }
+            })
+
+            if (!removed) {
+                const newData = [...data].filter((item, i) => i !== nIndex);
+                setNumberItems(newData);
+
+                if (nIndex === 0) {
+                    changeIndex(0);
+                }
+                else {
+                    changeIndex(nIndex - 1);
+                }
+            }
+            else {
+                alert(`Unable to delete: you have data filled at item ${nIndex + 1}. Specifically at: ${filled}`)
+            }
+        }
     }
 
     return (
@@ -35,7 +67,7 @@ function NumberItems({ addData, data, changeIndex, nIndex }) {
                         return (
                             <button key={index}
                                 onClick={() => handleChangeItem(index)}
-                                className={nIndex === index && "selected-btn"}
+                                className={nIndex === index ? "selected-btn" : ""}
                             >
                                 Item {i}
                             </button>
@@ -43,7 +75,7 @@ function NumberItems({ addData, data, changeIndex, nIndex }) {
                     })
                 }
                 <button onClick={handleAddData}>Add item</button>
-
+                <button onClick={handleDeleteData}>Delete item</button>
             </div>
 
         </div>
