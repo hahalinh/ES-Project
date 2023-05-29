@@ -250,7 +250,7 @@ function StintData() {
 
         const file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
 
-        const dowloadName = `${stint.Island}_${stint.Species}_${stint.Date_Time_Start}_${stint.LastName}_${stint.FirstName}.csv`.replace(/ /g, "-");
+        const dowloadName = stintID;
 
         saveAs(file, dowloadName);
     }
