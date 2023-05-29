@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState, useRef } from 'react';
 import { v4 as uuid } from 'uuid';
 import Island from './stintl/Island'
@@ -44,6 +44,8 @@ function StintData() {
         Date_Time_End: "",
         feedingData: [initialFeeding]
     });
+
+    const [stintID, setStintID] = useState(`${stint.Island}-${stint.Species}-${stint.Date_Time_Start}-${stint.FirstName}-${stint.LastName}`)
 
     //display stintl/feeding data
     const [isOpenF, setIsOpenF] = useState(false);
@@ -208,7 +210,8 @@ function StintData() {
 
     const handleSaveClick = () => {
         let csv = '';
-        const data = stint;
+        let data = stint;
+        data.StintID = stintID;
         const emptyFields = [];
 
         //Check for missing fields in stint data
@@ -271,6 +274,11 @@ function StintData() {
         reader.readAsText(file);
     }
 
+    //detect change in stint to create stintID
+    useEffect(() => {
+        setStintID(`${stint.Island}-${stint.Species}-${stint.Date_Time_Start}-${stint.FirstName}-${stint.LastName}`.replace(" ", "-"));
+    }, [stint])
+
     return (
         <div>
 
@@ -286,6 +294,7 @@ function StintData() {
                                 <div className="login-column">
 
                                     <div className="left-column">
+                                        <p>StintID: {stintID}</p>
                                         <p>Stint type: {stint.Stint_Type}</p>
                                         <p>Prey size method: {stint.Prey_Size_Method}</p>
                                         <p>Prey size reference: {stint.Prey_Size_Reference}</p>
