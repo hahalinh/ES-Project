@@ -8,6 +8,7 @@ import ObserverLocation from './stintl/ObserverLocation'
 import DataTable from './stintl/DataTable';
 import Date from '../Date'
 import Timer from './Timer';
+import Comment from './Comment';
 import { saveAs } from 'file-saver';
 import FeedingData from './FeedingData';
 
@@ -42,6 +43,7 @@ function StintData() {
         Observer_Location: "",
         Date_Time_Start: "",
         Date_Time_End: "",
+        Comment: "",
         feedingData: [initialFeeding]
     });
 
@@ -112,6 +114,14 @@ function StintData() {
     }
 
     /**
+     * Sets the comment in stint data
+     * @param {*} value 
+     */
+    const setComment = (value) => {
+        setStint({...stint, Comment: value});
+    }
+
+    /**
      * Converts json data to a string representation of csv
      * @param {*} json 
      * @returns 
@@ -119,7 +129,7 @@ function StintData() {
     const jsonToCSV = (json) => {
         const header = [
             'StintID', 'Stint_Type', 'Island', 'Species', 'Prey_Size_Method', 'Prey_Size_Reference',
-            'FirstName', 'LastName', 'Observer_Location', 'Date_Time_Start', 'Date_Time_End',
+            'FirstName', 'LastName', 'Observer_Location', 'Date_Time_Start', 'Date_Time_End', 'Comment',
             'FeedingID', 'Nest', 'Time_Arrive', 'Time_Depart', 'Provider', 'Recipient', 'Prey_Item', 'Prey_Size',
             'Number_of_Items', 'Plot_Status'
         ];
@@ -130,7 +140,7 @@ function StintData() {
                 //careful with Number_of_Items as it is not an integer anymore but JSON so feeding.Number_of_Items.length
                 const row = [
                     json.StintID, json.Stint_Type, json.Island, json.Species, json.Prey_Size_Method, json.Prey_Size_Reference,
-                    json.FirstName, json.LastName, json.Observer_Location, json.Date_Time_Start, json.Date_Time_End,
+                    json.FirstName, json.LastName, json.Observer_Location, json.Date_Time_Start, json.Date_Time_End, json.Comment,
                     feeding.FeedingID, feeding.Nest, feeding.Time_Arrive, feeding.Time_Depart, feeding.Provider, item.Recipient,
                     item.Prey_Item, item.Prey_Size, feeding.Number_of_Items.length, feeding.Plot_Status
                 ];
@@ -158,7 +168,7 @@ function StintData() {
 
         for (const line of dataLines) {
             const values = line.split(',');
-            const feedingID = values[11];
+            const feedingID = values[12];
 
             if (feedingID !== currentFeedingID) {
                 if (currentFeedingID !== null) {
@@ -168,21 +178,21 @@ function StintData() {
                 currentFeedingID = feedingID;
                 currentFeeding = {
                     FeedingID: feedingID,
-                    Nest: values[12],
-                    Time_Arrive: values[13],
-                    Time_Depart: values[14],
-                    Provider: values[15],
+                    Nest: values[13],
+                    Time_Arrive: values[14],
+                    Time_Depart: values[15],
+                    Provider: values[16],
                 };
                 currentNumberOfItems = [];
             }
 
             currentNumberOfItems.push({
-                Recipient: values[16],
-                Prey_Item: values[17],
-                Prey_Size: values[18],
+                Recipient: values[17],
+                Prey_Item: values[18],
+                Prey_Size: values[19],
             });
 
-            currentFeeding.Plot_Status = values[20];
+            currentFeeding.Plot_Status = values[21];
         }
 
         currentFeeding.Number_of_Items = currentNumberOfItems;
@@ -202,6 +212,7 @@ function StintData() {
             Observer_Location: stintData[8],
             Date_Time_Start: stintData[9],
             Date_Time_End: stintData[10],
+            Comment: stintData[11],
             feedingData: feedingData,
         };
 
@@ -213,10 +224,11 @@ function StintData() {
         let data = stint;
         data.StintID = stintID;
         const emptyFields = [];
+        const excludeKey = ["Comment"]; //this can be missing in data
 
         //Check for missing fields in stint data
         Object.entries(data).forEach(([key, value]) => {
-            if (value === "") {
+            if (value === "" && !excludeKey.includes(key)) {
                 emptyFields.push(`Stint: ${key}`);
             }
         })
@@ -264,6 +276,7 @@ function StintData() {
         reader.onload = (e) => {
             const csv = e.target.result;
             const stintl = csvToJson(csv);
+
             setStint(stintl);
         };
 
@@ -306,7 +319,7 @@ function StintData() {
                                         <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
                                         <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
                                         <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} />
-
+                                        <Comment setComment={setComment} data={stint.Comment}/>
                                     </div>
 
                                 </div>
