@@ -7,6 +7,7 @@ import Provider from './feeding/Provider';
 import Recipient from './feeding/Recipient';
 import Timer from './Timer';
 import Date from '../Date';
+import Comment from './Comment';
 import './ToggleBtn.css'
 import { useState, useEffect } from 'react';
 import React from 'react';
@@ -118,6 +119,13 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
      */
     const setTimeDepart = () => {
         setFeeding({ ...feeding, Time_Depart: Date.getTime() })
+    }
+
+    /**
+     * 
+     */
+    const setComment = (value) => {
+        setFeeding({...feeding, Comment: value});
     }
 
     /**
@@ -332,6 +340,10 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
                     <Recipient setRecipient={setRecipient} data={feeding.Number_of_Items[nIndex].Recipient} />
                     <PreySize setPreySize={setPreySize} data={feeding.Number_of_Items[nIndex].Prey_Size} />
                     <PreyItem setPreyItem={setPreyItem} data={feeding.Number_of_Items[nIndex].Prey_Item} />
+                </div>
+
+                <div>
+                    <Comment setComment={setComment} data={feeding.Comment} />
                 </div>
             </div>
         </>
