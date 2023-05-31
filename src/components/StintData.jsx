@@ -27,7 +27,8 @@ function StintData() {
                 Prey_Size: "",
             }
         ],
-        Plot_Status: "Outside Plot"
+        Plot_Status: "Outside Plot",
+        Comment: ""
     }
 
     //stint data
@@ -131,7 +132,7 @@ function StintData() {
             'StintID', 'Stint_Type', 'Island', 'Species', 'Prey_Size_Method', 'Prey_Size_Reference',
             'FirstName', 'LastName', 'Observer_Location', 'Date_Time_Start', 'Date_Time_End', 'Comment',
             'FeedingID', 'Nest', 'Time_Arrive', 'Time_Depart', 'Provider', 'Recipient', 'Prey_Item', 'Prey_Size',
-            'Number_of_Items', 'Plot_Status'
+            'Number_of_Items', 'Plot_Status', 'Comment'
         ];
         const csvRows = [header.join(',')];
 
@@ -142,7 +143,7 @@ function StintData() {
                     json.StintID, json.Stint_Type, json.Island, json.Species, json.Prey_Size_Method, json.Prey_Size_Reference,
                     json.FirstName, json.LastName, json.Observer_Location, json.Date_Time_Start, json.Date_Time_End, json.Comment,
                     feeding.FeedingID, feeding.Nest, feeding.Time_Arrive, feeding.Time_Depart, feeding.Provider, item.Recipient,
-                    item.Prey_Item, item.Prey_Size, feeding.Number_of_Items.length, feeding.Plot_Status
+                    item.Prey_Item, item.Prey_Size, feeding.Number_of_Items.length, feeding.Plot_Status, feeding.Comment
                 ];
                 csvRows.push(row.join(','));
             });
@@ -193,6 +194,7 @@ function StintData() {
             });
 
             currentFeeding.Plot_Status = values[21];
+            currentFeeding.Comment = values[22];
         }
 
         currentFeeding.Number_of_Items = currentNumberOfItems;
@@ -245,7 +247,7 @@ function StintData() {
                         });
                     });
                 } else {
-                    if (feeding[key] === '') {
+                    if (feeding[key] === '' && !excludeKey.includes(key)) {
                         emptyFields.push(`Feeding ${feedingIndex + 1}: ${key}`);
                     }
                 }
