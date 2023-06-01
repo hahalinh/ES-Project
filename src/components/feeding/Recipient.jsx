@@ -3,7 +3,7 @@ import Button from '../Button';
 
 function Recipient({ setRecipient, data }) {
   const [recip, setRecip] = useState(["A", "A1", "B", "UC", "U", "K", "O", "S", "M", "Y"]);
-  const dropdownValues = ["R1", "R2", "R3", "R4", "R5"];
+  const dropdownValues = ["C", "N", "R", "T", "UA"];
 
   const addRecipOption = (data) => {
     setRecip([...recip, data]);
