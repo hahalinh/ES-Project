@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const Comment = ({setComment, data}) => {
     const handleChange = (e) => {
         const value = e.currentTarget.value;

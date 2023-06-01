@@ -217,6 +217,10 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
 
         // Check if all fields in feedingTemp are empty
         for (const field in feedingTemp) {
+            if (field === 'Comment') {
+                continue; // Skip checking if the field is "Comment"
+            }
+        
             const value = feedingTemp[field];
             if (Array.isArray(value)) {
                 // If the field is a list, loop through each item

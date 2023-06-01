@@ -130,9 +130,9 @@ function StintData() {
     const jsonToCSV = (json) => {
         const header = [
             'StintID', 'Stint_Type', 'Island', 'Species', 'Prey_Size_Method', 'Prey_Size_Reference',
-            'FirstName', 'LastName', 'Observer_Location', 'Date_Time_Start', 'Date_Time_End', 'Comment',
+            'FirstName', 'LastName', 'Observer_Location', 'Date_Time_Start', 'Date_Time_End', 'Stint_Comment',
             'FeedingID', 'Nest', 'Time_Arrive', 'Time_Depart', 'Provider', 'Recipient', 'Prey_Item', 'Prey_Size',
-            'Number_of_Items', 'Plot_Status', 'Comment'
+            'Number_of_Items', 'Plot_Status', 'Feeding_Comment'
         ];
         const csvRows = [header.join(',')];
 
