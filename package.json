@@ -15,7 +15,7 @@
     "react-uuid": "^2.0.0"
   },
   "main": "public/electron.js",
-  "homepage": "./",
+  "homepage": "http://./",
   "build": {
     "appId": "com.esp.my-electron-react-app",
     "files": [
@@ -60,7 +60,7 @@
     "electron-builder": "^23.6.0",
     "webpack-node-externals": "^3.0.0"
   },
-  "author": "Huy Ngo",
+  "author": "Huy Ngo, Linh Dam",
   "license": "ISC",
   "description": "Environmental Studies Data Collection Project"
 }
