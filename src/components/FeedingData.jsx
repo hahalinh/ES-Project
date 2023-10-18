@@ -10,9 +10,10 @@ import Date from '../Date';
 import Comment from './Comment';
 import './ToggleBtn.css'
 import { useState, useEffect } from 'react';
+import { handleSaveClick } from './utility';
 import React from 'react';
 
-function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }) {
+function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle, stint, stintID }) {
 
     /**
      * this stores and handles input feeding data
@@ -256,6 +257,9 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
 
         // make the closed tab disappear
         displayClosedFeeding(false);
+
+        // Save all files
+        handleSaveClick(stint, stintID);
     }
 
     const displayClosedFeeding = (bool) => {
