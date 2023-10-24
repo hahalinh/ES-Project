@@ -1,0 +1,162 @@
+/* .outer-container {
+  border: 1px solid black;
+  margin: 30px 50px;
+} */
+
+.start-stint {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-container {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  margin: 30px 50px;
+  justify-content: space-around;
+}
+
+.stintl-container {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  margin: 30px 50px;
+  justify-content: space-evenly;
+}
+
+.box-items {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  margin: 15px;
+  border: 1px solid black;
+  justify-content: space-evenly;
+  padding: 0px 10px;
+}
+
+
+.recipient,
+.prey-size,
+.prey-item,
+.provider,
+.nest {
+  border: 1px solid blue;
+  padding: 10px;
+  height: auto;
+  min-width: 150px;
+}
+
+.recipient-bt,
+.provider-bt,
+.prey-item-bt,
+.prey-size-bt,
+.nest-bt {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.number-items input {
+  width: 135px;
+}
+#item-btn{
+  display: inline-block;
+}
+.left-column,
+.right-column {
+  padding: 20px;
+}
+
+.login-column {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 800px;
+  /* Add a max-width to limit the width of the container */
+
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.right-column {
+  text-align: right;
+}
+
+
+.time-button {
+  display: flex;
+  flex-direction: column;
+}
+
+.feed_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.feed_header button{
+  margin-right: auto;
+}
+
+.feed_header h1{
+  margin: 0;
+  text-align: center;
+  flex-grow: 1;
+  }
+
+button,
+input[type="button"] {
+  padding: 10px 20px;
+  /* Set the padding to the desired size */
+  font-size: 16px;
+  /* Set the font size to the desired size */
+}
+
+.display-buttons {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  height: 100px;
+}
+
+.display-buttons .displayM {
+  width: 150px;
+}
+
+/* If btn is clicked, the background turns Green */
+.selected-btn {
+  background-color: green;
+  color: white;
+}
+
+.closed_feeding {
+  background-color: blue;
+  color: white;
+}
+
+
+.input-field {
+  height: 40px;
+  min-width: 180px;
+}
+
+/* Middle column oin Feeding that has plot and number of Items buttons */
+#plot-noItem-btn {
+  margin-left: 15px;
+  margin-right: 15px;
+
+}
+
+
+
+
+
