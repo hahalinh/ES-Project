@@ -14,8 +14,6 @@ import React from 'react';
 import { clear } from '@testing-library/user-event/dist/clear';
 
 function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }) {
-
-    //if feeding.time_arrive != to whatever dylan has for calendar
     
     
     const timeLogger = () => {
@@ -131,11 +129,19 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
         setFeeding({ ...feeding, Time_Arrive: Date.getTime(), Time_Depart: "" })
     }
 
+    const setTimeArrive2 = (date) => {
+        setFeeding({ ...feeding, Time_Arrive: date })
+    }
+
     /**
      * this sets the time depart data to the indexent time
      */
     const setTimeDepart = () => {
         setFeeding({ ...feeding, Time_Depart: Date.getTime() })
+    }
+
+    const setTimeDepart2 = (date) => {
+        setFeeding({ ...feeding, Time_Depart: date })
     }
 
     /**
@@ -339,7 +345,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
 
                 <div className="menu-container">
                     {/*  */}
-                    <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: feeding.Time_Arrive, depart: feeding.Time_Depart }} />
+                    <Timer setArrive={setTimeArrive2} setDepart={setTimeDepart2} data={{ arrive: feeding.Time_Arrive, depart: feeding.Time_Depart }} />
                     
                     <div id='plot-noItem-btn'>
 

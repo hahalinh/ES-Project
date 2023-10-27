@@ -106,8 +106,7 @@ function StintData() {
     }
 
     const setTimeArrive2 = (date) => {
-        console.log(date);
-        console.log(typeof(date));
+        setArrival(true)
         setStint({ ...stint, Date_Time_Start: date })
     }
 
@@ -115,7 +114,6 @@ function StintData() {
      * Sets the time depart data to the current time
      */
     const setTimeDepart = (date) => {
-        setArrival(true)
         setStint({ ...stint, Date_Time_End: Date.getDate() })
         
     }
