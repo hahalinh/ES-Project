@@ -34,8 +34,8 @@ function StintData() {
         Comment: ""
     }
     //added a way to track arrival times
-    //const [Arrival, setArrival] = useState(false); 
-    //const [Depart, setDepart] = useState(false); 
+    const [Arrival, setArrival] = useState(false); 
+    const [Depart, setDepart] = useState(false); 
     
     //stint data
     const [stint, setStint] = useState({
@@ -106,18 +106,22 @@ function StintData() {
     }
 
     const setTimeArrive2 = (date) => {
-        setStint({ ...stint, Date_Time_Start: date, Date_Time_End: "" })
+        console.log(date);
+        console.log(typeof(date));
+        setStint({ ...stint, Date_Time_Start: date })
     }
 
     /**
      * Sets the time depart data to the current time
      */
     const setTimeDepart = (date) => {
+        setArrival(true)
         setStint({ ...stint, Date_Time_End: Date.getDate() })
         
     }
 
     const setTimeDepart2 = (date) => {
+        setDepart(true)
         setStint({ ...stint, Date_Time_End: date })
     }
 
@@ -347,9 +351,9 @@ function StintData() {
 
                                 <div className="login-btn">
                                     <button onClick={() => {
-                                        if (!isOpenF){ //&& !Arrival){
-                                             //setTimeArrive();
-                                             //setArrival(true);
+                                        if (!isOpenF && !Arrival){
+                                            setTimeArrive();
+                                            setArrival(true);
                                         }
                                         setIsOpenF(!isOpenF); 
                                 }}>
@@ -359,10 +363,10 @@ function StintData() {
                                     <button onClick={() =>
                                         {
                                             handleSaveClick();
-                                            if(handleSaveClick.emptyFields.length < 0){//!Depart || handleSaveClick.emptyFields.length < 0){
+                                            if(!Depart || handleSaveClick.emptyFields.length < 0){
                                                 clearTime();
                                                 setTimeDepart();
-                                                //setDepart(true);
+                                                setDepart(true);
                                             }
                                         }
                                         }>Save file</button>
