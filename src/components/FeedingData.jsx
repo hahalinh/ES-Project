@@ -126,7 +126,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle, 
      * 
      */
     const setComment = (value) => {
-        setFeeding({...feeding, Comment: value});
+        setFeeding({ ...feeding, Comment: value });
     }
 
     /**
@@ -221,7 +221,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle, 
             if (field === 'Comment') {
                 continue; // Skip checking if the field is "Comment"
             }
-        
+
             const value = feedingTemp[field];
             if (Array.isArray(value)) {
                 // If the field is a list, loop through each item
@@ -241,17 +241,17 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle, 
 
         // If any fields are empty, alert the user
         if (emptyFields.length > 0) {
-            const missingFields = emptyFields.join(', ');
-            alert(`Please fill in the following fields: ${missingFields}`);
-        } else {
-            // If all fields are filled, close the feeding
-            setClosedIndex(closedIndex.includes(index) ?
-                closedIndex.filter(item => item !== index) : [...closedIndex, index]);
+            const confirmClose = window.confirm('Do you want to close this tab?');
+            if (confirmClose) {
+                // User confirmed closing the tab
+                setClosedIndex(closedIndex.includes(index) ?
+                    closedIndex.filter(item => item !== index) : [...closedIndex, index]);
 
-            // add the class `closed_feeding` to the element
-            const feedingElem = document.getElementById(`feeding_${index}`);
-            if (feedingElem) {
-                feedingElem.classList.add('closed_feeding');
+                // Add the class `closed_feeding` to the element
+                const feedingElem = document.getElementById(`feeding_${index}`);
+                if (feedingElem) {
+                    feedingElem.classList.add('closed_feeding');
+                }
             }
         }
 
@@ -261,6 +261,55 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle, 
         // Save all files
         handleSaveClick(stint, stintID);
     }
+
+    // const handleCloseFeeding = (index) => {
+    //     const emptyFields = [];
+
+    //     // Check if all fields in feedingTemp are empty
+    //     for (const field in feedingTemp) {
+    //         if (field === 'Comment') {
+    //             continue; // Skip checking if the field is "Comment"
+    //         }
+
+    //         const value = feedingTemp[field];
+    //         if (Array.isArray(value)) {
+    //             // If the field is a list, loop through each item
+    //             for (let i = 0; i < value.length; i++) {
+    //                 const item = value[i];
+    //                 // Loop through each field in the item and check if empty
+    //                 for (const itemField in item) {
+    //                     if (item[itemField] === '') {
+    //                         emptyFields.push(`Item ${i + 1} > ${itemField}`);
+    //                     }
+    //                 }
+    //             }
+    //         } else if (value === '') {
+    //             emptyFields.push(field);
+    //         }
+    //     }
+
+    //     // If any fields are empty, alert the user
+    //     if (emptyFields.length > 0) {
+    //         const missingFields = emptyFields.join(', ');
+    //         alert(`Please fill in the following fields: ${missingFields}`);
+    //     } else {
+    //         // If all fields are filled, close the feeding
+    //         setClosedIndex(closedIndex.includes(index) ?
+    //             closedIndex.filter(item => item !== index) : [...closedIndex, index]);
+
+    //         // add the class `closed_feeding` to the element
+    //         const feedingElem = document.getElementById(`feeding_${index}`);
+    //         if (feedingElem) {
+    //             feedingElem.classList.add('closed_feeding');
+    //         }
+    //     }
+
+    //     // make the closed tab disappear
+    //     displayClosedFeeding(false);
+
+    //     // Save all files
+    //     handleSaveClick(stint, stintID);
+    // }
 
     const displayClosedFeeding = (bool) => {
         setDisplayClosed(bool);
@@ -286,7 +335,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle, 
         <>
             <div className="outer-container">
 
-                <div  className="feed_header">
+                <div className="feed_header">
                     {isOpen && (
                         <button onClick={onToggle}>
                             Back to Stint

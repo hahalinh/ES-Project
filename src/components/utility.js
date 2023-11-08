@@ -4,41 +4,41 @@ export const handleSaveClick = (stint, stintID) => {
     let csv = '';
     let data = stint;
     data.StintID = stintID;
-    const emptyFields = [];
-    const excludeKey = ["Comment"]; //this can be missing in data
+    // const emptyFields = [];
+    // const excludeKey = ["Comment"]; //this can be missing in data
+
 
     //Check for missing fields in stint data
-    Object.entries(data).forEach(([key, value]) => {
-        if (value === "" && !excludeKey.includes(key)) {
-            emptyFields.push(`Stint: ${key}`);
-        }
-    })
+    // Object.entries(data).forEach(([key, value]) => {
+    //     if (value === "" && !excludeKey.includes(key)) {
+    //         emptyFields.push(`Stint: ${key}`);
+    //     }
+    // })
 
-    // Check for missing fields in feeding data
-    data.feedingData.forEach((feeding, feedingIndex) => {
-        Object.keys(feeding).forEach(key => {
-            if (Array.isArray(feeding[key])) {
-                feeding[key].forEach((item, itemIndex) => {
-                    Object.keys(item).forEach(itemKey => {
-                        if (item[itemKey] === '') {
-                            emptyFields.push(`Feeding ${feedingIndex + 1}, Item ${itemIndex + 1}: ${itemKey}`);
-                        }
-                    });
-                });
-            } else {
-                if (feeding[key] === '' && !excludeKey.includes(key)) {
-                    emptyFields.push(`Feeding ${feedingIndex + 1}: ${key}`);
-                }
-            }
-        });
-    });
+    // // Check for missing fields in feeding data
+    // data.feedingData.forEach((feeding, feedingIndex) => {
+    //     Object.keys(feeding).forEach(key => {
+    //         if (Array.isArray(feeding[key])) {
+    //             feeding[key].forEach((item, itemIndex) => {
+    //                 Object.keys(item).forEach(itemKey => {
+    //                     if (item[itemKey] === '') {
+    //                         emptyFields.push(`Feeding ${feedingIndex + 1}, Item ${itemIndex + 1}: ${itemKey}`);
+    //                     }
+    //                 });
+    //             });
+    //         } else {
+    //             if (feeding[key] === '' && !excludeKey.includes(key)) {
+    //                 emptyFields.push(`Feeding ${feedingIndex + 1}: ${key}`);
+    //             }
+    //         }
+    //     });
+    // });
 
-    if (emptyFields.length > 0) {
-        alert(`Missing fields:\n${emptyFields.join('\n')}`);
-        return;
-    }
+    // if (emptyFields.length > 0) {
+    //     alert(`Missing fields:\n${emptyFields.join('\n')}`);
+    //     return;
+    // }
 
-    // If all information is filled
     csv += jsonToCSV(data);
 
     const file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
