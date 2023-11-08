@@ -13,6 +13,24 @@ import FeedingData from './FeedingData';
 import { handleSaveClick } from './utility';
 
 function StintData() {
+    // When users accidentally close the app, ask for confirmation
+    useEffect(() => {
+        const handleBeforeUnload = (e) => {
+            e.preventDefault();
+            e.returnValue = '';
+
+            // Display a confirmation dialog to the user
+            const confirmationMessage = 'Are you sure you want to leave this page?';
+            e.returnValue = window.confirm(confirmationMessage) ? undefined : '';
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
     //feeding data
     const initialFeeding = {
         FeedingID: 1,
@@ -119,7 +137,7 @@ function StintData() {
      * @param {*} value 
      */
     const setComment = (value) => {
-        setStint({...stint, Comment: value});
+        setStint({ ...stint, Comment: value });
     }
 
 
@@ -193,7 +211,7 @@ function StintData() {
         return jsonObject;
     }
 
-    
+
     const handleOpenClick = (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -246,7 +264,7 @@ function StintData() {
                                         <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
                                         <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
                                         <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} />
-                                        <Comment setComment={setComment} data={stint.Comment}/>
+                                        <Comment setComment={setComment} data={stint.Comment} />
                                     </div>
 
                                 </div>
@@ -290,9 +308,9 @@ function StintData() {
                                     feedings={stint.feedingData}
                                     isOpen={isOpenF}
                                     onToggle={() => setIsOpenF(!isOpenF)}
-                                    stint={stint}  
-                                    stintID={stintID}  
-                                  
+                                    stint={stint}
+                                    stintID={stintID}
+
                                 />
                             </div>
                         </>
