@@ -7,6 +7,7 @@ function Timer({setArrive, setDepart, data}) {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const handleChangeArrive = (e) => {
+        
         setStartDate(e);
         const value = e.toString();
         setArrive(value);
