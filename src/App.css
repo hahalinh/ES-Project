@@ -3,29 +3,66 @@
   margin: 30px 50px;
 } */
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+*{
+  font-family: 'Poppins', sans-serif;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+.stint-all {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+
+}
+
 .start-stint {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+.stint-form{
+  max-width: 700px;
+  width: 100%;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+}
+
+.stint-form h1{
+  font-size: 25px;
+  font-weight: 500;
+}
+
 .menu-container {
-  border: 1px solid black;
   display: flex;
   flex-direction: row;
   height: auto;
-  margin: 30px 50px;
+  margin: 30px 30px;
   justify-content: space-around;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
 }
 
 .stintl-container {
-  border: 1px solid black;
   display: flex;
   flex-direction: row;
   height: auto;
-  margin: 30px 50px;
+  margin: 30px 30px;
   justify-content: space-evenly;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+
 }
 
 .box-items {
@@ -64,13 +101,11 @@
 .number-items input {
   width: 135px;
 }
-#item-btn{
+
+#item-btn {
   display: inline-block;
 }
-.left-column,
-.right-column {
-  padding: 20px;
-}
+
 
 .login-column {
   display: flex;
@@ -88,7 +123,7 @@
 }
 
 .right-column {
-  text-align: right;
+  text-align: left;
 }
 
 
@@ -103,15 +138,15 @@
   align-items: center;
 }
 
-.feed_header button{
+.feed_header button {
   margin-right: auto;
 }
 
-.feed_header h1{
+.feed_header h1 {
   margin: 0;
   text-align: center;
   flex-grow: 1;
-  }
+}
 
 button,
 input[type="button"] {
@@ -138,15 +173,16 @@ input[type="button"] {
   color: white;
 }
 
-.closed_feeding {
-  background-color: blue;
-  color: white;
-}
-
 
 .input-field {
   height: 40px;
-  min-width: 180px;
+  width: 200px;
+  margin-bottom: 15px;
+}
+
+.login-column p, .menu-container p, .stintl-container p{
+  font-weight: 500;
+  margin-bottom: 5px;
 }
 
 /* Middle column oin Feeding that has plot and number of Items buttons */
@@ -155,8 +191,3 @@ input[type="button"] {
   margin-right: 15px;
 
 }
-
-
-
-
-

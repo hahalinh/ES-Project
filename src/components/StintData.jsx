@@ -31,6 +31,28 @@ function StintData() {
         };
     }, []);
 
+    useEffect(() => {
+        handleOpenFromLocalStorage();
+    }, []);
+
+    /**
+     * Handles opening data from localStorage
+     */
+    const handleOpenFromLocalStorage = () => {
+        const backupData = localStorage.getItem('backupData');
+
+        console.log("BackupData contents:", backupData);
+
+        if (backupData) {
+            // Parse the JSON data from localStorage
+            const jsonData = JSON.parse(backupData);
+
+            setStint(jsonData);
+            setIsOpenF(true);
+        }
+    };
+
+
     //feeding data
     const initialFeeding = {
         FeedingID: 1,
@@ -238,56 +260,58 @@ function StintData() {
     }, [stint])
 
     return (
-        <div>
+        <div className="stint-all">
 
             {
                 !isOpenF ?
                     (
                         <>
                             <div className="start-stint">
+                                <div className='stint-form'>
+                                    <h1>Start A Stint</h1>
 
+                                    <div className="login-column">
 
-                                <h1>Start A Stint</h1>
+                                        <div className="left-column">
+                                            <p>StintID: {stintID}</p>
+                                            <p>Stint type: {stint.Stint_Type}</p>
+                                            <p>Prey size method: {stint.Prey_Size_Method}</p>
+                                            <p>Prey size reference: {stint.Prey_Size_Reference}</p>
+                                            <Island setIsland={setIsland} data={stint.Island} />
+                                            <Species setSpecies={setSpecies} data={stint.Species} />
+                                            <Comment setComment={setComment} data={stint.Comment} />
+                                        </div>
 
-                                <div className="login-column">
+                                        <div className="right-column">
+                                            <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
+                                            <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
+                                            <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} />
+                                            
+                                        </div>
 
-                                    <div className="left-column">
-                                        <p>StintID: {stintID}</p>
-                                        <p>Stint type: {stint.Stint_Type}</p>
-                                        <p>Prey size method: {stint.Prey_Size_Method}</p>
-                                        <p>Prey size reference: {stint.Prey_Size_Reference}</p>
-                                        <Island setIsland={setIsland} data={stint.Island} />
-                                        <Species setSpecies={setSpecies} data={stint.Species} />
                                     </div>
 
-                                    <div className="right-column">
-                                        <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
-                                        <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
-                                        <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} />
-                                        <Comment setComment={setComment} data={stint.Comment} />
+                                    <div className="login-btn">
+                                        <button onClick={() => setIsOpenF(!isOpenF)}>
+                                            {
+                                                !isOpenF ? 'Open Feeding' : 'Back to Stint'
+                                            }
+                                        </button>
+
+                                        <button onClick={() => handleSaveClick(stint, stintID)}>Save file</button>
+
+
+                                        <input
+                                            type="file"
+                                            ref={fileInput}
+                                            accept=".csv"
+                                            onChange={(e) => handleOpenClick(e)}
+                                        />
                                     </div>
 
+                                    <DataTable stint={stint} />
                                 </div>
 
-                                <div className="login-btn">
-                                    <button onClick={() => setIsOpenF(!isOpenF)}>
-                                        {
-                                            !isOpenF ? 'Open Feeding' : 'Back to Stint'
-                                        }
-                                    </button>
-
-                                    <button onClick={() => handleSaveClick(stint, stintID)}>Save file</button>
-
-
-                                    <input
-                                        type="file"
-                                        ref={fileInput}
-                                        accept=".csv"
-                                        onChange={(e) => handleOpenClick(e)}
-                                    />
-                                </div>
-
-                                <DataTable stint={stint} />
 
                             </div>
                         </>

@@ -10,7 +10,7 @@ import Date from '../Date';
 import Comment from './Comment';
 import './ToggleBtn.css'
 import { useState, useEffect } from 'react';
-import { handleSaveClick } from './utility';
+import { handleSaveClick, handleSaveForCloseFeeding } from './utility';
 import React from 'react';
 
 function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle, stint, stintID }) {
@@ -156,7 +156,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle, 
     /**
      * this deletes feeding data at current index
      */
-    const handleDeleteFeeding = () => {
+    const handleDeleteFeeding_original = () => {
         if (feedings.length > 1) {
             let removed = false;
 
@@ -200,6 +200,63 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle, 
     }
 
     /**
+     * this deletes feeding data at current index
+     */
+    const handleDeleteFeeding = () => {
+        if (feedings.length > 1) {
+            const ignore = ["FeedingID"];
+            let hasFilledData = false;
+
+            // Check if there is any filled data
+            Object.entries(feedings[index]).forEach(([key, value]) => {
+                if (!ignore.includes(key)) {
+                    if (Array.isArray(value)) {
+                        Object.values(value).forEach(item => {
+                            Object.entries(item).forEach(([keyItem, field]) => {
+                                if (field !== "") {
+                                    hasFilledData = true;
+                                    return; // Exit the loop if data is found
+                                }
+                            });
+                        });
+                    } else if (value !== "") {
+                        hasFilledData = true;
+                        return; // Exit the loop if data is found
+                    }
+                }
+            });
+
+            // If there's filled data, prompt for deletion confirmation
+            if (hasFilledData) {
+                const confirmation = window.confirm(
+                    `Are you sure you want to delete the data at feeding ${index + 1}?`
+                );
+
+                if (confirmation) {
+                    const newData = feedings.filter((item, i) => i !== index);
+                    setFeedings(newData);
+
+                    if (index === 0) {
+                        handleOpenFeeding(0);
+                    } else {
+                        handleOpenFeeding(index - 1);
+                    }
+                }
+            } else {
+                const newData = feedings.filter((item, i) => i !== index);
+                setFeedings(newData);
+
+                if (index === 0) {
+                    handleOpenFeeding(0);
+                } else {
+                    handleOpenFeeding(index - 1);
+                }
+            }
+        }
+    };
+
+
+    /**
      * this handles the switching of indexent feeding data to existing feeding data and updating that indexent feeding data if any changes
      * @param {*} e the feeding data ID to switch to
      */
@@ -214,102 +271,20 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle, 
     }
 
     const handleCloseFeeding = (index) => {
-        const emptyFields = [];
+        // Always add the index to closedIndex
+        setClosedIndex(closedIndex.includes(index) ? closedIndex.filter(item => item !== index) : [...closedIndex, index]);
 
-        // Check if all fields in feedingTemp are empty
-        for (const field in feedingTemp) {
-            if (field === 'Comment') {
-                continue; // Skip checking if the field is "Comment"
-            }
-
-            const value = feedingTemp[field];
-            if (Array.isArray(value)) {
-                // If the field is a list, loop through each item
-                for (let i = 0; i < value.length; i++) {
-                    const item = value[i];
-                    // Loop through each field in the item and check if empty
-                    for (const itemField in item) {
-                        if (item[itemField] === '') {
-                            emptyFields.push(`Item ${i + 1} > ${itemField}`);
-                        }
-                    }
-                }
-            } else if (value === '') {
-                emptyFields.push(field);
-            }
+        // Add the class `closed_feeding` to the element
+        const feedingElem = document.getElementById(`feeding_${index}`);
+        if (feedingElem) {
+            feedingElem.classList.add('closed_feeding');
         }
-
-        // If any fields are empty, alert the user
-        if (emptyFields.length > 0) {
-            const confirmClose = window.confirm('Do you want to close this tab?');
-            if (confirmClose) {
-                // User confirmed closing the tab
-                setClosedIndex(closedIndex.includes(index) ?
-                    closedIndex.filter(item => item !== index) : [...closedIndex, index]);
-
-                // Add the class `closed_feeding` to the element
-                const feedingElem = document.getElementById(`feeding_${index}`);
-                if (feedingElem) {
-                    feedingElem.classList.add('closed_feeding');
-                }
-            }
-        }
-
         // make the closed tab disappear
         displayClosedFeeding(false);
 
-        // Save all files
-        handleSaveClick(stint, stintID);
+        // Save all files to localStorage
+        handleSaveForCloseFeeding(stint, stintID);
     }
-
-    // const handleCloseFeeding = (index) => {
-    //     const emptyFields = [];
-
-    //     // Check if all fields in feedingTemp are empty
-    //     for (const field in feedingTemp) {
-    //         if (field === 'Comment') {
-    //             continue; // Skip checking if the field is "Comment"
-    //         }
-
-    //         const value = feedingTemp[field];
-    //         if (Array.isArray(value)) {
-    //             // If the field is a list, loop through each item
-    //             for (let i = 0; i < value.length; i++) {
-    //                 const item = value[i];
-    //                 // Loop through each field in the item and check if empty
-    //                 for (const itemField in item) {
-    //                     if (item[itemField] === '') {
-    //                         emptyFields.push(`Item ${i + 1} > ${itemField}`);
-    //                     }
-    //                 }
-    //             }
-    //         } else if (value === '') {
-    //             emptyFields.push(field);
-    //         }
-    //     }
-
-    //     // If any fields are empty, alert the user
-    //     if (emptyFields.length > 0) {
-    //         const missingFields = emptyFields.join(', ');
-    //         alert(`Please fill in the following fields: ${missingFields}`);
-    //     } else {
-    //         // If all fields are filled, close the feeding
-    //         setClosedIndex(closedIndex.includes(index) ?
-    //             closedIndex.filter(item => item !== index) : [...closedIndex, index]);
-
-    //         // add the class `closed_feeding` to the element
-    //         const feedingElem = document.getElementById(`feeding_${index}`);
-    //         if (feedingElem) {
-    //             feedingElem.classList.add('closed_feeding');
-    //         }
-    //     }
-
-    //     // make the closed tab disappear
-    //     displayClosedFeeding(false);
-
-    //     // Save all files
-    //     handleSaveClick(stint, stintID);
-    // }
 
     const displayClosedFeeding = (bool) => {
         setDisplayClosed(bool);
