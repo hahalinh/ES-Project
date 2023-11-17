@@ -30,16 +30,35 @@ html, body, #root {
 }
 
 .stint-form{
-  max-width: 700px;
+  max-width: 800px;
   width: 100%;
   background: #fff;
   padding: 25px 30px;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically centers the content */
+  align-items: center; /* Horizontally centers the content */
+
 }
 
-.stint-form h1{
+.stint-id {
   font-size: 25px;
   font-weight: 500;
+  position: relative;
+}
+
+.stint-id::before{
+  content:'';
+  position:absolute;
+  left: 50%;
+  bottom: 0;
+  height: 3px;
+  width: 100px;
+  background:#9b59b6;
+}
+.row-container {
+  display: flex;
 }
 
 .menu-container {
@@ -86,6 +105,8 @@ html, body, #root {
   padding: 10px;
   height: auto;
   min-width: 150px;
+  border-radius: 5px;
+
 }
 
 .recipient-bt,
@@ -112,18 +133,20 @@ html, body, #root {
   justify-content: space-between;
   margin: 0 auto;
   max-width: 800px;
-  /* Add a max-width to limit the width of the container */
-
 }
 
 .left-column {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* border: 1px solid #9b59b6; */
+  width: 400px;
 }
 
 .right-column {
   text-align: left;
+  /* border: 1px solid #9b59b6; */
+  width: 350px;
 }
 
 
@@ -151,9 +174,7 @@ html, body, #root {
 button,
 input[type="button"] {
   padding: 10px 20px;
-  /* Set the padding to the desired size */
   font-size: 16px;
-  /* Set the font size to the desired size */
 }
 
 .display-buttons {
@@ -176,7 +197,7 @@ input[type="button"] {
 
 .input-field {
   height: 40px;
-  width: 200px;
+  width: 80%;
   margin-bottom: 15px;
 }
 
@@ -190,4 +211,24 @@ input[type="button"] {
   margin-left: 15px;
   margin-right: 15px;
 
+}
+
+
+.login-btn {
+  margin-top: 20px; 
+  display: flex;
+  justify-content: space-between; 
+  width: 90%; 
+}
+
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  border: 1px solid black;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border-radius: 5px;
 }

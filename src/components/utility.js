@@ -19,9 +19,7 @@ export const handleSaveClick = (stint, stintID) => {
     saveAs(file, dowloadName);
 
     // Delete local storage
-    localStorage.setItem('backupData', null);
-
-
+    localStorage.removeItem('backup');
 
 }
 
@@ -67,7 +65,7 @@ export const handleSaveForCloseFeeding = (stint, stintID) => {
     let jsonString = JSON.stringify(data);
 
     // Save the CSV data to localStorage
-    localStorage.setItem('backupData', jsonString);
+    localStorage.setItem('backup', jsonString);
 }
 
 

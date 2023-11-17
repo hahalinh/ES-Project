@@ -3,20 +3,14 @@ import { useState } from 'react'
 import '../../App.css'
 
 function DataTable(props) {
-  const [showData, setShowData] = useState(false);
-  const stint = props.stint;
 
-  const handleShowData = () => {
-    setShowData(!showData);
-  };
+  const { stint, showData } = props;
 
   return (
     <div>
-      <button onClick={handleShowData}>
-        {showData ? "Hide data" : "Show data"}
-      </button>
       {showData && (
         <div>
+          
           <h2>Stint Data</h2>
           <table>
             <thead>

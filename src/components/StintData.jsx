@@ -11,6 +11,7 @@ import Timer from './Timer';
 import Comment from './Comment';
 import FeedingData from './FeedingData';
 import { handleSaveClick } from './utility';
+import '@fortawesome/fontawesome-free/css/all.css'
 
 function StintData() {
     // When users accidentally close the app, ask for confirmation
@@ -39,12 +40,13 @@ function StintData() {
      * Handles opening data from localStorage
      */
     const handleOpenFromLocalStorage = () => {
-        const backupData = localStorage.getItem('backupData');
+        const backupData = localStorage.getItem('backup');
 
         console.log("BackupData contents:", backupData);
 
-        if (backupData) {
+        if (backupData != null) {
             // Parse the JSON data from localStorage
+            console.log("Parse the JSON data from localStorage:", backupData);
             const jsonData = JSON.parse(backupData);
 
             setStint(jsonData);
@@ -259,6 +261,13 @@ function StintData() {
         setStintID(`${stint.Island}-${stint.Species}-${stint.Date_Time_Start}-${stint.FirstName}-${stint.LastName}`.replace(" ", "-"));
     }, [stint])
 
+    const [showData, setShowData] = useState(false);
+
+    const handleShowData = () => {
+        setShowData(!showData);
+    };
+
+
     return (
         <div className="stint-all">
 
@@ -268,12 +277,12 @@ function StintData() {
                         <>
                             <div className="start-stint">
                                 <div className='stint-form'>
-                                    <h1>Start A Stint</h1>
+                                    {/* <h1>Start A Stint</h1> */}
+                                    <div className='stint-id'>Your Stint ID: {stintID}</div>
 
                                     <div className="login-column">
 
                                         <div className="left-column">
-                                            <p>StintID: {stintID}</p>
                                             <p>Stint type: {stint.Stint_Type}</p>
                                             <p>Prey size method: {stint.Prey_Size_Method}</p>
                                             <p>Prey size reference: {stint.Prey_Size_Reference}</p>
@@ -286,7 +295,7 @@ function StintData() {
                                             <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
                                             <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
                                             <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} />
-                                            
+
                                         </div>
 
                                     </div>
@@ -300,19 +309,28 @@ function StintData() {
 
                                         <button onClick={() => handleSaveClick(stint, stintID)}>Save file</button>
 
+                                        <label for="file-upload" class="custom-file-upload">
+                                            <i class="fa fa-cloud-upload"></i> Upload file
+                                        </label>
 
                                         <input
+                                            id="file-upload"
                                             type="file"
                                             ref={fileInput}
                                             accept=".csv"
                                             onChange={(e) => handleOpenClick(e)}
+
                                         />
+
+                                        <button onClick={handleShowData}>
+                                            {showData ? "Hide data" : "Show data"}
+                                        </button>
+
                                     </div>
+                                    <DataTable stint={stint} showData={showData} />
 
-                                    <DataTable stint={stint} />
+
                                 </div>
-
-
                             </div>
                         </>
                     )
@@ -320,11 +338,6 @@ function StintData() {
                     (
 
                         <>
-                            {/* <button onClick={() => setIsOpenF(!isOpenF)}>
-                                {
-                                    !isOpenF ? 'Open Feeding' : 'Back to Stint'
-                                }
-                            </button> */}
                             <div>
                                 <FeedingData
                                     initialFeeding={initialFeeding}
