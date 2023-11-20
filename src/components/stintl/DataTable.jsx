@@ -27,8 +27,7 @@ function DataTable(props) {
                 <th>Species</th>
                 <th>Prey Size Method</th>
                 <th>Prey Size Reference</th>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Observer Location</th>
                 <th>Date Time Start</th>
                 <th>Date Time End</th>

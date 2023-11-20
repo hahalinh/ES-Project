@@ -3,7 +3,7 @@ import Button from '../Button';
 import { useState } from 'react';
 
 function PreySize({ setPreySize, data }) {
-  const [preySizes, setPreySizes] = useState(["0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2","Unknown"]);
+  const [preySizes, setPreySizes] = useState(["0.25", "0.5", "1", "1.25", "1.5", "1.75", "2","Unknown"]);
   const dropdownValues = ["2.25", "2.5", "2.75", "3", "3.25"];
 
   const addPreySizeOption = (data) => {
