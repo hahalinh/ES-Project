@@ -13,7 +13,6 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 
 function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }) {
-
     /**
      * this stores and handles input feeding data
      */
@@ -336,7 +335,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
                         </div>
                     </div>
                 </div>
-
+                
                 <div className="stintl-container">
 
                     <Nest setNest={setNest} data={feeding.Nest} />
