@@ -20,9 +20,7 @@ function StintData() {
     }
     
     const [file, setFile] = useState(null);
-    const clearTime = () => {
-        
-    }
+    
     //feeding data
     const initialFeeding = {
         FeedingID: 1,
@@ -40,10 +38,7 @@ function StintData() {
         Plot_Status: "Outside Plot",
         Comment: ""
     }
-    //added a way to track arrival times
-    const [Arrival, setArrival] = useState(false); 
-    
-    const [Depart, setDepart] = useState(false); 
+  
     
     //added a way to track arrival times
     const [Arrival, setArrival] = useState(false); 
