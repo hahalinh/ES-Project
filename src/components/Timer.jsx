@@ -1,44 +1,45 @@
 import React from 'react'
-import { useState } from 'react'
 import DatePicker from "react-datepicker";
+import { useState } from 'react'
 import "react-datepicker/dist/react-datepicker.css";
-import StintData from './StintData';
-import { handleChange } from 'react';
+
 function Timer({setArrive, setDepart, data}) {
-    const date = new Date();
-    var [SetArrive, setStartDate] = useState(date);
-    var [SetDepart, setDepartDate] = useState(new Date());
-    // <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} 
-    //data={{ arrive: feeding.Time_Arrive, depart: feeding.Time_Depart }} />
-    
-    //feeding.Time_Arrive needs to be updated
-    //stint.Date_Time_Start needs to be updated
-    
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const handleChangeArrive = (e) => {
+        
+        setStartDate(e);
+        const value = e.toString();
+        setArrive(value);
+    }
+    const handleChangeDepart = (e) => {
+        setEndDate(e);
+        const value = e.toString();
+        setDepart(value);
+    }
+
     return (
         //stint.Date_Time_Start
         <div className="time-button">
-        
-        <p>Time arrive: {data.arrive} </p>
-        <DatePicker
-                selected = {SetArrive}
-                onChange={(SetArrive) => setStartDate(setArrive)}
+            <p>Time arrive: {data.arrive}</p>
+            <DatePicker
+                selected={startDate}
+                onChange={(e) => handleChangeArrive(e)}              
                 showTimeSelect
-                placeholderText="No Time Entered"
-                dateFormat="MMMM d, yyyy h:mm aa"
-                
-            /> 
-            <p>{setArrive}</p>
-            
-
+                timeIntervals={1}
+                placeholderText={"No Time Selected"}
+                dateFormat={"MM/dd/yyyy h:mm aa"}
+            />
             
             
             <p>Time depart: {data.depart}</p>
             <DatePicker
-                selected = {SetDepart}
-                onChange={(SetDepart) => setDepartDate(setDepart)}
+                selected = {endDate}
+                onChange={(e) => handleChangeDepart(e)} 
                 showTimeSelect
-                placeholderText="No Time Entered"
-                dateFormat="MMMM d, yyyy h:mm aa"
+                timeIntervals={1}
+                placeholderText={"No Time Selected"}
+                dateFormat={"MM/dd/yyyy h:mm aa"}
             />
         </div>
       

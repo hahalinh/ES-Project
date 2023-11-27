@@ -15,6 +15,9 @@ import uploadButton from './upload_button';
 
 
 function StintData() {
+    const clearTime = () => {
+        
+    }
     
     const [file, setFile] = useState(null);
     const clearTime = () => {
@@ -40,6 +43,10 @@ function StintData() {
     //added a way to track arrival times
     const [Arrival, setArrival] = useState(false); 
     
+    const [Depart, setDepart] = useState(false); 
+    
+    //added a way to track arrival times
+    const [Arrival, setArrival] = useState(false); 
     const [Depart, setDepart] = useState(false); 
     
     //stint data
@@ -121,15 +128,26 @@ function StintData() {
     /**
      * Sets the time arrive data to the current time and time depart data to empty
      */
-    const setTimeArrive = () => {
+    const setTimeArrive = (date) => {
         setStint({ ...stint, Date_Time_Start: Date.getDate(), Date_Time_End: "" })
+    }
+
+    const setTimeArrive2 = (date) => {
+        setArrival(true)
+        setStint({ ...stint, Date_Time_Start: date })
     }
 
     /**
      * Sets the time depart data to the current time
      */
-    const setTimeDepart = () => {
+    const setTimeDepart = (date) => {
         setStint({ ...stint, Date_Time_End: Date.getDate() })
+        
+    }
+
+    const setTimeDepart2 = (date) => {
+        setDepart(true)
+        setStint({ ...stint, Date_Time_End: date })
     }
 
     /**
@@ -252,8 +270,8 @@ function StintData() {
         let data = stint;
         data.StintID = stintID;
         const emptyFields = [];
-        const excludeKey = ["Comment","FirstName"]; //this can be missing in data
-        
+        const excludeKey = ["Comment"]; //this can be missing in data
+
         //Check for missing fields in stint data
         Object.entries(data).forEach(([key, value]) => {
             if (value === "" && !excludeKey.includes(key)) {
