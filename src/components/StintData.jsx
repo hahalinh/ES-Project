@@ -11,7 +11,7 @@ import Timer from './Timer';
 import Comment from './Comment';
 import { saveAs } from 'file-saver';
 import FeedingData from './FeedingData';
-import uploadButton from './upload_button';
+
 
 
 function StintData() {
