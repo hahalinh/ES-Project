@@ -1,20 +1,15 @@
 import React from 'react'
-import { useState } from 'react';
+import Button from '../Button';
 
 function ObserverLocation({setObs, data}) {
-  const [input, setInput] = useState("");
-
-  const handleChange = (e) => {
-    setInput(e.currentTarget.value);
-    setObs(e.currentTarget.value);
-  }
+  const dropdownValues = ["Fill", "In", "These", "Values"];
 
   return (
     <div>
       <p>Observer location: {data}</p>
-      <input onChange={(e) => handleChange(e)} value={input} placeholder="Observer location" className="input-field"/>
+      <Button handleData={setObs} value="drop-down" dropdownValues={dropdownValues} />
     </div>
   )
 }
 
-export default ObserverLocation
+export default ObserverLocation;

@@ -13,6 +13,9 @@ import { saveAs } from 'file-saver';
 import FeedingData from './FeedingData';
 
 function StintData() {
+    const clearTime = () => {
+        
+    }
     //feeding data
     const initialFeeding = {
         FeedingID: 1,
@@ -30,7 +33,10 @@ function StintData() {
         Plot_Status: "Outside Plot",
         Comment: ""
     }
-
+    //added a way to track arrival times
+    const [Arrival, setArrival] = useState(false); 
+    const [Depart, setDepart] = useState(false); 
+    
     //stint data
     const [stint, setStint] = useState({
         StintID: uuid().slice(0, 8),
@@ -95,15 +101,26 @@ function StintData() {
     /**
      * Sets the time arrive data to the current time and time depart data to empty
      */
-    const setTimeArrive = () => {
+    const setTimeArrive = (date) => {
         setStint({ ...stint, Date_Time_Start: Date.getDate(), Date_Time_End: "" })
+    }
+
+    const setTimeArrive2 = (date) => {
+        setArrival(true)
+        setStint({ ...stint, Date_Time_Start: date })
     }
 
     /**
      * Sets the time depart data to the current time
      */
-    const setTimeDepart = () => {
+    const setTimeDepart = (date) => {
         setStint({ ...stint, Date_Time_End: Date.getDate() })
+        
+    }
+
+    const setTimeDepart2 = (date) => {
+        setDepart(true)
+        setStint({ ...stint, Date_Time_End: date })
     }
 
     /**
@@ -226,7 +243,7 @@ function StintData() {
         let data = stint;
         data.StintID = stintID;
         const emptyFields = [];
-        const excludeKey = ["Comment"]; //this can be missing in data
+        const excludeKey = ["Comment", "FirstName"]; //this can be missing in data
 
         //Check for missing fields in stint data
         Object.entries(data).forEach(([key, value]) => {
@@ -337,7 +354,6 @@ function StintData() {
     useEffect(() => {
         setStintID(`${stint.Island}-${stint.Species}-${stint.Date_Time_Start}-${stint.FirstName}-${stint.LastName}`.replace(" ", "-"));
     }, [stint])
-    console.log("check localStorage: " + localStorage.getItem("Nest"));
     return (
         <div>
 
@@ -364,20 +380,37 @@ function StintData() {
                                     <div className="right-column">
                                         <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
                                         <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
-                                        <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} />
+                                        
+                                        {/*  */}
+                                        <Timer setArrive={setTimeArrive2} setDepart={setTimeDepart2} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} isOpen={isOpenF}/>
+                                        
+                                        
                                         <Comment setComment={setComment} data={stint.Comment}/>
                                     </div>
 
                                 </div>
 
                                 <div className="login-btn">
-                                    <button onClick={() => setIsOpenF(!isOpenF)}>
-                                        {
-                                            !isOpenF ? 'Open Feeding' : 'Back to Stint'
+                                    <button onClick={() => {
+                                        if (!isOpenF && !Arrival){
+                                            setTimeArrive();
+                                            setArrival(true);
                                         }
-                                    </button>
+                                        setIsOpenF(!isOpenF); 
+                                }}>
+                                {!isOpenF ? 'Open Feeding' : 'Back to Stint'}
+                                </button>
 
-                                    <button onClick={handleSaveClick}>Save file</button>
+                                    <button onClick={() =>
+                                        {
+                                            handleSaveClick();
+                                            if(!Depart || handleSaveClick.emptyFields.length < 0){
+                                                clearTime();
+                                                setTimeDepart();
+                                                setDepart(true);
+                                            }
+                                        }
+                                        }>Save file</button>
 
 
                                     <input

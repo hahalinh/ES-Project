@@ -10,7 +10,7 @@ function Button({ handleData, value, type, className, selected, dropdownValues }
         value="Clear"
         type={type ? type : "button"}
         className={className}
-        
+
       />
     );
   }

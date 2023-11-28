@@ -1,20 +1,16 @@
 import React from 'react'
-import { useState } from 'react'
+import Button from '../Button';
 
 function Island({ setIsland, data }) {
-  const [input, setInput] = useState("");
-
-  const handleChange = (e) => {
-    setInput(e.currentTarget.value);
-    setIsland(e.currentTarget.value);
-  }
+  const dropdownValues = ["Fill", "In", "These", "Values"];
 
   return (
     <div>
       <p>Island: {data}</p>
-      <input className="input-field" onChange={(e) => handleChange(e)} value={input} placeholder="Island" />
+      <Button handleData={setIsland} value="drop-down" dropdownValues={dropdownValues} />
+      
     </div>
   )
 }
 
-export default Island
+export default Island;
