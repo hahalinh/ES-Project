@@ -306,11 +306,54 @@ function StintData() {
         reader.readAsText(file);
     }
 
+    const processCSVData = (data) => {
+        // Here, you can process the CSV data (e.g., parsing it into an array or object)
+        // For example, you can use a library like 'csv-parser' or write custom parsing logic
+        const obj = {};
+        const lines = data.split('\n');
+        for (let i = 0; i < lines.length; i++) {
+            lines[i] = lines[i].replace(/\r/g, '').split(',');
+        };
+        
+        for (let i = 0; i < lines.length; i++) {
+            obj[lines[i][0]] = lines[i].slice(1);
+        };
+        // console.log(obj);
+        return obj;
+    };
+    
+    const handleCFGOpenClick = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const csv = e.target.result;
+            const drop = processCSVData(csv);
+            const keyList = Object.keys(drop)
+            // console.log("key list: " + JSON.stringify(keyList))
+
+            // console.log("handleCFGOpenClick drop: "+ drop)
+            for (let i = 0; i < keyList.length; i++) {
+                const keyvar = keyList[i];
+                // console.log("handleCFGOpenClick: " + keyvar + "\t" + JSON.stringify(drop[keyvar]));
+                localStorage.setItem(keyvar, JSON.stringify(drop[keyvar]));
+            }
+            // console.log("handleCFGOpenClick: " + JSON.stringify(drop["Nest"]))
+        };
+
+        reader.onerror = () => {
+            alert('Error reading the CSV file.');
+        };
+
+        reader.readAsText(file);
+    }
+
     //detect change in stint to create stintID
     useEffect(() => {
         setStintID(`${stint.Island}-${stint.Species}-${stint.Date_Time_Start}-${stint.FirstName}-${stint.LastName}`.replace(" ", "-"));
     }, [stint])
-
     return (
         <div>
 
@@ -376,6 +419,14 @@ function StintData() {
                                         accept=".csv"
                                         onChange={(e) => handleOpenClick(e)}
                                     />
+
+                                    <input
+                                        type="file"
+                                        ref={fileInput}
+                                        accept=".csv"
+                                        onChange={(e) => handleCFGOpenClick(e)}
+                                    />
+
                                 </div>
 
                                 <DataTable stint={stint} />
