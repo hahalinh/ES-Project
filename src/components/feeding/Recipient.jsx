@@ -14,7 +14,7 @@ function Recipient({ setRecipient, data }) {
 
   return (
     <div className="recipient">
-      <p>Recipient: {data} <button style={{margin: "0px 0px 0px 10px", height: "38px", width: "40px"}}onClick={() => setShowInfo(true)}>!</button></p>
+      <p>Recipient: {data} <button style={{margin: "0px 0px 0px 10px", height: "38px", width: "40px"}}onClick={() => setShowInfo(true)}>?</button></p>
       <div className="recipient-bt">
         {recip.map((item, index) => (
           <Button key={index} value={item} handleData={setRecipient} selected={data === item} />
@@ -26,6 +26,7 @@ function Recipient({ setRecipient, data }) {
 
         <Info trigger={ShowInfo} setTrigger = {setShowInfo}>
           <h3>Recipient Info</h3>
+          <div style={{ height: '500px', overflowY: 'scroll' }}>
           <p>A:  1st hatched "A" chick (marked on head)</p>
           <p>B:  2nd hatched "B" chick (marked on back)</p>
           <p>C:  3rd hatched "C" chick (marked on breast)</p>
@@ -40,6 +41,7 @@ function Recipient({ setRecipient, data }) {
           <p>UI: Unkown Invert</p>
           <p>T:  Collected by observer</p>
           <p>O:  not eaten (fish dropped at nest)</p>
+          </div>
         </Info>
       </div>
     </div>
