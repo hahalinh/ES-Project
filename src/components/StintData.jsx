@@ -11,7 +11,7 @@ import Timer from './Timer';
 import Comment from './Comment';
 import { saveAs } from 'file-saver';
 import FeedingData from './FeedingData';
-import uploadButton from './upload_button';
+
 
 
 function StintData() {
@@ -20,9 +20,7 @@ function StintData() {
     }
     
     const [file, setFile] = useState(null);
-    const clearTime = () => {
-        
-    }
+   
     //feeding data
     const initialFeeding = {
         FeedingID: 1,
@@ -41,9 +39,7 @@ function StintData() {
         Comment: ""
     }
     //added a way to track arrival times
-    const [Arrival, setArrival] = useState(false); 
-    
-    const [Depart, setDepart] = useState(false); 
+   
     
     //added a way to track arrival times
     const [Arrival, setArrival] = useState(false); 
