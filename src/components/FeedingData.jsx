@@ -393,7 +393,6 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
                     </div>
                     
                 </div>
-                <p>{file}</p>   
                 <div className="stintl-container">
                     <Nest file={file} setNest={setNest} data={feeding.Nest} />
                     <Provider file={file}setProvider={setProvider} data={feeding.Provider} /> 

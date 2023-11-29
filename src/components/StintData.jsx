@@ -362,7 +362,6 @@ function StintData() {
 
     return (
         <div>
-          <p>{file}</p>
             {
                 !isOpenF ?
                     (

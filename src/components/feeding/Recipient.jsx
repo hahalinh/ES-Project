@@ -89,7 +89,7 @@ function Recipient({file, setRecipient, data }) {
   return (
     <div className="recipient">
       <p>Recipient: {data}</p>
-      <p>{StintData.file}</p>
+      {/* <p>{StintData.file}</p> */}
       {/* <ul>{Object.entries(dict).map(([key,value])=>(
                 <li key={key}>{key}:{value}</li>
             ))}</ul> */}

@@ -77,9 +77,9 @@ function Nest({file, setNest, data }) {
   return (
     <div className="nest">
       <p>Nest: {data}</p>
-      <ul>{Object.entries(dict).map(([key,value])=>(
+      {/* <ul>{Object.entries(dict).map(([key,value])=>(
                 <li key={key}>{key}:{value}</li>
-            ))}</ul>
+            ))}</ul> */}
       <div className="nest-bt">
         {nests.map((item, index) => (
           <Button

@@ -93,9 +93,9 @@ function PreyItem({file, setPreyItem, data}) {
         <div className="prey-item">
             <p>Prey Item: {data}</p>
             
-            <ul>{Object.entries(dict).map(([key,value])=>(
+            {/* <ul>{Object.entries(dict).map(([key,value])=>(
                 <li key={key}>{key}:{value}</li>
-            ))}</ul>
+            ))}</ul> */}
             <div className="prey-item-bt">
                 {
                     preyI.map((item, index) => {

@@ -57,15 +57,14 @@ function Provider({file, setProvider, data }) {
   }, [dict]); 
   
 
-  return (
+  return ( 
     <div className="provider">
       <p>Provider: {data}</p>
-      <p>{dropdownValues}</p>
-      <br></br>
-      <p>{upperValues}</p>
-      <ul>{Object.entries(dict).map(([key,value])=>(
+      {/* <p>{dropdownValues}</p> */}
+      {/* <p>{upperValues}</p> */}
+      {/* <ul>{Object.entries(dict).map(([key,value])=>(
                 <li key={key}>{key}:{value}</li>
-            ))}</ul>
+            ))}</ul> */}
       <div className="provider-bt">
         {providers.map((item, index) => (
           <Button
