@@ -305,7 +305,7 @@ function StintData() {
 
         reader.readAsText(file);
     }
-
+    
     const processCSVData = (data) => {
         // Here, you can process the CSV data (e.g., parsing it into an array or object)
         // For example, you can use a library like 'csv-parser' or write custom parsing logic
@@ -337,7 +337,7 @@ function StintData() {
             // console.log("handleCFGOpenClick drop: "+ drop)
             for (let i = 0; i < keyList.length; i++) {
                 const keyvar = keyList[i];
-                // console.log("handleCFGOpenClick: " + keyvar + "\t" + JSON.stringify(drop[keyvar]));
+                console.log("handleCFGOpenClick: " + keyvar + "\t" + JSON.stringify(drop[keyvar]));
                 localStorage.setItem(keyvar, JSON.stringify(drop[keyvar]));
             }
             // console.log("handleCFGOpenClick: " + JSON.stringify(drop["Nest"]))
@@ -348,8 +348,13 @@ function StintData() {
         };
 
         reader.readAsText(file);
+        refreshPage();
     }
 
+    function refreshPage() {
+        window.location.reload(false);
+    }
+    
     //detect change in stint to create stintID
     useEffect(() => {
         setStintID(`${stint.Island}-${stint.Species}-${stint.Date_Time_Start}-${stint.FirstName}-${stint.LastName}`.replace(" ", "-"));
