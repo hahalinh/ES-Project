@@ -64,7 +64,7 @@ export const handleSaveForCloseFeeding = (stint, stintID) => {
 
     let jsonString = JSON.stringify(data);
 
-    // Save the CSV data to localStorage
+    // Save the json data to localStorage
     localStorage.setItem('backup', jsonString);
 }
 

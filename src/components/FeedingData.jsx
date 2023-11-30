@@ -226,32 +226,32 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle, 
                 }
             });
 
-            // If there's filled data, prompt for deletion confirmation
-            if (hasFilledData) {
-                const confirmation = window.confirm(
-                    `Are you sure you want to delete the data at feeding ${index + 1}?`
-                );
+            // // If there's filled data, prompt for deletion confirmation
+            // if (hasFilledData) {
+            //     const confirmation = window.confirm(
+            //         `Are you sure you want to delete the data at feeding ${index + 1}?`
+            //     );
 
-                if (confirmation) {
-                    const newData = feedings.filter((item, i) => i !== index);
-                    setFeedings(newData);
+            //     if (confirmation) {
+            //         const newData = feedings.filter((item, i) => i !== index);
+            //         setFeedings(newData);
 
-                    if (index === 0) {
-                        handleOpenFeeding(0);
-                    } else {
-                        handleOpenFeeding(index - 1);
-                    }
-                }
-            } else {
-                const newData = feedings.filter((item, i) => i !== index);
-                setFeedings(newData);
+            //         if (index === 0) {
+            //             handleOpenFeeding(0);
+            //         } else {
+            //             handleOpenFeeding(index - 1);
+            //         }
+            //     }
+            // } else {
+            //     const newData = feedings.filter((item, i) => i !== index);
+            //     setFeedings(newData);
 
-                if (index === 0) {
-                    handleOpenFeeding(0);
-                } else {
-                    handleOpenFeeding(index - 1);
-                }
-            }
+            //     if (index === 0) {
+            //         handleOpenFeeding(0);
+            //     } else {
+            //         handleOpenFeeding(index - 1);
+            //     }
+            // }
         }
     };
 
@@ -279,6 +279,7 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle, 
         if (feedingElem) {
             feedingElem.classList.add('closed_feeding');
         }
+
         // make the closed tab disappear
         displayClosedFeeding(false);
 

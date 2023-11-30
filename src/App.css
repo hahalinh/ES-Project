@@ -51,10 +51,9 @@ html, body, #root {
 .stint-id::before{
   content:'';
   position:absolute;
-  left: 50%;
   bottom: 0;
   height: 3px;
-  width: 100px;
+  width: 250px;
   background:#9b59b6;
 }
 .row-container {

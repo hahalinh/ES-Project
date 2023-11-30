@@ -43,7 +43,8 @@ function StintData() {
         const backupData = localStorage.getItem('backup');
 
         console.log("BackupData contents:", backupData);
-
+        
+        // if local storage not null
         if (backupData != null) {
             // Parse the JSON data from localStorage
             console.log("Parse the JSON data from localStorage:", backupData);
