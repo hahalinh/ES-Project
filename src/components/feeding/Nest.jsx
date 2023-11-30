@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../Button';
-import Papa from "papaparse";
+//import Papa from "papaparse";
 
 function Nest({setNest, data}) {
   const first_k_ele = 10;
