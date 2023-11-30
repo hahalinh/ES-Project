@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../Button';
 import { useState, useEffect } from 'react';
-import Papa from "papaparse";
+//import Papa from "papaparse";
 
 function PreySize({ setPreySize, data }) {
   const first_k_ele = 10;
