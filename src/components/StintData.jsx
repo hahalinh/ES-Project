@@ -40,12 +40,12 @@ function StintData() {
         Comment: ""
     }
     //added a way to track arrival times
-   
-    
-    //added a way to track arrival times
     const [Arrival, setArrival] = useState(false); 
     const [Depart, setDepart] = useState(false); 
+        //added a way to track arrival times
+   
     
+   
     //stint data
     const [stint, setStint] = useState({
         StintID: uuid().slice(0, 8),
@@ -126,8 +126,11 @@ function StintData() {
      * Sets the time arrive data to the current time and time depart data to empty
      */
     const setTimeArrive = (date) => {
+    const setTimeArrive = (date) => {
         setStint({ ...stint, Date_Time_Start: Date.getDate(), Date_Time_End: "" })
     }
+
+    
 
     const setTimeArrive2 = (date) => {
         setArrival(true)
@@ -137,7 +140,7 @@ function StintData() {
     /**
      * Sets the time depart data to the current time
      */
-    const setTimeDepart = (date) => {
+    const setTimeDepart = (datedate) => {
         setStint({ ...stint, Date_Time_End: Date.getDate() })
         
     }
@@ -145,7 +148,10 @@ function StintData() {
     const setTimeDepart2 = (date) => {
         setDepart(true)
         setStint({ ...stint, Date_Time_End: date })
+        
     }
+
+
 
     /**
      * Sets the feeding data in stintl
@@ -267,7 +273,7 @@ function StintData() {
         let data = stint;
         data.StintID = stintID;
         const emptyFields = [];
-        const excludeKey = ["Comment"]; //this can be missing in data
+        const excludeKey = ["Comment", "FirstName"]; //this can be missing in data
 
         //Check for missing fields in stint data
         Object.entries(data).forEach(([key, value]) => {
@@ -344,12 +350,56 @@ function StintData() {
 
         reader.readAsText(file);
     }
-
-   
-        
-       
     
+    const processCSVData = (data) => {
+        // Here, you can process the CSV data (e.g., parsing it into an array or object)
+        // For example, you can use a library like 'csv-parser' or write custom parsing logic
+        const obj = {};
+        const lines = data.split('\n');
+        for (let i = 0; i < lines.length; i++) {
+            lines[i] = lines[i].replace(/\r/g, '').split(',');
+        };
+        
+        for (let i = 0; i < lines.length; i++) {
+            obj[lines[i][0]] = lines[i].slice(1);
+        };
+        // console.log(obj);
+        return obj;
+    };
+    
+    const handleCFGOpenClick = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
 
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const csv = e.target.result;
+            const drop = processCSVData(csv);
+            const keyList = Object.keys(drop)
+            // console.log("key list: " + JSON.stringify(keyList))
+
+            // console.log("handleCFGOpenClick drop: "+ drop)
+            for (let i = 0; i < keyList.length; i++) {
+                const keyvar = keyList[i];
+                console.log("handleCFGOpenClick: " + keyvar + "\t" + JSON.stringify(drop[keyvar]));
+                localStorage.setItem(keyvar, JSON.stringify(drop[keyvar]));
+            }
+            // console.log("handleCFGOpenClick: " + JSON.stringify(drop["Nest"]))
+        };
+
+        reader.onerror = () => {
+            alert('Error reading the CSV file.');
+        };
+
+        reader.readAsText(file);
+        refreshPage();
+    }
+
+    function refreshPage() {
+        window.location.reload(false);
+    }
+    
     //detect change in stint to create stintID
     useEffect(() => {
         setStintID(`${stint.Island}-${stint.Species}-${stint.Date_Time_Start}-${stint.FirstName}-${stint.LastName}`.replace(" ", "-"));
@@ -386,8 +436,8 @@ function StintData() {
                                         <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
                                         <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
                                         
-                                        {/*the datepicker needs to update stint.Date_Time_Start*/}
-                                        <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} isOpen={isOpenF}/>
+                                        {/*  */}
+                                        <Timer setArrive={setTimeArrive2} setDepart={setTimeDepart2} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} isOpen={isOpenF}/>
                                         
                                         
                                         <Comment setComment={setComment} data={stint.Comment}/>
@@ -426,6 +476,14 @@ function StintData() {
                                         accept=".csv"
                                         onChange={(e) => handleOpenClick(e)}
                                     />
+
+                                    <input
+                                        type="file"
+                                        ref={fileInput}
+                                        accept=".csv"
+                                        onChange={(e) => handleCFGOpenClick(e)}
+                                    />
+
                                 </div>
                                 
                                     <div>

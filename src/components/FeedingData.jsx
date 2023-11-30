@@ -14,7 +14,8 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import { clear } from '@testing-library/user-event/dist/clear';
 
-function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onToggle }) {
+function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }) {
+    
     
     const timeLogger = () => {
         if(!feeding.Time_Arrive){
@@ -52,6 +53,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
     //index of the number of items (for setting data at index)
     const [nIndex, setNIndex] = useState(0);
     
+    
     /**
      * this handles button input for plot data
      * @param {*} Plot
@@ -74,6 +76,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
      */
     const setProvider = (Provider) => {
         
+        
         setFeeding({ ...feeding, Provider: Provider });
     }
 
@@ -83,17 +86,20 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
      */
     const setNumberItems = (item) => {
         
+        
         setFeeding({ ...feeding, Number_of_Items: item });
     }
 
     /**
     * this handles button input for recipent data
     * @param {*} Recipient 
+    * @param {*} Recipient 
     */
     const setRecipient = (Recipient) => {
         let items = [...{ ...feeding }.Number_of_Items];
         let item = items[nIndex];
         item.Recipient = Recipient;
+        
         
         setNumberItems(items);
     }
@@ -107,6 +113,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
         let item = items[nIndex];
         item.Prey_Item = Prey_Item;
         
+        
         setNumberItems(items);
     }
 
@@ -119,6 +126,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
         let item = items[nIndex];
         item.Prey_Size = Prey_Size;
         
+        
         setNumberItems(items);
     }
 
@@ -129,11 +137,19 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
         setFeeding({ ...feeding, Time_Arrive: Date.getTime(), Time_Depart: "" })
     }
 
+    const setTimeArrive2 = (date) => {
+        setFeeding({ ...feeding, Time_Arrive: date })
+    }
+
     /**
      * this sets the time depart data to the indexent time
      */
     const setTimeDepart = () => {
         setFeeding({ ...feeding, Time_Depart: Date.getTime() })
+    }
+
+    const setTimeDepart2 = (date) => {
+        setFeeding({ ...feeding, Time_Depart: date })
     }
 
     /**
@@ -274,11 +290,18 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
             closedIndex.filter(item => item !== index) : [...closedIndex, index]) == undefined){ //if no depart time exists
             setTimeDepart();
         }
+        } else { 
+            if(!feeding.Time_Depart && setClosedIndex(closedIndex.includes(index) ?
+            closedIndex.filter(item => item !== index) : [...closedIndex, index]) == undefined){ //if no depart time exists
+            setTimeDepart();
+        }
             // If all fields are filled, close the feeding
             //Bug: pressing close feeding twice brings it back
             //Fix: closed feedings should not be re opened.
             setClosedIndex(closedIndex.includes(index) ?
                 closedIndex.filter(item => item !== index) : [...closedIndex, index]);
+            
+            
             
             
             // add the class `closed_feeding` to the element
@@ -294,6 +317,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
     }
 
     const displayClosedFeeding = (bool) => {
+        setDisplayClosed(bool); //issue with this as well
         setDisplayClosed(bool); //issue with this as well
     }
     //*
@@ -326,6 +350,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
     return (
         <>
             
+            
             <div className="outer-container">
 
                 <div  className="feed_header">
@@ -347,9 +372,10 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
 
 
                 <div className="menu-container">
+                    {/*  */}
                     {/* In this instance feeding.Time_Arrive needs to get compared to the value provided by the date picker and make alterations*/}
-                    <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: feeding.Time_Arrive, depart: feeding.Time_Depart }} />
-                    
+                    <Timer setArrive={setTimeArrive2} setDepart={setTimeDepart2} data={{ arrive: feeding.Time_Arrive, depart: feeding.Time_Depart }} />
+                                        
                     <div id='plot-noItem-btn'>
 
                         <Plot setPlot={setPlot} data={feeding.Plot_Status} />
@@ -377,6 +403,8 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
                                 return (
                                     <input key={i} value={value} type="button"
                                         onClick={() => handleOpenFeeding(i)}
+
+                                        // if clicked then log start time
 
                                         // if clicked then log start time
                                         className={index === i ? "selected-btn" : ""}

@@ -4,49 +4,21 @@ import { useState, useEffect } from 'react';
 import Papa from "papaparse";
 
 function PreySize({ setPreySize, data }) {
-  const upperValues = ["0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2","Unknown"];
-  const dropdownValues = ["2.25", "2.5", "2.75", "3", "3.25"];
-  const [preySizes, setPreySizes] = useState(upperValues);
-  const initialdict = {
-  "0.25":0, "0.5":0, "0.75":0, 
-  "1":0, "1.25":0, "1.5":0, 
-  "1.75":0, "2":0,"Unknown":0,
-  "2.25":0, "2.5":0, "2.75":0, 
-  "3":0, "3.25":0};
+  const first_k_ele = 10;
+  var preySize_list = ["0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2","Unknown", "2.25", "2.5", "2.75", "3", "3.25"];
 
-  const [dict, setDict] = useState(initialdict);
-  const maxKey = Object.keys(dict).reduce((a, b) => dict[a] > dict[b] ? a : b);
-  const maxVal = dict[maxKey];
+  const tmp = localStorage.getItem("PreySize");
+  if (tmp != null) {
+    const tmp_ = JSON.parse(tmp);
+    console.log("PreySize.jsx: " + JSON.stringify(tmp_) + "\t data type: " + typeof(tmp_) + "\t" + tmp_[0] + "\t" + typeof(tmp_[0]) + "\t" + tmp_[-1]);
+    preySize_list = Array.from(tmp_);
+  }
 
-  useEffect(() => {
-    const readCsvAndUpdateDict = () => {
-      // Replace this with the actual path to your CSV or use a file input
-      const file = '/test.csv'; 
-      fetch(file)
-        .then(response => response.text())
-        .then(csvText => {
-          Papa.parse(csvText, {
-            header: true,
-            complete: (results) => {
-              const newDict = { ...dict };
-              //iterate through the rows
-              results.data.forEach(row => {
-                const item = row['Prey_Size'];
-                if (item && newDict.hasOwnProperty(item)) {
-                  newDict[item] += 1;
-                }
-              });
-              setDict(newDict)
-            }
-          });
-          
-        })
-       
-    };
+  const [preySizes, setPreySizes] = useState(preySize_list.slice(0, first_k_ele));
+  const [dropdownValues, setDropdownValues] = useState(preySize_list.slice(first_k_ele));
 
-    readCsvAndUpdateDict();
-  }, []);
-
+  // const [preySizes, setPreySizes] = useState(["0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2","Unknown"]);
+  // const dropdownValues = ["2.25", "2.5", "2.75", "3", "3.25"];
 
   const addPreySizeOption = (data) => {
     setPreySizes([...preySizes, data]);
