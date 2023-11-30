@@ -16,9 +16,6 @@ function StintData() {
     const clearTime = () => {
         
     }
-    
-    const [file, setFile] = useState(null);
-   
     //feeding data
     const initialFeeding = {
         FeedingID: 1,
@@ -39,10 +36,7 @@ function StintData() {
     //added a way to track arrival times
     const [Arrival, setArrival] = useState(false); 
     const [Depart, setDepart] = useState(false); 
-        //added a way to track arrival times
-   
     
-   
     //stint data
     const [stint, setStint] = useState({
         StintID: uuid().slice(0, 8),
@@ -59,22 +53,7 @@ function StintData() {
         Comment: "",
         feedingData: [initialFeeding]
     });
-    const initaldict = {
-        StintID: uuid().slice(0, 8),
-        Stint_Type: "Chick Provisioning",
-        Island: "",
-        Species: "",
-        Prey_Size_Method: "Numeric",
-        Prey_Size_Reference: "Culmen length",
-        FirstName: "",
-        LastName: "",
-        Observer_Location: "",
-        Date_Time_Start: "",
-        Date_Time_End: "",
-        Comment: "",
-        feedingData: [initialFeeding]};
-    //const [stint1, setStint1] = useState(initaldict);
-   
+
     const [stintID, setStintID] = useState(`${stint.Island}-${stint.Species}-${stint.Date_Time_Start}-${stint.FirstName}-${stint.LastName}`)
 
     //display stintl/feeding data
@@ -122,12 +101,9 @@ function StintData() {
     /**
      * Sets the time arrive data to the current time and time depart data to empty
      */
-    
     const setTimeArrive = (date) => {
         setStint({ ...stint, Date_Time_Start: Date.getDate(), Date_Time_End: "" })
     }
-
-    
 
     const setTimeArrive2 = (date) => {
         setArrival(true)
@@ -137,7 +113,7 @@ function StintData() {
     /**
      * Sets the time depart data to the current time
      */
-    const setTimeDepart = (datedate) => {
+    const setTimeDepart = (date) => {
         setStint({ ...stint, Date_Time_End: Date.getDate() })
         
     }
@@ -145,10 +121,7 @@ function StintData() {
     const setTimeDepart2 = (date) => {
         setDepart(true)
         setStint({ ...stint, Date_Time_End: date })
-        
     }
-
-
 
     /**
      * Sets the feeding data in stintl
@@ -307,31 +280,16 @@ function StintData() {
         csv += jsonToCSV(data);
 
         const file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-        
+
         const dowloadName = stintID;
-        setFile(csv);
+
         saveAs(file, dowloadName);
-        
-        
     }
-    const [name,setItem] = useState(["test"]);
 
-    const testarry = ["1","2","3","4","4","42", "57","56"];
-    const testarry2= ["1","3","4","5","6","20","17","p2"];
-    const combined = [...testarry, ...testarry2];
-
-
-    useEffect(() => {
-        // storing input name
-        localStorage.setItem("name", JSON.stringify(name));
-      },[name]);
-      
-        //localStorage.setItem("test");
-        //return;
     const handleOpenClick = (event) => {
         const file = event.target.files[0];
         if (!file) return;
-        
+
         const reader = new FileReader();
 
         reader.onload = (e) => {
@@ -401,14 +359,9 @@ function StintData() {
     useEffect(() => {
         setStintID(`${stint.Island}-${stint.Species}-${stint.Date_Time_Start}-${stint.FirstName}-${stint.LastName}`.replace(" ", "-"));
     }, [stint])
-
-    
-    
-   
-
-
     return (
         <div>
+
             {
                 !isOpenF ?
                     (
@@ -441,14 +394,12 @@ function StintData() {
                                     </div>
 
                                 </div>
-                                
+
                                 <div className="login-btn">
                                     <button onClick={() => {
                                         if (!isOpenF && !Arrival){
-                                            //Timer.Arrival
-                                            console.log(Timer.setArrive)
-                                             setTimeArrive();
-                                             setArrival(true);
+                                            setTimeArrive();
+                                            setArrival(true);
                                         }
                                         setIsOpenF(!isOpenF); 
                                 }}>
@@ -458,7 +409,7 @@ function StintData() {
                                     <button onClick={() =>
                                         {
                                             handleSaveClick();
-                                            if(!Depart){
+                                            if(!Depart || handleSaveClick.emptyFields.length < 0){
                                                 clearTime();
                                                 setTimeDepart();
                                                 setDepart(true);
@@ -466,7 +417,7 @@ function StintData() {
                                         }
                                         }>Save file</button>
 
-
+                                   
                                     <input
                                         type="file"
                                         ref={fileInput}
@@ -482,10 +433,9 @@ function StintData() {
                                     />
 
                                 </div>
-                                
-                                    <div>
-                                        
-                                        </div>     
+                            
+                                <DataTable stint={stint} />
+
                             </div>
                         </>
                     )
@@ -500,7 +450,6 @@ function StintData() {
                             </button> */}
                             <div>
                                 <FeedingData
-                                    file={combined}
                                     initialFeeding={initialFeeding}
                                     setFeedings={setFeedings}
                                     feedings={stint.feedingData}
@@ -517,4 +466,3 @@ function StintData() {
 }
 
 export default StintData;
-
