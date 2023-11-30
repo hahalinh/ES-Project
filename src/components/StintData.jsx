@@ -13,6 +13,7 @@ import { saveAs } from 'file-saver';
 import FeedingData from './FeedingData';
 
 function StintData() {
+    const [csv_uploaded, setcsv] = useState(" ");
     const clearTime = () => {
         
     }
@@ -327,9 +328,10 @@ function StintData() {
         if (!file) return;
 
         const reader = new FileReader();
-
+        setcsv(file);
         reader.onload = (e) => {
             const csv = e.target.result;
+            
             const drop = processCSVData(csv);
             const keyList = Object.keys(drop)
             // console.log("key list: " + JSON.stringify(keyList))
@@ -448,8 +450,10 @@ function StintData() {
                                     !isOpenF ? 'Open Feeding' : 'Back to Stint'
                                 }
                             </button> */}
+                            
                             <div>
                                 <FeedingData
+                                    file={csv_uploaded}
                                     initialFeeding={initialFeeding}
                                     setFeedings={setFeedings}
                                     feedings={stint.feedingData}
