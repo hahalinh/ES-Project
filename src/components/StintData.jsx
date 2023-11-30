@@ -12,9 +12,6 @@ import Comment from './Comment';
 import { saveAs } from 'file-saver';
 import FeedingData from './FeedingData';
 
-
-
-
 function StintData() {
     const clearTime = () => {
         
@@ -125,7 +122,7 @@ function StintData() {
     /**
      * Sets the time arrive data to the current time and time depart data to empty
      */
-    const setTimeArrive = (date) => {
+    
     const setTimeArrive = (date) => {
         setStint({ ...stint, Date_Time_Start: Date.getDate(), Date_Time_End: "" })
     }
@@ -519,5 +516,5 @@ function StintData() {
     )
 }
 
-export default StintData
+export default StintData;
 

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Button from '../Button';
 import Papa from "papaparse";
 
-function Nest({file, setNest, data }) {
+function Nest({setNest, data}) {
   const first_k_ele = 10;
   var nest_list = ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20"];
-
+  const upperLimit = 10;
   const tmp = localStorage.getItem("Nest");
   if (tmp != null) {
     const tmp_ = JSON.parse(tmp);
@@ -47,24 +47,19 @@ function Nest({file, setNest, data }) {
 useEffect(() => {
     
   const providersWithCounts = Object.keys(dict).filter(key => dict[key] > 0);
-providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-const providersWithoutCounts = upperValues.filter(key => !providersWithCounts.includes(key));
-const sortedKeys = Object.keys(dict);
+  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
+  const providersWithoutCounts = nest_list.filter(key => !providersWithCounts.includes(key));
+  const sortedKeys = Object.keys(dict);
 
-providersWithCounts.sort((a, b) => dict[b] - dict[a]);
+  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
 
-
-setRecip(providersWithCounts.slice(0,upperLimit));
-
-setDropdownValues(sortedKeys.slice(upperLimit));
-}, [dict]);
+  setNests(providersWithCounts.slice(0,upperLimit));
+  setDropdownValues(sortedKeys.slice(upperLimit));
+  }, [dict]);
 
   return (
     <div className="nest">
       <p>Nest: {data}</p>
-      {/* <ul>{Object.entries(dict).map(([key,value])=>(
-                <li key={key}>{key}:{value}</li>
-            ))}</ul> */}
       <div className="nest-bt">
         {nests.map((item, index) => (
           <Button

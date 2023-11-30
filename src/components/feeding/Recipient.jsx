@@ -1,10 +1,11 @@
 import React, { useState,useEffect } from 'react';
 import Button from '../Button';
+import Info from '../Info';
 
-function Recipient({file, setRecipient, data }) {
+function Recipient({setRecipient, data }) {
   const first_k_ele = 10;
   var recipient_list = ["A", "A1", "B", "UC", "U", "K", "O", "S", "M", "Y", "C", "N", "R", "T", "UA"];
-
+  const upperLimit = 10;
   const tmp = localStorage.getItem("Recipient");
   if (tmp != null) {
     const tmp_ = JSON.parse(tmp);
@@ -51,13 +52,13 @@ function Recipient({file, setRecipient, data }) {
     
   const providersWithCounts = Object.keys(dict).filter(key => dict[key] > 0);
   providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  const providersWithoutCounts = upperValues.filter(key => !providersWithCounts.includes(key));
+  const providersWithoutCounts = recipient_list.filter(key => !providersWithCounts.includes(key));
   const sortedKeys = Object.keys(dict);
 
   providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  setProviders(providersWithCounts.slice(0,upperLimit));
+  setRecip(providersWithCounts.slice(0,upperLimit));
   setDropdownValues(sortedKeys.slice(upperLimit));
-}, [dict]);
+  }, [dict]);
   const addRecipOption = (data) => {
     setRecip([...recip, data]);
   };

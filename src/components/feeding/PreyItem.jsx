@@ -1,12 +1,12 @@
 import React from 'react'
 import Button from '../Button'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Info from '../Info'
 
 function PreyItem({setPreyItem, data}) {
     const first_k_ele = 10;
     var preyItem_list = ["H", "U", "R", "S", "UF", "A", "HD", "T", "H or R", "E", "ALE", "AS", "B", "BR", "C", "CA", "CH", "CU", "CUS", "D", "DR", "EEL", "EP", "EW", "F", "FS", "G", "GH", "I", "J", "K", "KF", "L", "LA/H", "LA/HD", "LA/R", "LA/S", "LA/UF", "M", "MF", "O", "P", "PL", "PS", "PUF", "Q", "RF", "RG", "ROS", "RS", "SB", "SH", "SM", "SN", "SP", "SS", "SY", "T", "TC", "U", "UF1", "UF1-SI2016", "UFEER2016", "UF-PI2017", "UFSI2015", "UG", "LA/UF", "UI", "V", "W", "X", "Y", "Z"];
-
+    const upperLimit = 10;
     const tmp = localStorage.getItem("PreyItem");
     if (tmp != null) {
         const tmp_ = JSON.parse(tmp);
@@ -48,13 +48,13 @@ function PreyItem({setPreyItem, data}) {
           }
       };
   readCsvAndUpdateDict();
-  }, [nest_list]);
+  }, [preyItem_list]);
 
   useEffect(() => {
     
   const providersWithCounts = Object.keys(dict).filter(key => dict[key] > 0);
   providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  const providersWithoutCounts = upperValues.filter(key => !providersWithCounts.includes(key));
+  const providersWithoutCounts = preyItem_list.filter(key => !providersWithCounts.includes(key));
   const sortedKeys = Object.keys(dict);
 
   providersWithCounts.sort((a, b) => dict[b] - dict[a]);

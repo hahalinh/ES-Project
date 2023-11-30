@@ -290,11 +290,8 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
             closedIndex.filter(item => item !== index) : [...closedIndex, index]) == undefined){ //if no depart time exists
             setTimeDepart();
         }
-        } else { 
-            if(!feeding.Time_Depart && setClosedIndex(closedIndex.includes(index) ?
-            closedIndex.filter(item => item !== index) : [...closedIndex, index]) == undefined){ //if no depart time exists
-            setTimeDepart();
-        }
+        
+        
             // If all fields are filled, close the feeding
             //Bug: pressing close feeding twice brings it back
             //Fix: closed feedings should not be re opened.
@@ -422,11 +419,11 @@ function FeedingData({ initialFeeding, feedings, setFeedings, isOpen, onToggle }
                     
                 </div>
                 <div className="stintl-container">
-                    <Nest file={file} setNest={setNest} data={feeding.Nest} />
-                    <Provider file={file}setProvider={setProvider} data={feeding.Provider} /> 
-                    <Recipient file={file} setRecipient={setRecipient} data={feeding.Number_of_Items[nIndex].Recipient} />
+                    <Nest setNest={setNest} data={feeding.Nest} />
+                    <Provider setProvider={setProvider} data={feeding.Provider} /> 
+                    <Recipient setRecipient={setRecipient} data={feeding.Number_of_Items[nIndex].Recipient} />
                     <PreySize setPreySize={setPreySize} data={feeding.Number_of_Items[nIndex].Prey_Size} />
-                    <PreyItem file={file} setPreyItem={setPreyItem} data={feeding.Number_of_Items[nIndex].Prey_Item} />
+                    <PreyItem setPreyItem={setPreyItem} data={feeding.Number_of_Items[nIndex].Prey_Item} />
                 </div>
                 <div>
                     <Comment setComment={setComment} data={feeding.Comment} />

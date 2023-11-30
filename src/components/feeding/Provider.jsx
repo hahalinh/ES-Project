@@ -1,14 +1,14 @@
 import React from 'react';
 import Button from '../Button';
 import { useState, useEffect } from 'react';
-import Info from '../Info'
+import Info from '../Info';
 
-function Provider({ setProvider, data }) {
+function Provider({setProvider, data }) {
   const first_k_ele = 10;
   var provider_list = ["BA", "BL", "BR", "FR", "S", "U", "UA", "UB", "UC", "X", "AA", "AB", "BMB", "KF", "KM","SMB", "TA"];
   // const [providers, setProviders] = useState(["BA", "BL", "BR", "FR", "S", "U", "UA", "UB", "UC", "X"]);
   // const dropdownValues = ["AA", "AB", "BMB", "KF", "KM","SMB", "TA"];
-  
+  const upperLimit = 10;
   const tmp = localStorage.getItem("Provider");
   if (tmp != null) {
     const tmp_ = JSON.parse(tmp);
@@ -19,6 +19,9 @@ function Provider({ setProvider, data }) {
   const [providers, setProviders] = useState(provider_list.slice(0, first_k_ele));
   const [dropdownValues, setDropdownValues] = useState(provider_list.slice(first_k_ele));
   const [ShowInfo, setShowInfo] = useState(false);
+  
+
+
   
   const keysArray = provider_list;
     const value = 0;
@@ -52,11 +55,11 @@ function Provider({ setProvider, data }) {
     
   const providersWithCounts = Object.keys(dict).filter(key => dict[key] > 0);
   providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  const providersWithoutCounts = upperValues.filter(key => !providersWithCounts.includes(key));
+  const providersWithoutCounts = provider_list.filter(key => !providersWithCounts.includes(key));
   const sortedKeys = Object.keys(dict);
 
   providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  setPreyI(providersWithCounts.slice(0,upperLimit));
+  setProviders(providersWithCounts.slice(0,upperLimit));
   setDropdownValues(sortedKeys.slice(upperLimit));
 }, [dict]);
 
