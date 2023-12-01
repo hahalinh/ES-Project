@@ -1,0 +1,6 @@
+StintID,Stint_Type,Island,Species,Prey_Size_Method,Prey_Size_Reference,FirstName,LastName,Observer_Location,Date_Time_Start,Date_Time_End,Stint_Comment,FeedingID,Nest,Time_Arrive,Time_Depart,Provider,Recipient,Prey_Item,Prey_Size,Number_of_Items,Plot_Status,Feeding_Comment
+island_1-ARTE-8/21/2023-16:40-Quan-Nguyen,Chick Provisioning,island_1,ARTE,Numeric,Culmen length,Quan,Nguyen,gburg,8/21/2023 16:40,8/21/2023 16:40,comment_box,1,P1,16:38,16:40,BL,A,U,1.25,3,Outside Plot,
+island_1-ARTE-8/21/2023-16:40-Quan-Nguyen,Chick Provisioning,island_1,ARTE,Numeric,Culmen length,Quan,Nguyen,gburg,8/21/2023 16:40,8/21/2023 16:40,comment_box,1,P1,16:38,16:40,BL,K,UF,0.75,3,Outside Plot,
+island_1-ARTE-8/21/2023-16:40-Quan-Nguyen,Chick Provisioning,island_1,ARTE,Numeric,Culmen length,Quan,Nguyen,gburg,8/21/2023 16:40,8/21/2023 16:40,comment_box,1,P1,16:38,16:40,BL,M,E,0.5,3,Outside Plot,
+island_1-ARTE-8/21/2023-16:40-Quan-Nguyen,Chick Provisioning,island_1,ARTE,Numeric,Culmen length,Quan,Nguyen,gburg,8/21/2023 16:40,8/21/2023 16:40,comment_box,2,P8,16:40,16:40,X,Y,E,Unknown,2,Outside Plot,
+island_1-ARTE-8/21/2023-16:40-Quan-Nguyen,Chick Provisioning,island_1,ARTE,Numeric,Culmen length,Quan,Nguyen,gburg,8/21/2023 16:40,8/21/2023 16:40,comment_box,2,P8,16:40,16:40,X,A,H,0.25,2,Outside Plot,

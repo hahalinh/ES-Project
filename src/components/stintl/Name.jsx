@@ -1,26 +1,26 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState } from 'react';
+import Button from '../Button';
 
 function Name({ setName, data }) {
-  const [input, setInput] = useState({
-    firstName: "",
-    lastName: "",
-  })
-  
-  const handleChange = (e, type) => {
-    const val = e.currentTarget.value
-    type === "first" ? setInput({...input, firstName: val}) : setInput({...input, lastName: val});
-    setName(val, type);
+  var name_list = [""];
+
+  const tmp = localStorage.getItem("Name");
+  if (tmp != null) {
+    const tmp_ = JSON.parse(tmp);
+    console.log("Name.jsx: " + JSON.stringify(tmp_) + "\t data type: " + typeof(tmp_) + "\t" + tmp_[0] + "\t" + typeof(tmp_[0]) + "\t" + tmp_[-1]);
+    name_list = Array.from(tmp_);
   }
+
+  const [dropdownValues, setDropdownValues] = useState(name_list);
+  // const dropdownValues = ["Fill", "In", "These", "Values"];
 
   return (
     <div>
-      <p>First name: {data.first}</p>
-      <input onChange={(e) => handleChange(e, "first")} value={input.firstName} placeholder="First name" className="input-field"/>
-
-      <p>Last name: {data.last}</p>
-      <input onChange={(e) => handleChange(e, "last")} value={input.lastName} placeholder="Last name" className="input-field"/>
-    </div>
+      <p>Name: {data.first}</p>
+      <Button handleData={setName} value="drop-down" dropdownValues={dropdownValues} />
+    
+      </div>
   )
 }
 

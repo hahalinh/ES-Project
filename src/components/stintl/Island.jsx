@@ -1,20 +1,27 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState } from 'react';
+import Button from '../Button';
 
 function Island({ setIsland, data }) {
-  const [input, setInput] = useState("");
+  var island_list = [""];
 
-  const handleChange = (e) => {
-    setInput(e.currentTarget.value);
-    setIsland(e.currentTarget.value);
+  const tmp = localStorage.getItem("Island");
+  if (tmp != null) {
+    const tmp_ = JSON.parse(tmp);
+    console.log("Name.jsx: " + JSON.stringify(tmp_) + "\t data type: " + typeof(tmp_) + "\t" + tmp_[0] + "\t" + typeof(tmp_[0]) + "\t" + tmp_[-1]);
+    island_list = Array.from(tmp_);
   }
+
+  const [dropdownValues, setDropdownValues] = useState(island_list);
+  // const dropdownValues = ["Fill", "In", "These", "Values"];
 
   return (
     <div>
       <p>Island: {data}</p>
-      <input className="input-field" onChange={(e) => handleChange(e)} value={input} placeholder="Island" />
+      <Button handleData={setIsland} value="drop-down" dropdownValues={dropdownValues} />
+      
     </div>
   )
 }
 
-export default Island
+export default Island;

@@ -6,7 +6,7 @@ const getDate = () => {
     const d = new Date();
     const day = d.getDate();
     const month = d.getMonth();
-    const year = d.getFullYear();
+    const year = d.getUTCFullYear();
     return `${month}/${day}/${year} ${d.toTimeString().slice(0, 5)}`;
 }
 
