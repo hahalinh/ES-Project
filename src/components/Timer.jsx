@@ -5,8 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns';
 
 function Timer({setArrive, setDepart, data}) {
-    const [startDate, setStartDate] = useState(Date.parse(data.arrive));
-    const [endDate, setEndDate] = useState(Date.parse(data.depart));
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
     const handleChangeArrive = (e) => {
         setStartDate(e);
@@ -15,10 +15,15 @@ function Timer({setArrive, setDepart, data}) {
         setArrive(value);
     }
     const handleChangeDepart = (e) => {
-        setEndDate(e);
-        e = format(e, 'MM/dd/yyyy h:mm aa')
-        const value = e.toString();
-        setDepart(value);
+        if (e instanceof Date && !isNaN(e)) {
+            setEndDate(e);
+            const formattedDate = format(e, 'MM/dd/yyyy h:mm aa');
+            const value = formattedDate.toString();
+            setDepart(value);
+        } else {
+            // Handle invalid date type
+            console.error('Invalid date type for departure');
+        }
     }
     
     return (
