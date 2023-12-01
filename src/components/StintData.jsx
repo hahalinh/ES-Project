@@ -351,7 +351,6 @@ function StintData() {
                         <>
                             <div className="start-stint">
                                 <div className='stint-form'>
-                                    {/* <h1>Start A Stint</h1> */}
                                     <div className='stint-id'>Your Stint ID: {stintID}</div>
 
                                     <div className="login-column">
