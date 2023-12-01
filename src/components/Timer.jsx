@@ -20,6 +20,7 @@ function Timer({setArrive, setDepart, data}) {
         const value = e.toString();
         setDepart(value);
     }
+    
     return (
         //stint.Date_Time_Start
         <div className="time-button">

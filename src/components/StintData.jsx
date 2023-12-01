@@ -359,7 +359,7 @@ function StintData() {
                                         <div className="right-column">
                                             <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
                                             <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
-                                            <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} />
+                                            <Timer setArrive={setTimeArrive2} setDepart={setTimeDepart2} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} />
 
                                         </div>
 
