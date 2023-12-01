@@ -54,12 +54,9 @@ function StintData() {
     const handleOpenFromLocalStorage = () => {
         const backupData = localStorage.getItem('backup');
 
-        console.log("BackupData contents:", backupData);
-
         // if local storage not null
         if (backupData != null) {
             // Parse the JSON data from localStorage
-            console.log("Parse the JSON data from localStorage:", backupData);
             const jsonData = JSON.parse(backupData);
 
             setStint(jsonData);
@@ -292,7 +289,6 @@ function StintData() {
         for (let i = 0; i < lines.length; i++) {
             obj[lines[i][0]] = lines[i].slice(1);
         };
-        // console.log(obj);
         return obj;
     };
 
@@ -307,15 +303,11 @@ function StintData() {
 
             const drop = processCSVData(csv);
             const keyList = Object.keys(drop)
-            // console.log("key list: " + JSON.stringify(keyList))
 
-            // console.log("handleCFGOpenClick drop: "+ drop)
             for (let i = 0; i < keyList.length; i++) {
                 const keyvar = keyList[i];
-                console.log("handleCFGOpenClick: " + keyvar + "\t" + JSON.stringify(drop[keyvar]));
                 localStorage.setItem(keyvar, JSON.stringify(drop[keyvar]));
             }
-            // console.log("handleCFGOpenClick: " + JSON.stringify(drop["Nest"]))
         };
 
         reader.onerror = () => {
