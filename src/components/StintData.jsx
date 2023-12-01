@@ -366,12 +366,15 @@ function StintData() {
                                     </div>
 
                                     <div className="login-btn">
-                                        <button onClick={() => setIsOpenF(!isOpenF)}>
-                                            {
-                                                !isOpenF ? 'Open Feeding' : 'Back to Stint'
+                                        <button onClick={() => {
+                                            if (!isOpenF && !Arrival) {
+                                                setTimeArrive();
+                                                setArrival(true);
                                             }
+                                            setIsOpenF(!isOpenF);
+                                        }}>
+                                            {!isOpenF ? 'Open Feeding' : 'Back to Stint'}
                                         </button>
-
                                         <button onClick={() => {
                                             handleSaveClick();
                                             if (!Depart || (!emptyField > 0)) {

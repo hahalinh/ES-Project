@@ -5,7 +5,7 @@
 const getDate = () => {
     const d = new Date();
     const day = d.getDate();
-    const month = d.getMonth();
+    const month = d.getMonth() + 1; // in javascript, the month is 0-index based
     const year = d.getUTCFullYear();
     return `${month}/${day}/${year} ${d.toTimeString().slice(0, 5)}`;
 }
