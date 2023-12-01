@@ -17,7 +17,6 @@ import '@fortawesome/fontawesome-free/css/all.css'
 function StintData() {
     const [csv_uploaded, setcsv] = useState(" ");
     const clearTime = () => {
-
     }
     const [emptyField, setEmptyField] = useState([]);
 

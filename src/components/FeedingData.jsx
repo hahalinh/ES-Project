@@ -10,11 +10,11 @@ import Date from '../Date';
 import Comment from './Comment';
 import './ToggleBtn.css'
 import { useState, useEffect } from 'react';
-import { handleSaveClick, handleSaveForCloseFeeding } from './utility';
+import { handleSaveForCloseFeeding } from './utility';
 import React from 'react';
 import { clear } from '@testing-library/user-event/dist/clear';
 
-function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onToggle }) {
+function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onToggle, stint, stintID }) {
     
     
     const timeLogger = () => {
@@ -298,7 +298,8 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
 
         // make the closed tab disappear
         displayClosedFeeding(false); //tweaks need 
-        //to be made here this is not correct
+        // save in local storage
+        handleSaveForCloseFeeding(stint, stintID);
     }
 
     const displayClosedFeeding = (bool) => {
