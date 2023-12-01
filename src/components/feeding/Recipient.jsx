@@ -62,6 +62,22 @@ function Recipient({setRecipient, data }) {
   const addRecipOption = (data) => {
     setRecip([...recip, data]);
   };
+  const recipientInfo = [
+    "A: 1st hatched \"A\" chick (marked on head)",
+    "B: 2nd hatched \"B\" chick (marked on back)",
+    "C: 3rd hatched \"C\" chick (marked on breast)",
+    "A1: only chick (chick from 1 egg nest - marked on head)",
+    "Y: Adopted chick",
+    "UC: Unkown chick",
+    "U: Known",
+    "K: Klepto(stolen by another adult)",
+    "M: Mate",
+    "S: Self",
+    "UF: Uknown Fish",
+    "UI: Unkown Invert",
+    "T: Collected by observer",
+    "O: not eaten (fish dropped at nest)"
+  ].sort();
 
   return (
     <div className="recipient">
@@ -75,20 +91,9 @@ function Recipient({setRecipient, data }) {
         <Info trigger={ShowInfo} setTrigger = {setShowInfo}>
           <h3>Recipient Info</h3>
           <div style={{ height: '500px', overflowY: 'scroll' }}>
-          <p>A:  1st hatched "A" chick (marked on head)</p>
-          <p>B:  2nd hatched "B" chick (marked on back)</p>
-          <p>C:  3rd hatched "C" chick (marked on breast)</p>
-          <p>A1: only chick (chick from 1 egg nest - marked on head)</p>
-          <p>Y:  Adopted chick</p>
-          <p>UC: Unkown chick</p>
-          <p>U:  Known</p>
-          <p>K:  Klepto(stolen by another adult)</p>
-          <p>M:  Mate</p>
-          <p>S:  Self</p>
-          <p>UF: Uknown Fish</p>
-          <p>UI: Unkown Invert</p>
-          <p>T:  Collected by observer</p>
-          <p>O:  not eaten (fish dropped at nest)</p>
+              {recipientInfo.map((info, index) => (
+                <p key={index}>{info}</p>
+              ))}
           </div>
         </Info>
       </div>
