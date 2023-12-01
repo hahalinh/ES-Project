@@ -10,7 +10,6 @@ function PreyItem({setPreyItem, data}) {
     const tmp = localStorage.getItem("PreyItem");
     if (tmp != null) {
         const tmp_ = JSON.parse(tmp);
-        console.log("PreyItem.jsx: " + JSON.stringify(tmp_) + "\t data type: " + typeof(tmp_) + "\t" + tmp_[0] + "\t" + typeof(tmp_[0]) + "\t" + tmp_[-1]);
         preyItem_list = Array.from(tmp_);
     }
 

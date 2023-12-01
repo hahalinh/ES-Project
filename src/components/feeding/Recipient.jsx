@@ -9,7 +9,6 @@ function Recipient({setRecipient, data }) {
   const tmp = localStorage.getItem("Recipient");
   if (tmp != null) {
     const tmp_ = JSON.parse(tmp);
-    console.log("Recipient.jsx: " + JSON.stringify(tmp_) + "\t data type: " + typeof(tmp_) + "\t" + tmp_[0] + "\t" + typeof(tmp_[0]) + "\t" + tmp_[-1]);
     recipient_list = Array.from(tmp_);
   }
 

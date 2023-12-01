@@ -10,7 +10,6 @@ function PreySize({ setPreySize, data }) {
   const tmp = localStorage.getItem("PreySize");
   if (tmp != null) {
     const tmp_ = JSON.parse(tmp);
-    console.log("PreySize.jsx: " + JSON.stringify(tmp_) + "\t data type: " + typeof(tmp_) + "\t" + tmp_[0] + "\t" + typeof(tmp_[0]) + "\t" + tmp_[-1]);
     preySize_list = Array.from(tmp_);
   }
 
