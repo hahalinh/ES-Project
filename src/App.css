@@ -138,13 +138,11 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* border: 1px solid #9b59b6; */
-  width: 400px;
+  width: 350px;
 }
 
 .right-column {
   text-align: left;
-  /* border: 1px solid #9b59b6; */
   width: 350px;
 }
 
@@ -169,7 +167,7 @@ html, body, #root {
   flex-grow: 1;
 }
 
-button:not(.btn-info-feeding),
+button:not(.btn-info-feeding, .stint-select-btn),
 input[type="button"] {
   padding: 10px 20px;
   font-size: 16px;
@@ -177,6 +175,9 @@ input[type="button"] {
 
 .btn-info-feeding {
   border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  border: 1px solid;
 }
 
 .display-buttons {
@@ -199,8 +200,17 @@ input[type="button"] {
 
 .input-field {
   height: 40px;
-  width: 80%;
   margin-bottom: 15px;
+}
+
+.react-datepicker__input-container input {
+  height: 40px;
+  width: 200px;
+}
+
+.stint-select-btn option{
+  height: 40px;
+  width: 200px;
 }
 
 .login-column p, .menu-container p, .stintl-container p{
@@ -214,7 +224,6 @@ input[type="button"] {
   margin-right: 15px;
 
 }
-
 
 .login-btn {
   margin-top: 20px; 
@@ -234,3 +243,4 @@ input[type="file"] {
   background-color: #f0f0f0;
   border-radius: 5px;
 }
+

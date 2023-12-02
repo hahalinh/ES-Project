@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import Button from '../Button';
+import '../../App.css'
 
 function ObserverLocation({setObs, data}) {
   var obs_list = [""];
@@ -17,7 +18,7 @@ function ObserverLocation({setObs, data}) {
   return (
     <div>
       <p>Observer location: {data}</p>
-      <Button handleData={setObs} value="drop-down" dropdownValues={dropdownValues} />
+      <Button handleData={setObs} value="drop-down" dropdownValues={dropdownValues} className='stint-select-btn' />
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import Button from '../Button';
+import '../../App.css'
 
 function Name({ setName, data }) {
   var name_list = [""];
@@ -17,8 +18,7 @@ function Name({ setName, data }) {
   return (
     <div>
       <p>Name: {data.first}</p>
-      <Button handleData={setName} value="drop-down" dropdownValues={dropdownValues} />
-    
+      <Button handleData={setName} value="drop-down" dropdownValues={dropdownValues} className='stint-select-btn'/>
       </div>
   )
 }

@@ -129,7 +129,7 @@ function PreyItem({setPreyItem, data}) {
 
     return (//style button give class name 
         <div className="prey-item">
-            <p>Prey Item: {data} <button style={{margin: "0px 0px 0px 10px", height: "38px", width: "40px"}}onClick={() => setShowInfo(true)}>?</button></p>
+            <p>Prey Item: {data} <button className='btn-info-feeding' onClick={() => setShowInfo(true)}>?</button></p>
             <div className="prey-item-bt">
                 {
                     preyI.map((item, index) => {

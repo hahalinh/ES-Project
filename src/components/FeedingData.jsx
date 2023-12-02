@@ -14,11 +14,11 @@ import { handleSaveForCloseFeeding } from './utility';
 import React from 'react';
 import { clear } from '@testing-library/user-event/dist/clear';
 
-function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onToggle, stint, stintID }) {
-    
-    
+function FeedingData({ file, initialFeeding, feedings, setFeedings, isOpen, onToggle, stint, stintID }) {
+
+
     const timeLogger = () => {
-        if(!feeding.Time_Arrive){
+        if (!feeding.Time_Arrive) {
             setTimeArrive();
         }
     };
@@ -52,7 +52,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
 
     //index of the number of items (for setting data at index)
     const [nIndex, setNIndex] = useState(0);
-    
+
     /**
      * this handles button input for plot data
      * @param {*} Plot
@@ -74,7 +74,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
      * @param {*} Provider 
      */
     const setProvider = (Provider) => {
-        
+
         setFeeding({ ...feeding, Provider: Provider });
     }
 
@@ -83,7 +83,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
      * @param {*} n 
      */
     const setNumberItems = (item) => {
-        
+
         setFeeding({ ...feeding, Number_of_Items: item });
     }
 
@@ -95,7 +95,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
         let items = [...{ ...feeding }.Number_of_Items];
         let item = items[nIndex];
         item.Recipient = Recipient;
-        
+
         setNumberItems(items);
     }
 
@@ -107,7 +107,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
         let items = [...{ ...feeding }.Number_of_Items];
         let item = items[nIndex];
         item.Prey_Item = Prey_Item;
-        
+
         setNumberItems(items);
     }
 
@@ -120,7 +120,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
         let items = [...{ ...feeding }.Number_of_Items];
         let item = items[nIndex];
         item.Prey_Size = Prey_Size;
-        
+
         setNumberItems(items);
     }
 
@@ -151,7 +151,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
      * @param {} index 
      */
     const setComment = (value) => {
-        setFeeding({...feeding, Comment: value});
+        setFeeding({ ...feeding, Comment: value });
     }
 
     /**
@@ -170,8 +170,8 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
      * this adds a new empty feeding data
      */
     const handleNewFeeding = () => {
-        const currentFeeding = {...feeding};
-        setFeeding({ ...initialFeeding, FeedingID: feedings.length + 1, Time_Arrive: undefined});
+        const currentFeeding = { ...feeding };
+        setFeeding({ ...initialFeeding, FeedingID: feedings.length + 1, Time_Arrive: undefined });
         setFeedings([...feedings, initialFeeding]);
         setIndex(feedings.length);
         //stamp the temporary feeding
@@ -244,62 +244,25 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
         setFeedingTemp(feeding);
         setNIndex(0);
     }
-    
-    const handleCloseFeeding = (index) => {
-        
-        const emptyFields = [];
-        
-        // Check if all fields in feedingTemp are empty
-        for (const field in feedingTemp) {
-            if (field === 'Comment') {
-                continue; // Skip checking if the field is "Comment"
-            }
-            if (field === 'Time_Depart'){
-                continue; // Skip checking if the field is "Time_Depart"
-            }
-        
-            const value = feedingTemp[field];
-            if (Array.isArray(value)) {
-                // If the field is a list, loop through each item
-                for (let i = 0; i < value.length; i++) {
-                    const item = value[i];
-                    // Loop through each field in the item and check if empty
-                    for (const itemField in item) {
-                        if (item[itemField] === '') {
-                            emptyFields.push(`Item ${i + 1} > ${itemField}`);
-                        }
-                    }
-                }
-            } else if (value === '') {
-                emptyFields.push(field);
-            }
-        }
 
-        // If any fields are empty, alert the user
-        if (emptyFields.length > 0) {
-            const missingFields = emptyFields.join(', ');
-            alert(`Please fill in the following fields: ${missingFields}`);
-        } else { 
-            if(!feeding.Time_Depart && setClosedIndex(closedIndex.includes(index) ?
-            closedIndex.filter(item => item !== index) : [...closedIndex, index]) == undefined){ //if no depart time exists
-            setTimeDepart();
-        }
-            // If all fields are filled, close the feeding
-            setClosedIndex(closedIndex.includes(index) ?
-                closedIndex.filter(item => item !== index) : [...closedIndex, index]);
-            
-            
-            // add the class `closed_feeding` to the element
-            const feedingElem = document.getElementById(`feeding_${index}`);
-            if (feedingElem) {
-                feedingElem.classList.add('closed_feeding');
-            }
+    const handleCloseFeeding = (index) => {
+
+        // Always add the index to closedIndex
+        setClosedIndex(closedIndex.includes(index) ? closedIndex.filter(item => item !== index) : [...closedIndex, index]);
+
+        // Add the class `closed_feeding` to the element
+        const feedingElem = document.getElementById(`feeding_${index}`);
+        if (feedingElem) {
+            feedingElem.classList.add('closed_feeding');
         }
 
         // make the closed tab disappear
-        displayClosedFeeding(false); //tweaks need 
-        // save in local storage
+        displayClosedFeeding(false);
+
+        // Save all files to localStorage
         handleSaveForCloseFeeding(stint, stintID);
+
+
     }
 
     const displayClosedFeeding = (bool) => {
@@ -307,14 +270,14 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
     }
     useEffect(() => {
         timeLogger()
-    }, 
-    [feeding.Nest, 
-    feeding.Provider, 
-    feeding.Number_of_Items[nIndex].Recipient, 
-    feeding.Number_of_Items[nIndex].Prey_Size,
-    feeding.Number_of_Items[nIndex].Prey_Item])
-   
-    
+    },
+        [feeding.Nest,
+        feeding.Provider,
+        feeding.Number_of_Items[nIndex].Recipient,
+        feeding.Number_of_Items[nIndex].Prey_Size,
+        feeding.Number_of_Items[nIndex].Prey_Item])
+
+
     //feature: when open feeding tab, switch to the latest feeding tab
     useEffect(() => {
         //index == 0 could be removed?
@@ -333,10 +296,10 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
 
     return (
         <>
-            
+
             <div className="outer-container">
 
-                <div  className="feed_header">
+                <div className="feed_header">
                     {isOpen && (
                         <button onClick={onToggle}>
                             Back to Stint
@@ -350,7 +313,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
                 <div className="menu-container">
                     {/*  */}
                     <Timer setArrive={setTimeArrive2} setDepart={setTimeDepart2} data={{ arrive: feeding.Time_Arrive, depart: feeding.Time_Depart }} />
-                    
+
                     <div id='plot-noItem-btn'>
 
                         <Plot setPlot={setPlot} data={feeding.Plot_Status} />

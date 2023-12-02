@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import Button from '../Button';
+import '../../App.css'
 
 function Island({ setIsland, data }) {
   var island_list = [""];
@@ -17,7 +18,7 @@ function Island({ setIsland, data }) {
   return (
     <div>
       <p>Island: {data}</p>
-      <Button handleData={setIsland} value="drop-down" dropdownValues={dropdownValues} />
+      <Button handleData={setIsland} value="drop-down" dropdownValues={dropdownValues} className='stint-select-btn'/>
       
     </div>
   )

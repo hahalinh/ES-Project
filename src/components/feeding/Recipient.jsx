@@ -80,7 +80,7 @@ function Recipient({setRecipient, data }) {
 
   return (
     <div className="recipient">
-      <p>Recipient: {data} <button style={{margin: "0px 0px 0px 10px", height: "38px", width: "40px"}}onClick={() => setShowInfo(true)}>?</button></p>
+      <p>Recipient: {data} <button className='btn-info-feeding' onClick={() => setShowInfo(true)}>?</button></p>
       <div className="recipient-bt">
         {recip.map((item, index) => (
           <Button key={index} value={item} handleData={setRecipient} selected={data === item} />

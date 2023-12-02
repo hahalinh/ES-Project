@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '../Button';
 import { useState, useEffect } from 'react';
 import Info from '../Info';
+import '../../App.css'
 
 function Provider({setProvider, data }) {
   const first_k_ele = 10;
@@ -86,7 +87,7 @@ function Provider({setProvider, data }) {
   
   return (
     <div className="provider">
-      <p>Provider: {data} <button style={{borderRadius: "75%", width: "20x", height: "20px", textAlign: "center", lineHeight: "5px"}}onClick={() => setShowInfo(true)}>?</button></p>
+      <p>Provider: {data} <button className='btn-info-feeding' onClick={() => setShowInfo(true)}>?</button></p>
       
       {/* <p>{dropdownValues}</p> */}
       {/* <p>{upperValues}</p> */}
