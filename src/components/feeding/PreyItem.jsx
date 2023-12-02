@@ -1,9 +1,10 @@
 import React from 'react'
 import Button from '../Button'
 import { useState, useEffect } from 'react'
-import Info from '../Info'
+import Info from '../Info';
+import Papa from "papaparse";
 
-function PreyItem({setPreyItem, data}) {
+function PreyItem({file, setPreyItem, data}) {
     const first_k_ele = 10;
     var preyItem_list = ["H", "U", "R", "S", "UF", "A", "HD", "T", "H or R", "E", "ALE", "AS", "B", "BR", "C", "CA", "CH", "CU", "CUS", "D", "DR", "EEL", "EP", "EW", "F", "FS", "G", "GH", "I", "J", "K", "KF", "L", "LA/H", "LA/HD", "LA/R", "LA/S", "LA/UF", "M", "MF", "O", "P", "PL", "PS", "PUF", "Q", "RF", "RG", "ROS", "RS", "SB", "SH", "SM", "SN", "SP", "SS", "SY", "T", "TC", "U", "UF1", "UF1-SI2016", "UFEER2016", "UF-PI2017", "UFSI2015", "UG", "LA/UF", "UI", "V", "W", "X", "Y", "Z"];
     const upperLimit = 10;
@@ -31,36 +32,44 @@ function PreyItem({setPreyItem, data}) {
     const [dict,setDict] = useState(initialdict);
   
     useEffect(() => {
-    const readCsvAndUpdateDict = () => {
-        if(!preyItem_list){
-          return;
-        } else{
-        const newDict = {...dict};
-
-            //iterate through the rows
-          preyItem_list.forEach(element => {
-            newDict[element] = (newDict[element] || 0)+1;
-            });
-            const entries = Object.entries(newDict);
-            entries.sort((a, b) => b[1] - a[1]);
-            const sortedDict = Object.fromEntries(entries);
-            setDict(sortedDict);
-          }
-      };
-  readCsvAndUpdateDict();
-  }, [preyItem_list]);
-
-  useEffect(() => {
+        const readCsvAndUpdateDict = () => {
+          // Replace this with the actual path to your CSV or use a file input
+          if(!file){
+              return;
+            }else{
+              Papa.parse(file, {
+                header: true,
+                complete: (results) => {
+                  const newDict = { ...dict };
+                  //iterate through the rows
+                  results.data.forEach(row => {
+                    const item = row['Prey_Item'];
+                    if (item && newDict.hasOwnProperty(item)) {
+                      newDict[item] += 1;
+                    }
+                  });
+                  const entries = Object.entries(newDict);
+                  entries.sort((a, b) => b[1] - a[1]);
+                  const sortedDict = Object.fromEntries(entries);
+                  setDict(sortedDict)
+                }
+              });
+            }
+              
     
-  const providersWithCounts = Object.keys(dict).filter(key => dict[key] > 0);
-  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  const providersWithoutCounts = preyItem_list.filter(key => !providersWithCounts.includes(key));
-  const sortedKeys = Object.keys(dict);
+        };
+    
+        readCsvAndUpdateDict();
+      }, []);
 
-  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  setPreyI(providersWithCounts.slice(0,upperLimit));
-  setDropdownValues(sortedKeys.slice(upperLimit));
-}, [dict]);
+      useEffect(() => {
+        const sortedProviders = Object.entries(dict)
+          .sort((a, b) => b[1] - a[1])
+          .map(entry => entry[0]);
+    
+        setPreyI(sortedProviders.slice(0, upperLimit));
+        setDropdownValues(sortedProviders.slice(upperLimit));
+      }, [dict, upperLimit]);
 
     const addPreyIOption = (data) => {
         setPreyI([...preyI, data]);

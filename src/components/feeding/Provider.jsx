@@ -27,89 +27,61 @@ function Provider({file, setProvider, data }) {
       acc[key] = value;
     return acc;
     },{});
-  const [dict,setDict] = useState(initialdict);
+  
 
-    // useEffect(() => {
-    //   const readCsvAndUpdateDict = () => {
-    //     // Replace this with the actual path to your CSV or use a file input
-    //     if(file!=null){
-    //         return;
-    //       }else{
-    //         Papa.parse(file, {
-    //           header: true,
-    //           complete: (results) => {
-    //             const newDict = { ...initialdict };
-    //             //iterate through the rows
-    //             results.data.forEach(row => {
-    //               const item = row['Provider'];
-    //               if (item && newDict.hasOwnProperty(item)) {
-    //                 newDict[item] += 1;
-    //               }
-    //             });
-    //             const entries = Object.entries(newDict);
-    //             entries.sort((a, b) => b[1] - a[1]);
-    //             const sortedDict = Object.fromEntries(entries);
-    //             setDict(sortedDict)
-    //           }
-    //         });
-    //       }
+    const [dict,setDict] = useState(initialdict);
+
+    useEffect(() => {
+      const readCsvAndUpdateDict = () => {
+        // Replace this with the actual path to your CSV or use a file input
+        if(!file){
+            return;
+          }else{
+            Papa.parse(file, {
+              header: true,
+              complete: (results) => {
+                const newDict = { ...dict };
+                //iterate through the rows
+                results.data.forEach(row => {
+                  const item = row['Provider'];
+                  if (item && newDict.hasOwnProperty(item)) {
+                    newDict[item] += 1;
+                  }
+                });
+                const entries = Object.entries(newDict);
+                entries.sort((a, b) => b[1] - a[1]);
+                const sortedDict = Object.fromEntries(entries);
+                setDict(sortedDict)
+              }
+            });
+          }
             
   
-    //   };
+      };
   
-    //   readCsvAndUpdateDict();
-    // }, []);
-
+      readCsvAndUpdateDict();
+    }, []);
   
-  // const keysArray = provider_list;
-  //   const value = 0;
-  //   const initialdict = keysArray.reduce((acc, key) =>{
-  //     acc[key] = value;
-  //   return acc;
-  //   },{});
-     
-  
-  //   useEffect(() => {
-  //   const readCsvAndUpdateDict = () => {
-  //       if(!provider_list){
-  //         return;
-  //       } else{
-  //       const newDict = {...dict};
-
-  //           //iterate through the rows
-  //         provider_list.forEach(element => {
-  //           newDict[element] = (newDict[element] || 0)+1;
-  //           });
-  //           const entries = Object.entries(newDict);
-  //           entries.sort((a, b) => b[1] - a[1]);
-  //           const sortedDict = Object.fromEntries(entries);
-  //           setDict(sortedDict);
-  //         }
-  //     };
-  // readCsvAndUpdateDict();
-  // }, [provider_list]);
 
   useEffect(() => {
-    
-  const providersWithCounts = Object.keys(dict).filter(key => dict[key] > 0);
-  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  const providersWithoutCounts = provider_list.filter(key => !providersWithCounts.includes(key));
-  const sortedKeys = Object.keys(dict);
+    const sortedProviders = Object.entries(dict)
+      .sort((a, b) => b[1] - a[1])
+      .map(entry => entry[0]);
 
-  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  setProviders(providersWithCounts.slice(0,upperLimit));
-  setDropdownValues(sortedKeys.slice(upperLimit));
-}, [dict]);
+    setProviders(sortedProviders.slice(0, upperLimit));
+    setDropdownValues(sortedProviders.slice(upperLimit));
+  }, [dict, upperLimit]);
+
+
+  const addProviderOption = (data) => {
+    setProviders([...providers, data]);
+  };
 
   return (
     <div className="provider">
+      
       <p>Provider: {data} <button style={{margin: "0px 0px 0px 10px", height: "38px", width: "40px"}}onClick={() => setShowInfo(true)}>?</button></p>
       
-      {/* <p>{dropdownValues}</p> */}
-      {/* <p>{upperValues}</p> */}
-      {/* <ul>{Object.entries(dict).map(([key,value])=>(
-                <li key={key}>{key}:{value}</li>
-            ))}</ul> */}
       <div className="provider-bt">
         {providers.map((item, index) => (
           <Button

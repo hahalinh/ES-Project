@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../Button';
+import Papa from "papaparse";
 
 
 function Nest({file, setNest, data}) {
@@ -29,36 +30,43 @@ function Nest({file, setNest, data}) {
   
   useEffect(() => {
     const readCsvAndUpdateDict = () => {
-        if(!nest_list){
+      // Replace this with the actual path to your CSV or use a file input
+      if(!file){
           return;
-        } else{
-        const newDict = {...dict};
+        }else{
+          Papa.parse(file, {
+            header: true,
+            complete: (results) => {
+              const newDict = { ...dict };
+              //iterate through the rows
+              results.data.forEach(row => {
+                const item = row['Nest'];
+                if (item && newDict.hasOwnProperty(item)) {
+                  newDict[item] += 1;
+                }
+              });
+              const entries = Object.entries(newDict);
+              entries.sort((a, b) => b[1] - a[1]);
+              const sortedDict = Object.fromEntries(entries);
+              setDict(sortedDict)
+            }
+          });
+        }
+          
 
-            //iterate through the rows
-          nest_list.forEach(element => {
-            newDict[element] = (newDict[element] || 0)+1;
-            });
-            const entries = Object.entries(newDict);
-            entries.sort((a, b) => b[1] - a[1]);
-            const sortedDict = Object.fromEntries(entries);
-            setDict(sortedDict);
-          }
-      };
-  readCsvAndUpdateDict();
-}, [nest_list]);
+    };
 
-useEffect(() => {
-    
-  const providersWithCounts = Object.keys(dict).filter(key => dict[key] > 0);
-  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  const providersWithoutCounts = nest_list.filter(key => !providersWithCounts.includes(key));
-  const sortedKeys = Object.keys(dict);
+    readCsvAndUpdateDict();
+  }, []);
 
-  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
+  useEffect(() => {
+    const sortedProviders = Object.entries(dict)
+      .sort((a, b) => b[1] - a[1])
+      .map(entry => entry[0]);
 
-  setNests(providersWithCounts.slice(0,upperLimit));
-  setDropdownValues(sortedKeys.slice(upperLimit));
-  }, [dict]);
+    setNests(sortedProviders.slice(0, upperLimit));
+    setDropdownValues(sortedProviders.slice(upperLimit));
+  }, [dict, upperLimit]);
 
   return (
     <div className="nest">

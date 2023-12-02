@@ -10,6 +10,7 @@ import Date from '../Date';
 import Comment from './Comment';
 import './ToggleBtn.css'
 import { useState, useEffect } from 'react';
+//import { handleSaveClick, handleSaveForCloseFeeding } from './utility';
 import React from 'react';
 import { clear } from '@testing-library/user-event/dist/clear';
 
@@ -113,6 +114,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
     /**
      * this handles button input for prey size data
      * @param {*} Prey_Size 
+     * @param {*} Prey_Size 
      */
     const setPreySize = (Prey_Size) => {
         let items = [...{ ...feeding }.Number_of_Items];
@@ -145,7 +147,8 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
     }
 
     /**
-     * 
+     * saves feeding tab at index
+     * @param {} index 
      */
     const setComment = (value) => {
         setFeeding({...feeding, Comment: value});
@@ -391,11 +394,11 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
                 </div>
 
                 <div className="stintl-container">
-                    <Nest setNest={setNest} data={feeding.Nest} />
-                    <Provider setProvider={setProvider} data={feeding.Provider} />
-                    <Recipient setRecipient={setRecipient} data={feeding.Number_of_Items[nIndex].Recipient} />
+                    <Nest file={file} setNest={setNest} data={feeding.Nest} />
+                    <Provider file={file} setProvider={setProvider} data={feeding.Provider} />
+                    <Recipient file={file} setRecipient={setRecipient} data={feeding.Number_of_Items[nIndex].Recipient} />
                     <PreySize setPreySize={setPreySize} data={feeding.Number_of_Items[nIndex].Prey_Size} />
-                    <PreyItem setPreyItem={setPreyItem} data={feeding.Number_of_Items[nIndex].Prey_Item} />
+                    <PreyItem file={file} setPreyItem={setPreyItem} data={feeding.Number_of_Items[nIndex].Prey_Item} />
                 </div>
 
                 <div>

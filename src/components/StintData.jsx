@@ -9,14 +9,65 @@ import DataTable from './stintl/DataTable';
 import Date from '../Date'
 import Timer from './Timer';
 import Comment from './Comment';
-import { saveAs } from 'file-saver';
 import FeedingData from './FeedingData';
+import { saveAs } from 'file-saver';
+//import '@fortawesome/fontawesome-free/css/all.css'
 
 function StintData() {
     const [csv_uploaded, setcsv] = useState(" ");
     const clearTime = () => {
-        
+
     }
+    const [emptyField] = useState([]);
+
+    //added a way to track arrival times
+    const [Arrival, setArrival] = useState(false);
+    const [Depart, setDepart] = useState(false);
+
+
+    // When users accidentally close the app, ask for confirmation
+    useEffect(() => {
+        const handleBeforeUnload = (e) => {
+            e.preventDefault();
+            e.returnValue = '';
+
+            // Display a confirmation dialog to the user
+            const confirmationMessage = 'Are you sure you want to leave this page?';
+            e.returnValue = window.confirm(confirmationMessage) ? undefined : '';
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
+    useEffect(() => {
+        handleOpenFromLocalStorage();
+    }, []);
+
+    /**
+     * Handles opening data from localStorage
+     */
+    const handleOpenFromLocalStorage = () => {
+        const backupData = localStorage.getItem('backup');
+
+        console.log("BackupData contents:", backupData);
+
+        // if local storage not null
+        if (backupData != null) {
+            // Parse the JSON data from localStorage
+            console.log("Parse the JSON data from localStorage:", backupData);
+            const jsonData = JSON.parse(backupData);
+
+            setStint(jsonData);
+            setIsOpenF(true);
+        }
+    };
+    
+
+
     //feeding data
     const initialFeeding = {
         FeedingID: 1,
@@ -34,10 +85,7 @@ function StintData() {
         Plot_Status: "Outside Plot",
         Comment: ""
     }
-    //added a way to track arrival times
-    const [Arrival, setArrival] = useState(false); 
-    const [Depart, setDepart] = useState(false); 
-    
+   
     //stint data
     const [stint, setStint] = useState({
         StintID: uuid().slice(0, 8),
@@ -102,21 +150,22 @@ function StintData() {
     /**
      * Sets the time arrive data to the current time and time depart data to empty
      */
-    const setTimeArrive = (date) => {
+    const setTimeArrive = () => {
+        
         setStint({ ...stint, Date_Time_Start: Date.getDate(), Date_Time_End: "" })
     }
 
     const setTimeArrive2 = (date) => {
-        setArrival(true)
+        setArrival(true);
         setStint({ ...stint, Date_Time_Start: date })
     }
+
 
     /**
      * Sets the time depart data to the current time
      */
-    const setTimeDepart = (date) => {
+    const setTimeDepart = () => {
         setStint({ ...stint, Date_Time_End: Date.getDate() })
-        
     }
 
     const setTimeDepart2 = (date) => {
@@ -137,14 +186,10 @@ function StintData() {
      * @param {*} value 
      */
     const setComment = (value) => {
-        setStint({...stint, Comment: value});
+        setStint({ ...stint, Comment: value });
     }
 
-    /**
-     * Converts json data to a string representation of csv
-     * @param {*} json 
-     * @returns 
-     */
+
     const jsonToCSV = (json) => {
         const header = [
             'StintID', 'Stint_Type', 'Island', 'Species', 'Prey_Size_Method', 'Prey_Size_Reference',
@@ -238,7 +283,6 @@ function StintData() {
 
         return jsonObject;
     }
-
     const handleSaveClick = () => {
         let csv = '';
         let data = stint;
@@ -280,13 +324,14 @@ function StintData() {
         // If all information is filled
         csv += jsonToCSV(data);
 
+
         const file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
         setcsv(csv);
         const dowloadName = stintID;
 
         saveAs(file, dowloadName);
     }
-
+    
     const handleOpenClick = (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -306,7 +351,7 @@ function StintData() {
 
         reader.readAsText(file);
     }
-    
+
     const processCSVData = (data) => {
         // Here, you can process the CSV data (e.g., parsing it into an array or object)
         // For example, you can use a library like 'csv-parser' or write custom parsing logic
@@ -315,14 +360,14 @@ function StintData() {
         for (let i = 0; i < lines.length; i++) {
             lines[i] = lines[i].replace(/\r/g, '').split(',');
         };
-        
+
         for (let i = 0; i < lines.length; i++) {
             obj[lines[i][0]] = lines[i].slice(1);
         };
         // console.log(obj);
         return obj;
     };
-    
+
     const handleCFGOpenClick = (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -331,7 +376,7 @@ function StintData() {
         setcsv(file);
         reader.onload = (e) => {
             const csv = e.target.result;
-            
+
             const drop = processCSVData(csv);
             const keyList = Object.keys(drop)
             // console.log("key list: " + JSON.stringify(keyList))
@@ -356,48 +401,53 @@ function StintData() {
     function refreshPage() {
         window.location.reload(false);
     }
-    
+
     //detect change in stint to create stintID
     useEffect(() => {
         setStintID(`${stint.Island}-${stint.Species}-${stint.Date_Time_Start}-${stint.FirstName}-${stint.LastName}`.replace(" ", "-"));
     }, [stint])
+
+    const [showData, setShowData] = useState(false);
+
+    const handleShowData = () => {
+        setShowData(!showData);
+    };
+
+
     return (
-        <div>
+        <div className="stint-all">
 
             {
                 !isOpenF ?
                     (
                         <>
                             <div className="start-stint">
+                                
+                                
+                                <div className='stint-form'>
+                                    <div className='stint-id'>Your Stint ID: {stintID}</div>
 
-                                <p>{csv_uploaded}</p>
-                                <h1>Start A Stint</h1>
+                                    <div className="login-column">
 
-                                <div className="login-column">
+                                        <div className="left-column">
+                                            <p>Stint type: {stint.Stint_Type}</p>
+                                            <p>Prey size method: {stint.Prey_Size_Method}</p>
+                                            <p>Prey size reference: {stint.Prey_Size_Reference}</p>
+                                            <Island setIsland={setIsland} data={stint.Island} />
+                                            <Species setSpecies={setSpecies} data={stint.Species} />
+                                            <Comment setComment={setComment} data={stint.Comment} />
+                                        </div>
 
-                                    <div className="left-column">
-                                        <p>StintID: {stintID}</p>
-                                        <p>Stint type: {stint.Stint_Type}</p>
-                                        <p>Prey size method: {stint.Prey_Size_Method}</p>
-                                        <p>Prey size reference: {stint.Prey_Size_Reference}</p>
-                                        <Island setIsland={setIsland} data={stint.Island} />
-                                        <Species setSpecies={setSpecies} data={stint.Species} />
+                                        <div className="right-column">
+                                            <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
+                                            <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
+                                            <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} />
+
+                                        </div>
+
                                     </div>
 
-                                    <div className="right-column">
-                                        <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
-                                        <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
-                                        
-                                        {/*  */}
-                                        <Timer setArrive={setTimeArrive2} setDepart={setTimeDepart2} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} isOpen={isOpenF}/>
-                                        
-                                        
-                                        <Comment setComment={setComment} data={stint.Comment}/>
-                                    </div>
-
-                                </div>
-
-                                <div className="login-btn">
+                                    <div className="login-btn">
                                     <button onClick={() => {
                                         if (!isOpenF && !Arrival){
                                             setTimeArrive();
@@ -408,10 +458,9 @@ function StintData() {
                                 {!isOpenF ? 'Open Feeding' : 'Back to Stint'}
                                 </button>
 
-                                    <button onClick={() =>
-                                        {
+                                        <button onClick={() => {
                                             handleSaveClick();
-                                            if(!Depart || handleSaveClick.emptyFields.length < 0){
+                                            if (!Depart || (!emptyField > 0)) {
                                                 clearTime();
                                                 setTimeDepart();
                                                 setDepart(true);
@@ -419,25 +468,39 @@ function StintData() {
                                         }
                                         }>Save file</button>
 
-                                   
-                                    <input
-                                        type="file"
-                                        ref={fileInput}
-                                        accept=".csv"
-                                        onChange={(e) => handleOpenClick(e)}
-                                    />
+                                        <label for="file-upload" class="custom-file-upload">
+                                            <i class="fa fa-cloud-upload"></i> Review Data
+                                        </label>
 
-                                    <input
-                                        type="file"
-                                        ref={fileInput}
-                                        accept=".csv"
-                                        onChange={(e) => handleCFGOpenClick(e)}
-                                    />
+                                        <input
+                                            id="file-upload"
+                                            type="file"
+                                            ref={fileInput}
+                                            accept=".csv"
+                                            onChange={(e) => handleOpenClick(e)}
+
+                                        />
+
+                                        <label for="file-upload" class="custom-file-upload">
+                                            <i class="fa fa-cloud-upload"></i> Config File
+                                        </label>
+
+                                        <input
+                                            type="file"
+                                            ref={fileInput}
+                                            accept=".csv"
+                                            onChange={(e) => handleCFGOpenClick(e)}
+                                        />
+
+                                        <button onClick={handleShowData}>
+                                            {showData ? "Hide data" : "Show data"}
+                                        </button>
+
+                                    </div>
+                                    <DataTable stint={stint} showData={showData} />
+
 
                                 </div>
-                            
-                                <DataTable stint={stint} />
-
                             </div>
                         </>
                     )
@@ -445,20 +508,16 @@ function StintData() {
                     (
 
                         <>
-                            {/* <button onClick={() => setIsOpenF(!isOpenF)}>
-                                {
-                                    !isOpenF ? 'Open Feeding' : 'Back to Stint'
-                                }
-                            </button> */}
-                            
                             <div>
                                 <FeedingData
-                                    //file={csv_uploaded}
+                                    file={csv_uploaded}
                                     initialFeeding={initialFeeding}
                                     setFeedings={setFeedings}
                                     feedings={stint.feedingData}
                                     isOpen={isOpenF}
                                     onToggle={() => setIsOpenF(!isOpenF)}
+                                    stint={stint}
+                                    stintID={stintID}
 
                                 />
                             </div>
@@ -469,4 +528,4 @@ function StintData() {
     )
 }
 
-export default StintData;
+export default StintData

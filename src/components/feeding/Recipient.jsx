@@ -1,8 +1,9 @@
 import React, { useState,useEffect } from 'react';
 import Button from '../Button';
 import Info from '../Info';
+import Papa from "papaparse";
 
-function Recipient({setRecipient, data }) {
+function Recipient({file, setRecipient, data }) {
   const first_k_ele = 10;
   var recipient_list = ["A", "A1", "B", "UC", "U", "K", "O", "S", "M", "Y", "C", "N", "R", "T", "UA"];
   const upperLimit = 10;
@@ -29,36 +30,44 @@ function Recipient({setRecipient, data }) {
     const [dict,setDict] = useState(initialdict);
   
     useEffect(() => {
-    const readCsvAndUpdateDict = () => {
-        if(!recipient_list){
-          return;
-        } else{
-        const newDict = {...dict};
-
-            //iterate through the rows
-          recipient_list.forEach(element => {
-            newDict[element] = (newDict[element] || 0)+1;
+      const readCsvAndUpdateDict = () => {
+        // Replace this with the actual path to your CSV or use a file input
+        if(!file){
+            return;
+          }else{
+            Papa.parse(file, {
+              header: true,
+              complete: (results) => {
+                const newDict = { ...dict };
+                //iterate through the rows
+                results.data.forEach(row => {
+                  const item = row['Recipient'];
+                  if (item && newDict.hasOwnProperty(item)) {
+                    newDict[item] += 1;
+                  }
+                });
+                const entries = Object.entries(newDict);
+                entries.sort((a, b) => b[1] - a[1]);
+                const sortedDict = Object.fromEntries(entries);
+                setDict(sortedDict)
+              }
             });
-            const entries = Object.entries(newDict);
-            entries.sort((a, b) => b[1] - a[1]);
-            const sortedDict = Object.fromEntries(entries);
-            setDict(sortedDict);
           }
+            
+  
       };
-  readCsvAndUpdateDict();
-  }, [recipient_list]);
+  
+      readCsvAndUpdateDict();
+    }, []);
 
-  useEffect(() => {
-    
-  const providersWithCounts = Object.keys(dict).filter(key => dict[key] > 0);
-  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  const providersWithoutCounts = recipient_list.filter(key => !providersWithCounts.includes(key));
-  const sortedKeys = Object.keys(dict);
-
-  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  setRecip(providersWithCounts.slice(0,upperLimit));
-  setDropdownValues(sortedKeys.slice(upperLimit));
-  }, [dict]);
+    useEffect(() => {
+      const sortedProviders = Object.entries(dict)
+        .sort((a, b) => b[1] - a[1])
+        .map(entry => entry[0]);
+  
+      setRecip(sortedProviders.slice(0, upperLimit));
+      setDropdownValues(sortedProviders.slice(upperLimit));
+    }, [dict, upperLimit]);
   const addRecipOption = (data) => {
     setRecip([...recip, data]);
   };

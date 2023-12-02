@@ -3,29 +3,84 @@
   margin: 30px 50px;
 } */
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+*{
+  font-family: 'Poppins', sans-serif;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+.stint-all {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+
+}
+
 .start-stint {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+.stint-form{
+  max-width: 800px;
+  width: 100%;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically centers the content */
+  align-items: center; /* Horizontally centers the content */
+
+}
+
+.stint-id {
+  font-size: 25px;
+  font-weight: 500;
+  position: relative;
+}
+
+.stint-id::before{
+  content:'';
+  position:absolute;
+  bottom: 0;
+  height: 3px;
+  width: 250px;
+  background:#9b59b6;
+}
+.row-container {
+  display: flex;
+}
+
 .menu-container {
-  border: 1px solid black;
   display: flex;
   flex-direction: row;
   height: auto;
-  margin: 30px 50px;
+  margin: 30px 30px;
   justify-content: space-around;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
 }
 
 .stintl-container {
-  border: 1px solid black;
   display: flex;
   flex-direction: row;
   height: auto;
-  margin: 30px 50px;
+  margin: 30px 30px;
   justify-content: space-evenly;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+
 }
 
 .box-items {
@@ -49,6 +104,8 @@
   padding: 10px;
   height: auto;
   min-width: 150px;
+  border-radius: 5px;
+
 }
 
 .recipient-bt,
@@ -64,33 +121,32 @@
 .number-items input {
   width: 135px;
 }
-#item-btn{
+
+#item-btn {
   display: inline-block;
 }
-.left-column,
-.right-column {
-  padding: 20px;
-}
+
 
 .login-column {
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
   max-width: 800px;
-  /* Add a max-width to limit the width of the container */
-
 }
 
 .left-column {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* border: 1px solid #9b59b6; */
+  width: 400px;
 }
 
 .right-column {
-  text-align: right;
+  text-align: left;
+  /* border: 1px solid #9b59b6; */
+  width: 350px;
 }
-
 
 .time-button {
   display: flex;
@@ -103,22 +159,20 @@
   align-items: center;
 }
 
-.feed_header button{
+.feed_header button {
   margin-right: auto;
 }
 
-.feed_header h1{
+.feed_header h1 {
   margin: 0;
   text-align: center;
   flex-grow: 1;
-  }
+}
 
 button,
 input[type="button"] {
   padding: 10px 20px;
-  /* Set the padding to the desired size */
   font-size: 16px;
-  /* Set the font size to the desired size */
 }
 
 .display-buttons {
@@ -138,15 +192,16 @@ input[type="button"] {
   color: white;
 }
 
-.closed_feeding {
-  background-color: blue;
-  color: white;
-}
-
 
 .input-field {
   height: 40px;
-  min-width: 180px;
+  width: 80%;
+  margin-bottom: 15px;
+}
+
+.login-column p, .menu-container p, .stintl-container p{
+  font-weight: 500;
+  margin-bottom: 5px;
 }
 
 /* Middle column oin Feeding that has plot and number of Items buttons */
@@ -154,4 +209,24 @@ input[type="button"] {
   margin-left: 15px;
   margin-right: 15px;
 
+}
+
+
+.login-btn {
+  margin-top: 20px; 
+  display: flex;
+  justify-content: space-between; 
+  width: 90%; 
+}
+
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  border: 1px solid black;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border-radius: 5px;
 }
