@@ -13,7 +13,6 @@ function Provider({file, setProvider, data }) {
   const tmp = localStorage.getItem("Provider");
   if (tmp != null) {
     const tmp_ = JSON.parse(tmp);
-    console.log("Provider.jsx: " + JSON.stringify(tmp_) + "\t data type: " + typeof(tmp_) + "\t" + tmp_[0] + "\t" + typeof(tmp_[0]) + "\t" + tmp_[-1]);
     provider_list = Array.from(tmp_);
   }
 
@@ -76,7 +75,25 @@ function Provider({file, setProvider, data }) {
   const addProviderOption = (data) => {
     setProviders([...providers, data]);
   };
-
+  const providerInfo = [
+    "AA: Adult A",
+    "AB: Adult B",
+    "BA: Banded Adult",
+    "BL: Banded Left",
+    "BMB: Breast marked bird",
+    "BR: Banded Right",
+    "FR: Field readable banded bird",
+    "KF: Known Female",
+    "KM: Known Male",
+    "S: Self",
+    "SMB: Shoulder marked bird",
+    "TA: Teaser Adult",
+    "U: unknown",
+    "Unknown Adult",
+    "UB: Unbanded Adult",
+    "X: BBL only banded adult"
+  ].sort();
+  
   return (
     <div className="provider">
       
@@ -95,23 +112,10 @@ function Provider({file, setProvider, data }) {
         <Button handleData={setProvider} value="drop-down" dropdownValues={dropdownValues} />
                 <Info trigger={ShowInfo} setTrigger = {setShowInfo}>
           <h3>Provider Info</h3>
-          <div style={{ height: '500px', overflowY: 'scroll' }}>
-          <p>AA: Adult A</p>
-          <p>AB: Adult B</p>
-          <p>BA: Banded Adult</p>
-          <p>BL: Banded Left</p>
-          <p>BMB: Breat marked bird</p>
-          <p>BR: Banded Right</p>
-          <p>FR: Field readable banded bird</p>
-          <p>KF: Known Female</p>
-          <p>KM: Known Male</p>
-          <p>S: Self</p>
-          <p>SMB: Shoulder marked bird</p>
-          <p>TA: Teaser Adult</p>
-          <p>U: unknown</p>
-          <p>Unknown Adult</p>
-          <p>UB: Unbanded Adult</p>
-          <p>X: BBL only banded adult</p>
+            <div style={{ height: '500px', overflowY: 'scroll' }}>
+              {providerInfo.map((info, index) => (
+                <p key={index}>{info}</p>
+              ))}
           </div>
         </Info>
       </div>

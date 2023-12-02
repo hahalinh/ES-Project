@@ -10,7 +10,6 @@ function Nest({file, setNest, data}) {
   const tmp = localStorage.getItem("Nest");
   if (tmp != null) {
     const tmp_ = JSON.parse(tmp);
-    console.log("Nest.jsx: " + JSON.stringify(tmp_) + "\t data type: " + typeof(tmp_) + "\t" + tmp_[0] + "\t" + typeof(tmp_[0]) + "\t" + tmp_[-1]);
     nest_list = Array.from(tmp_);
   }
   

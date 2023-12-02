@@ -10,8 +10,9 @@ import Date from '../Date'
 import Timer from './Timer';
 import Comment from './Comment';
 import FeedingData from './FeedingData';
+import { handleSaveClick } from './utility';
 import { saveAs } from 'file-saver';
-//import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/css/all.css'
 
 function StintData() {
     const [csv_uploaded, setcsv] = useState(" ");
@@ -19,10 +20,9 @@ function StintData() {
 
     }
     const [emptyField] = useState([]);
-
+    
     //added a way to track arrival times
-    const [Arrival, setArrival] = useState(false);
-    const [Depart, setDepart] = useState(false);
+
 
 
     // When users accidentally close the app, ask for confirmation
@@ -53,19 +53,15 @@ function StintData() {
     const handleOpenFromLocalStorage = () => {
         const backupData = localStorage.getItem('backup');
 
-        console.log("BackupData contents:", backupData);
-
         // if local storage not null
         if (backupData != null) {
             // Parse the JSON data from localStorage
-            console.log("Parse the JSON data from localStorage:", backupData);
             const jsonData = JSON.parse(backupData);
 
             setStint(jsonData);
             setIsOpenF(true);
         }
     };
-    
 
 
     //feeding data
@@ -164,6 +160,7 @@ function StintData() {
     /**
      * Sets the time depart data to the current time
      */
+    const setTimeDepart = () => {
     const setTimeDepart = () => {
         setStint({ ...stint, Date_Time_End: Date.getDate() })
     }
@@ -364,7 +361,6 @@ function StintData() {
         for (let i = 0; i < lines.length; i++) {
             obj[lines[i][0]] = lines[i].slice(1);
         };
-        // console.log(obj);
         return obj;
     };
 
@@ -377,17 +373,14 @@ function StintData() {
         reader.onload = (e) => {
             const csv = e.target.result;
 
+
             const drop = processCSVData(csv);
             const keyList = Object.keys(drop)
-            // console.log("key list: " + JSON.stringify(keyList))
 
-            // console.log("handleCFGOpenClick drop: "+ drop)
             for (let i = 0; i < keyList.length; i++) {
                 const keyvar = keyList[i];
-                console.log("handleCFGOpenClick: " + keyvar + "\t" + JSON.stringify(drop[keyvar]));
                 localStorage.setItem(keyvar, JSON.stringify(drop[keyvar]));
             }
-            // console.log("handleCFGOpenClick: " + JSON.stringify(drop["Nest"]))
         };
 
         reader.onerror = () => {
@@ -414,6 +407,10 @@ function StintData() {
     };
 
 
+
+   
+
+
     return (
         <div className="stint-all">
 
@@ -437,7 +434,23 @@ function StintData() {
                                             <Species setSpecies={setSpecies} data={stint.Species} />
                                             <Comment setComment={setComment} data={stint.Comment} />
                                         </div>
+                                        <div className="left-column">
+                                            <p>Stint type: {stint.Stint_Type}</p>
+                                            <p>Prey size method: {stint.Prey_Size_Method}</p>
+                                            <p>Prey size reference: {stint.Prey_Size_Reference}</p>
+                                            <Island setIsland={setIsland} data={stint.Island} />
+                                            <Species setSpecies={setSpecies} data={stint.Species} />
+                                            <Comment setComment={setComment} data={stint.Comment} />
+                                        </div>
 
+                                        <div className="right-column">
+                                            <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
+                                            <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
+                                            <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} />
+
+                                        </div>
+
+                                    </div>
                                         <div className="right-column">
                                             <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
                                             <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
@@ -461,6 +474,7 @@ function StintData() {
                                         <button onClick={() => {
                                             handleSaveClick();
                                             if (!Depart || (!emptyField > 0)) {
+                                        
                                                 clearTime();
                                                 setTimeDepart();
                                                 setDepart(true);
@@ -485,20 +499,12 @@ function StintData() {
                                             <i class="fa fa-cloud-upload"></i> Config File
                                         </label>
 
-                                        <input
-                                            type="file"
-                                            ref={fileInput}
-                                            accept=".csv"
-                                            onChange={(e) => handleCFGOpenClick(e)}
-                                        />
-
-                                        {/* <button onClick={handleShowData}>
-                                            {showData ? "Hide data" : "Show data"}
-                                        </button> */}
-
-                                    </div>
-                                    <DataTable stint={stint} showData={showData} />
-
+                                    <input
+                                        type="file"
+                                        ref={fileInput}
+                                        accept=".csv"
+                                        onChange={(e) => handleCFGOpenClick(e)}
+                                    />
 
                                 </div>
                             </div>
@@ -529,3 +535,5 @@ function StintData() {
 }
 
 export default StintData
+
+
