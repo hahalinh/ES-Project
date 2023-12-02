@@ -492,9 +492,9 @@ function StintData() {
                                             onChange={(e) => handleCFGOpenClick(e)}
                                         />
 
-                                        <button onClick={handleShowData}>
+                                        {/* <button onClick={handleShowData}>
                                             {showData ? "Hide data" : "Show data"}
-                                        </button>
+                                        </button> */}
 
                                     </div>
                                     <DataTable stint={stint} showData={showData} />
