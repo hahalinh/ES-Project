@@ -391,7 +391,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
                 </div>
 
                 <div className="stintl-container">
-                    <Nest file={file} setNest={setNest} data={feeding.Nest} />
+                    <Nest setNest={setNest} data={feeding.Nest} />
                     <Provider setProvider={setProvider} data={feeding.Provider} />
                     <Recipient setRecipient={setRecipient} data={feeding.Number_of_Items[nIndex].Recipient} />
                     <PreySize setPreySize={setPreySize} data={feeding.Number_of_Items[nIndex].Prey_Size} />

@@ -17,7 +17,6 @@ function StintData() {
     const clearTime = () => {
         
     }
-    const [emptyField,setEmptyField] = useState([]);
     //feeding data
     const initialFeeding = {
         FeedingID: 1,
@@ -246,7 +245,7 @@ function StintData() {
         data.StintID = stintID;
         const emptyFields = [];
         const excludeKey = ["Comment", "FirstName"]; //this can be missing in data
-        
+
         //Check for missing fields in stint data
         Object.entries(data).forEach(([key, value]) => {
             if (value === "" && !excludeKey.includes(key)) {
@@ -262,21 +261,18 @@ function StintData() {
                         Object.keys(item).forEach(itemKey => {
                             if (item[itemKey] === '') {
                                 emptyFields.push(`Feeding ${feedingIndex + 1}, Item ${itemIndex + 1}: ${itemKey}`);
-                                emptyField.push(`Feeding ${feedingIndex + 1}, Item ${itemIndex + 1}: ${itemKey}`);
                             }
                         });
                     });
                 } else {
                     if (feeding[key] === '' && !excludeKey.includes(key)) {
                         emptyFields.push(`Feeding ${feedingIndex + 1}: ${key}`);
-                        emptyField.push(`Feeding ${feedingIndex + 1}: ${key}`);
                     }
                 }
             });
         });
 
         if (emptyFields.length > 0) {
-            setEmptyField(emptyFields);
             alert(`Missing fields:\n${emptyFields.join('\n')}`);
             return;
         }
@@ -285,7 +281,7 @@ function StintData() {
         csv += jsonToCSV(data);
 
         const file = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-
+        setcsv(csv);
         const dowloadName = stintID;
 
         saveAs(file, dowloadName);
@@ -374,7 +370,7 @@ function StintData() {
                         <>
                             <div className="start-stint">
 
-
+                                <p>{csv_uploaded}</p>
                                 <h1>Start A Stint</h1>
 
                                 <div className="login-column">
@@ -414,8 +410,8 @@ function StintData() {
 
                                     <button onClick={() =>
                                         {
-                                             handleSaveClick();
-                                            if(!Depart || (!emptyField > 0)){
+                                            handleSaveClick();
+                                            if(!Depart || handleSaveClick.emptyFields.length < 0){
                                                 clearTime();
                                                 setTimeDepart();
                                                 setDepart(true);
@@ -439,7 +435,7 @@ function StintData() {
                                     />
 
                                 </div>
-                                        
+                            
                                 <DataTable stint={stint} />
 
                             </div>
@@ -457,7 +453,7 @@ function StintData() {
                             
                             <div>
                                 <FeedingData
-                                    file={csv_uploaded}
+                                    //file={csv_uploaded}
                                     initialFeeding={initialFeeding}
                                     setFeedings={setFeedings}
                                     feedings={stint.feedingData}

@@ -2,8 +2,9 @@ import React from 'react';
 import Button from '../Button';
 import { useState, useEffect } from 'react';
 import Info from '../Info';
+import Papa from "papaparse";
 
-function Provider({setProvider, data }) {
+function Provider({file, setProvider, data }) {
   const first_k_ele = 10;
   var provider_list = ["BA", "BL", "BR", "FR", "S", "U", "UA", "UB", "UC", "X", "AA", "AB", "BMB", "KF", "KM","SMB", "TA"];
   // const [providers, setProviders] = useState(["BA", "BL", "BR", "FR", "S", "U", "UA", "UB", "UC", "X"]);
@@ -19,37 +20,74 @@ function Provider({setProvider, data }) {
   const [providers, setProviders] = useState(provider_list.slice(0, first_k_ele));
   const [dropdownValues, setDropdownValues] = useState(provider_list.slice(first_k_ele));
   const [ShowInfo, setShowInfo] = useState(false);
-  
 
-
-  
   const keysArray = provider_list;
     const value = 0;
     const initialdict = keysArray.reduce((acc, key) =>{
       acc[key] = value;
     return acc;
     },{});
-    const [dict,setDict] = useState(initialdict);
-  
-    useEffect(() => {
-    const readCsvAndUpdateDict = () => {
-        if(!provider_list){
-          return;
-        } else{
-        const newDict = {...dict};
+  const [dict,setDict] = useState(initialdict);
 
-            //iterate through the rows
-          provider_list.forEach(element => {
-            newDict[element] = (newDict[element] || 0)+1;
-            });
-            const entries = Object.entries(newDict);
-            entries.sort((a, b) => b[1] - a[1]);
-            const sortedDict = Object.fromEntries(entries);
-            setDict(sortedDict);
-          }
-      };
-  readCsvAndUpdateDict();
-  }, [provider_list]);
+    // useEffect(() => {
+    //   const readCsvAndUpdateDict = () => {
+    //     // Replace this with the actual path to your CSV or use a file input
+    //     if(file!=null){
+    //         return;
+    //       }else{
+    //         Papa.parse(file, {
+    //           header: true,
+    //           complete: (results) => {
+    //             const newDict = { ...initialdict };
+    //             //iterate through the rows
+    //             results.data.forEach(row => {
+    //               const item = row['Provider'];
+    //               if (item && newDict.hasOwnProperty(item)) {
+    //                 newDict[item] += 1;
+    //               }
+    //             });
+    //             const entries = Object.entries(newDict);
+    //             entries.sort((a, b) => b[1] - a[1]);
+    //             const sortedDict = Object.fromEntries(entries);
+    //             setDict(sortedDict)
+    //           }
+    //         });
+    //       }
+            
+  
+    //   };
+  
+    //   readCsvAndUpdateDict();
+    // }, []);
+
+  
+  // const keysArray = provider_list;
+  //   const value = 0;
+  //   const initialdict = keysArray.reduce((acc, key) =>{
+  //     acc[key] = value;
+  //   return acc;
+  //   },{});
+     
+  
+  //   useEffect(() => {
+  //   const readCsvAndUpdateDict = () => {
+  //       if(!provider_list){
+  //         return;
+  //       } else{
+  //       const newDict = {...dict};
+
+  //           //iterate through the rows
+  //         provider_list.forEach(element => {
+  //           newDict[element] = (newDict[element] || 0)+1;
+  //           });
+  //           const entries = Object.entries(newDict);
+  //           entries.sort((a, b) => b[1] - a[1]);
+  //           const sortedDict = Object.fromEntries(entries);
+  //           setDict(sortedDict);
+  //         }
+  //     };
+  // readCsvAndUpdateDict();
+  // }, [provider_list]);
 
   useEffect(() => {
     
@@ -62,10 +100,6 @@ function Provider({setProvider, data }) {
   setProviders(providersWithCounts.slice(0,upperLimit));
   setDropdownValues(sortedKeys.slice(upperLimit));
 }, [dict]);
-
-  const addProviderOption = (data) => {
-    setProviders([...providers, data]);
-  };
 
   return (
     <div className="provider">
