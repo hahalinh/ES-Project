@@ -12,7 +12,7 @@ import Comment from './Comment';
 import FeedingData from './FeedingData';
 import { handleSaveClick } from './utility';
 import { saveAs } from 'file-saver';
-import '@fortawesome/fontawesome-free/css/all.css'
+//import '@fortawesome/fontawesome-free/css/all.css'
 
 function StintData() {
     const [csv_uploaded, setcsv] = useState(" ");
@@ -23,7 +23,8 @@ function StintData() {
     
     //added a way to track arrival times
 
-
+    const [Arrival, setArrival] = useState(false);
+    const [Depart, setDepart] = useState(false);
 
     // When users accidentally close the app, ask for confirmation
     useEffect(() => {
@@ -160,7 +161,7 @@ function StintData() {
     /**
      * Sets the time depart data to the current time
      */
-    const setTimeDepart = () => {
+    
     const setTimeDepart = () => {
         setStint({ ...stint, Date_Time_End: Date.getDate() })
     }
@@ -434,15 +435,7 @@ function StintData() {
                                             <Species setSpecies={setSpecies} data={stint.Species} />
                                             <Comment setComment={setComment} data={stint.Comment} />
                                         </div>
-                                        <div className="left-column">
-                                            <p>Stint type: {stint.Stint_Type}</p>
-                                            <p>Prey size method: {stint.Prey_Size_Method}</p>
-                                            <p>Prey size reference: {stint.Prey_Size_Reference}</p>
-                                            <Island setIsland={setIsland} data={stint.Island} />
-                                            <Species setSpecies={setSpecies} data={stint.Species} />
-                                            <Comment setComment={setComment} data={stint.Comment} />
-                                        </div>
-
+                                        
                                         <div className="right-column">
                                             <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
                                             <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
@@ -451,14 +444,7 @@ function StintData() {
                                         </div>
 
                                     </div>
-                                        <div className="right-column">
-                                            <Name setName={setName} data={{ first: stint.FirstName, last: stint.LastName }} />
-                                            <ObserverLocation setObs={setObserverLocation} data={stint.Observer_Location} />
-                                            <Timer setArrive={setTimeArrive} setDepart={setTimeDepart} data={{ arrive: stint.Date_Time_Start, depart: stint.Date_Time_End }} />
-
-                                        </div>
-
-                                    </div>
+                                </div>
 
                                     <div className="login-btn">
                                     <button onClick={() => {
@@ -532,8 +518,6 @@ function StintData() {
             }
         </div>
     )
-}
+};
 
-export default StintData
-
-
+export default StintData;
