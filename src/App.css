@@ -169,10 +169,14 @@ html, body, #root {
   flex-grow: 1;
 }
 
-button,
+button:not(.btn-info-feeding),
 input[type="button"] {
   padding: 10px 20px;
   font-size: 16px;
+}
+
+.btn-info-feeding {
+  border-radius: 50%;
 }
 
 .display-buttons {

@@ -244,7 +244,7 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
         setFeedingTemp(feeding);
         setNIndex(0);
     }
-
+    
     const handleCloseFeeding = (index) => {
         
         const emptyFields = [];

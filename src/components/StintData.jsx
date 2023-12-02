@@ -375,7 +375,7 @@ function StintData() {
                                             {!isOpenF ? 'Open Feeding' : 'Back to Stint'}
                                         </button>
                                         <button onClick={() => {
-                                            handleSaveClick();
+                                            handleSaveClick(stint, stintID);
                                             if (!Depart || (!emptyField > 0)) {
                                                 clearTime();
                                                 setTimeDepart();
