@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../Button';
+import Papa from "papaparse";
 
 
 function Nest({file, setNest, data}) {
   const first_k_ele = 10;
   var nest_list = ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20"];
+  //upper limit determines that the max number of entries are 10 on the window at a time
+  //and the rest of the entries are sorted into the drop down list
   const upperLimit = 10;
   const tmp = localStorage.getItem("Nest");
   if (tmp != null) {
     const tmp_ = JSON.parse(tmp);
     nest_list = Array.from(tmp_);
   }
-  
-  //parse csv data
-  
   
   const [nests, setNests] = useState(nest_list.slice(0, first_k_ele));
   const [dropdownValues, setDropdownValues] = useState(nest_list.slice(first_k_ele));
@@ -28,36 +28,44 @@ function Nest({file, setNest, data}) {
   
   useEffect(() => {
     const readCsvAndUpdateDict = () => {
-        if(!nest_list){
+      // *FILE IS NOT A FILE, IT IS AN ARRAY TAKEN FROM FeedingData
+      if(!file){
           return;
-        } else{
-        const newDict = {...dict};
+        }else{
+          Papa.parse(file, {
+            header: true,
+            complete: (results) => {
+              const newDict = { ...dict };
+              //iterate through the rows
+              results.data.forEach(row => {
+                const item = row['Nest'];
+                if (item && newDict.hasOwnProperty(item)) {
+                  newDict[item] += 1;
+                }
+              });
+              const entries = Object.entries(newDict);
+              //perform a sort in ascending order
+              entries.sort((a, b) => b[1] - a[1]);
+              const sortedDict = Object.fromEntries(entries);
+              setDict(sortedDict)
+            }
+          });
+        }
+          
 
-            //iterate through the rows
-          nest_list.forEach(element => {
-            newDict[element] = (newDict[element] || 0)+1;
-            });
-            const entries = Object.entries(newDict);
-            entries.sort((a, b) => b[1] - a[1]);
-            const sortedDict = Object.fromEntries(entries);
-            setDict(sortedDict);
-          }
-      };
-  readCsvAndUpdateDict();
-}, [nest_list]);
+    };
 
-useEffect(() => {
-    
-  const providersWithCounts = Object.keys(dict).filter(key => dict[key] > 0);
-  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  const providersWithoutCounts = nest_list.filter(key => !providersWithCounts.includes(key));
-  const sortedKeys = Object.keys(dict);
+    readCsvAndUpdateDict();
+  }, []);
 
-  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
+  useEffect(() => {
+    const sortedProviders = Object.entries(dict)
+      .sort((a, b) => b[1] - a[1])
+      .map(entry => entry[0]);
 
-  setNests(providersWithCounts.slice(0,upperLimit));
-  setDropdownValues(sortedKeys.slice(upperLimit));
-  }, [dict]);
+    setNests(sortedProviders.slice(0, upperLimit));
+    setDropdownValues(sortedProviders.slice(upperLimit));
+  }, [dict, upperLimit]);
 
   return (
     <div className="nest">

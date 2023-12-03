@@ -2,9 +2,9 @@ import React from 'react';
 import Button from '../Button';
 import { useState, useEffect } from 'react';
 import Info from '../Info';
-import '../../App.css'
+import Papa from "papaparse";
 
-function Provider({setProvider, data }) {
+function Provider({file, setProvider, data }) {
   const first_k_ele = 10;
   var provider_list = ["BA", "BL", "BR", "FR", "S", "U", "UA", "UB", "UC", "X", "AA", "AB", "BMB", "KF", "KM","SMB", "TA"];
   // const [providers, setProviders] = useState(["BA", "BL", "BR", "FR", "S", "U", "UA", "UB", "UC", "X"]);
@@ -19,49 +19,59 @@ function Provider({setProvider, data }) {
   const [providers, setProviders] = useState(provider_list.slice(0, first_k_ele));
   const [dropdownValues, setDropdownValues] = useState(provider_list.slice(first_k_ele));
   const [ShowInfo, setShowInfo] = useState(false);
-  
 
-
-  
   const keysArray = provider_list;
     const value = 0;
     const initialdict = keysArray.reduce((acc, key) =>{
       acc[key] = value;
     return acc;
     },{});
-    const [dict,setDict] = useState(initialdict);
   
-    useEffect(() => {
-    const readCsvAndUpdateDict = () => {
-        if(!provider_list){
-          return;
-        } else{
-        const newDict = {...dict};
 
-            //iterate through the rows
-          provider_list.forEach(element => {
-            newDict[element] = (newDict[element] || 0)+1;
+    const [dict,setDict] = useState(initialdict);
+
+    useEffect(() => {
+      const readCsvAndUpdateDict = () => {
+        // *FILE IS NOT A FILE, IT IS AN ARRAY TAKEN FROM FeedingData
+        if(!file){
+            return;
+          }else{
+            Papa.parse(file, {
+              header: true,
+              complete: (results) => {
+                const newDict = { ...dict };
+                //iterate through the rows
+                results.data.forEach(row => {
+                  const item = row['Provider'];
+                  if (item && newDict.hasOwnProperty(item)) {
+                    newDict[item] += 1;
+                  }
+                });
+                const entries = Object.entries(newDict);
+                //perform a sort in ascending order
+                entries.sort((a, b) => b[1] - a[1]);
+                const sortedDict = Object.fromEntries(entries);
+                setDict(sortedDict)
+              }
             });
-            const entries = Object.entries(newDict);
-            entries.sort((a, b) => b[1] - a[1]);
-            const sortedDict = Object.fromEntries(entries);
-            setDict(sortedDict);
           }
+            
+  
       };
-  readCsvAndUpdateDict();
-  }, [provider_list]);
+  
+      readCsvAndUpdateDict();
+    }, []);
+  
 
   useEffect(() => {
-    
-  const providersWithCounts = Object.keys(dict).filter(key => dict[key] > 0);
-  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  const providersWithoutCounts = provider_list.filter(key => !providersWithCounts.includes(key));
-  const sortedKeys = Object.keys(dict);
+    const sortedProviders = Object.entries(dict)
+      .sort((a, b) => b[1] - a[1])
+      .map(entry => entry[0]);
 
-  providersWithCounts.sort((a, b) => dict[b] - dict[a]);
-  setProviders(providersWithCounts.slice(0,upperLimit));
-  setDropdownValues(sortedKeys.slice(upperLimit));
-}, [dict]);
+    setProviders(sortedProviders.slice(0, upperLimit));
+    setDropdownValues(sortedProviders.slice(upperLimit));
+  }, [dict, upperLimit]);
+
 
   const addProviderOption = (data) => {
     setProviders([...providers, data]);
@@ -87,13 +97,9 @@ function Provider({setProvider, data }) {
   
   return (
     <div className="provider">
+      
       <p>Provider: {data} <button className='btn-info-feeding' onClick={() => setShowInfo(true)}>?</button></p>
       
-      {/* <p>{dropdownValues}</p> */}
-      {/* <p>{upperValues}</p> */}
-      {/* <ul>{Object.entries(dict).map(([key,value])=>(
-                <li key={key}>{key}:{value}</li>
-            ))}</ul> */}
       <div className="provider-bt">
         {providers.map((item, index) => (
           <Button
