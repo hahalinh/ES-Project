@@ -6,15 +6,14 @@ import Papa from "papaparse";
 function Nest({file, setNest, data}) {
   const first_k_ele = 10;
   var nest_list = ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20"];
+  //upper limit determines that the max number of entries are 10 on the window at a time
+  //and the rest of the entries are sorted into the drop down list
   const upperLimit = 10;
   const tmp = localStorage.getItem("Nest");
   if (tmp != null) {
     const tmp_ = JSON.parse(tmp);
     nest_list = Array.from(tmp_);
   }
-  
-  //parse csv data
-  
   
   const [nests, setNests] = useState(nest_list.slice(0, first_k_ele));
   const [dropdownValues, setDropdownValues] = useState(nest_list.slice(first_k_ele));
@@ -29,7 +28,7 @@ function Nest({file, setNest, data}) {
   
   useEffect(() => {
     const readCsvAndUpdateDict = () => {
-      // Replace this with the actual path to your CSV or use a file input
+      // *FILE IS NOT A FILE, IT IS AN ARRAY TAKEN FROM FeedingData
       if(!file){
           return;
         }else{
@@ -45,6 +44,7 @@ function Nest({file, setNest, data}) {
                 }
               });
               const entries = Object.entries(newDict);
+              //perform a sort in ascending order
               entries.sort((a, b) => b[1] - a[1]);
               const sortedDict = Object.fromEntries(entries);
               setDict(sortedDict)

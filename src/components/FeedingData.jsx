@@ -10,6 +10,7 @@ import Date from '../Date';
 import Comment from './Comment';
 import './ToggleBtn.css'
 import { useState, useEffect } from 'react';
+import { handleSaveClick, handleSaveForCloseFeeding } from './utility';
 import React from 'react';
 import { clear } from '@testing-library/user-event/dist/clear';
 
@@ -146,8 +147,6 @@ function FeedingData({file, initialFeeding, feedings, setFeedings, isOpen, onTog
     }
 
     /**
-     * saves feeding tab at index
-     * @param {} index 
      * saves feeding tab at index
      * @param {} index 
      */

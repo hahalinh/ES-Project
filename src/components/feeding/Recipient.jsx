@@ -30,7 +30,7 @@ function Recipient({file, setRecipient, data }) {
   
     useEffect(() => {
       const readCsvAndUpdateDict = () => {
-        // Replace this with the actual path to your CSV or use a file input
+        // *FILE IS NOT A FILE, IT IS AN ARRAY TAKEN FROM FeedingData
         if(!file){
             return;
           }else{
@@ -46,16 +46,14 @@ function Recipient({file, setRecipient, data }) {
                   }
                 });
                 const entries = Object.entries(newDict);
+                //perform a sort in ascending order
                 entries.sort((a, b) => b[1] - a[1]);
                 const sortedDict = Object.fromEntries(entries);
                 setDict(sortedDict)
               }
             });
           }
-            
-  
       };
-  
       readCsvAndUpdateDict();
     }, []);
 
